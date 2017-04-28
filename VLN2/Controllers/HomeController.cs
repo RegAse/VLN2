@@ -27,7 +27,7 @@ namespace VLN2.Controllers
             return View();
         }
 
-        public ActionResult Chat()
+        public ActionResult Chat(int ?id)
         {
             return View();
         }

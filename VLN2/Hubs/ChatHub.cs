@@ -21,37 +21,54 @@ namespace VLN2.Hubs
 
     public class ChatHub : Hub
     {
-        public static Dictionary<string, ChatUser> ConnectedUsers = new Dictionary<string, ChatUser>();
+        public static Dictionary<string, string> LobbyNameByConnection = new Dictionary<string, string>();
+        public static Dictionary<string, int> NumberOfConnectedUsersInLobby = new Dictionary<string, int>();
 
-        public void Hello()
+        public async Task JoinLobby(string lobbyName)
         {
+            await Groups.Add(Context.ConnectionId, lobbyName);
+
             string name = Context.User.Identity.Name;
-            string id = Context.ConnectionId;
 
-            if (!ConnectedUsers.ContainsKey(id))
+            if (NumberOfConnectedUsersInLobby.ContainsKey(lobbyName))
             {
-                ConnectedUsers.Add(id, new ChatUser(name, id));
-
-                Clients.All.userJoinedLobby(name);
+                NumberOfConnectedUsersInLobby[lobbyName] += 1;
             }
-            System.Diagnostics.Debug.WriteLine("COUNT OF: " + ConnectedUsers.Count);
-            Clients.Caller.joined(ConnectedUsers.Count);
+            else
+            {
+                NumberOfConnectedUsersInLobby[lobbyName] = 1;
+            }
+            // Add the connection to a dictionary to be able to find it later with connection id.
+            LobbyNameByConnection.Add(Context.ConnectionId, lobbyName);
+
+            // Let others know that someone joined
+            Clients.OthersInGroup(lobbyName).userJoinedLobby(name);
+            
+            // Let the caller know now
+            Clients.Caller.joined(NumberOfConnectedUsersInLobby[lobbyName]);
         }
 
-        public void Send(string message)
+        public Task LeaveLobby(string lobbyName)
+        {
+            NumberOfConnectedUsersInLobby[lobbyName] -= 1;
+            return Groups.Remove(Context.ConnectionId, lobbyName);
+        }
+
+        public void Send(string lobbyName, string message)
         {
             string name = Context.User.Identity.Name;
 
             // Call the addNewMessageToPage method to update clients.
-            Clients.All.addNewMessageToPage(name, message);
+            Clients.Group(lobbyName).addNewMessageToPage(name, message);
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
+            string lobbyName = LobbyNameByConnection[Context.ConnectionId];
             string name = Context.User.Identity.Name;
-            ConnectedUsers.Remove(Context.ConnectionId);
 
-            Clients.All.userLeftLobby(name);
+            NumberOfConnectedUsersInLobby[lobbyName] -= 1;
+            Clients.Group(lobbyName).userLeftLobby(name);
             return base.OnDisconnected(stopCalled);
         }
 

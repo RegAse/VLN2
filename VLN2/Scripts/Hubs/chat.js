@@ -1,9 +1,10 @@
 ﻿$(function () {
     var numberOfConnectedUsers = 0;
+    var lobbyName = location.href.substr(location.href.lastIndexOf('/') + 1);
     // Reference the auto-generated proxy for the hub.
     var chat = $.connection.chatHub;
 
-    chat.client.joined = function (connectedUsersCount) {
+    chat.client.joined = function (connectedUsersCount, users) {
         numberOfConnectedUsers = connectedUsersCount;
         console.log(connectedUsersCount);
         updateNumberOfConnectedUsers();
@@ -36,11 +37,12 @@
     $('#message').focus();
     // Start the connection.
     $.connection.hub.start().done(function () {
-        chat.server.hello();
+        //chat.server.hello();
+        chat.server.joinLobby(lobbyName);
 
         $('#sendmessage').submit(function () {
             // Call the Send method on the hub.
-            chat.server.send($('#message').val());
+            chat.server.send(lobbyName, $('#message').val());
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
 
