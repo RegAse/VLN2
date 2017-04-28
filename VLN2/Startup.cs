@@ -9,6 +9,9 @@ namespace VLN2
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
+            // Map SignalR
+            app.MapSignalR();
         }
     }
 }
