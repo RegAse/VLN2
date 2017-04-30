@@ -64,12 +64,26 @@ namespace VLN2.Hubs
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            string lobbyName = LobbyNameByConnection[Context.ConnectionId];
             string name = Context.User.Identity.Name;
 
-            NumberOfConnectedUsersInLobby[lobbyName] -= 1;
-            Clients.Group(lobbyName).userLeftLobby(name);
+            if (LobbyNameByConnection.ContainsKey(Context.ConnectionId))
+            {
+                string lobbyName = LobbyNameByConnection[Context.ConnectionId];
+                NumberOfConnectedUsersInLobby[lobbyName] -= 1;
+                Clients.Group(lobbyName).userLeftLobby(name);
+            }
+
             return base.OnDisconnected(stopCalled);
+        }
+
+        public void InsertCode(string lobbyName, string row, string column, string value)
+        {
+            Clients.OthersInGroup(lobbyName).insertCode(row, column, value);
+        }
+
+        public void RemoveCode(string lobbyName, string row, string column, string endrow, string endcolumn)
+        {
+            Clients.OthersInGroup(lobbyName).removeCode(row, column, endrow, endcolumn);
         }
 
     }
