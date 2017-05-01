@@ -36,17 +36,17 @@ namespace VLN2.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ApplicationUser>().ToTable("MyUsers").Property(p => p.UserName).HasColumnName("Username");
-            modelBuilder.Entity<ApplicationUser>().ToTable("MyUsers").Property(p => p.Id).HasColumnName("ID");
-            modelBuilder.Entity<CustomRole>().ToTable("MyRoles").Property(p => p.Id).HasColumnName("ID");
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users").Property(p => p.UserName).HasColumnName("Username");
+            modelBuilder.Entity<ApplicationUser>().Property(p => p.Id).HasColumnName("ID");
+            modelBuilder.Entity<CustomRole>().ToTable("Roles").Property(p => p.Id).HasColumnName("ID");
 
-            modelBuilder.Entity<CustomUserRole>().ToTable("MyUserRoles").Property(p => p.UserId).HasColumnName("UserID");
+            modelBuilder.Entity<CustomUserRole>().ToTable("UserRoles").Property(p => p.UserId).HasColumnName("UserID");
             modelBuilder.Entity<CustomUserRole>().Property(p => p.RoleId).HasColumnName("RoleID");
 
-            modelBuilder.Entity<CustomUserClaim>().ToTable("MyUserClaims").Property(p => p.Id).HasColumnName("ID");
+            modelBuilder.Entity<CustomUserClaim>().ToTable("UserClaims").Property(p => p.Id).HasColumnName("ID");
             modelBuilder.Entity<CustomUserClaim>().Property(p => p.UserId).HasColumnName("UserID");
 
-            modelBuilder.Entity<CustomUserLogin>().ToTable("MyUserLogins").Property(p => p.UserId).HasColumnName("UserID");
+            modelBuilder.Entity<CustomUserLogin>().ToTable("UserLogins").Property(p => p.UserId).HasColumnName("UserID");
         }
     }
 
