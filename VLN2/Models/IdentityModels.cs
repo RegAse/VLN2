@@ -35,7 +35,14 @@ namespace VLN2.Models
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<IdentityUser>().Property<string>("Username");
+
+            modelBuilder.Entity<ApplicationUser>().ToTable("MyUsers");
+            modelBuilder.Entity<CustomRole>().ToTable("MyRoles");
+            modelBuilder.Entity<CustomUserRole>().ToTable("MyUserRoles");
+            modelBuilder.Entity<CustomUserClaim>().ToTable("MyUserClaims");
+            modelBuilder.Entity<CustomUserLogin>().ToTable("MyUserLogins");
+
+
 
             //modelBuilder.Entity<IdentityUser>().ToTable("MyUsers").Property(e => e.Id).HasColumnName("AspNetUserId"); ;
             /*modelBuilder.Entity<ApplicationUser>().ToTable("MyUsers");
