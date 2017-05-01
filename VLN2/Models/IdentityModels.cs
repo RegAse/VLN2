@@ -38,9 +38,9 @@ namespace VLN2.Models
 
             modelBuilder.Entity<ApplicationUser>().ToTable("Users").Property(p => p.UserName).HasColumnName("Username");
             modelBuilder.Entity<ApplicationUser>().Property(p => p.Id).HasColumnName("ID");
-            modelBuilder.Entity<CustomRole>().ToTable("Roles").Property(p => p.Id).HasColumnName("ID");
+            modelBuilder.Entity<CustomRole>().ToTable("UserRoles").Property(p => p.Id).HasColumnName("ID");
 
-            modelBuilder.Entity<CustomUserRole>().ToTable("UserRoles").Property(p => p.UserId).HasColumnName("UserID");
+            modelBuilder.Entity<CustomUserRole>().ToTable("UserHasRole").Property(p => p.UserId).HasColumnName("UserID");
             modelBuilder.Entity<CustomUserRole>().Property(p => p.RoleId).HasColumnName("RoleID");
 
             modelBuilder.Entity<CustomUserClaim>().ToTable("UserClaims").Property(p => p.Id).HasColumnName("ID");
