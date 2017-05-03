@@ -9,7 +9,11 @@
             Files here
         </div>
         <div class="sidebar-chat">
-            Chat stuff
+            <form class="form-inline" id="sendmessage">
+                <input type="text" class="form-control" id="message" placeholder="Your Message" autocomplete="off">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+            <ul id="discussion"></ul>
         </div>
     </div>
     <div id="editor"></div>
