@@ -19,6 +19,8 @@
     chat.client.addNewMessageToPage = function (name, message) {
         // Add the message to the page.
         $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+        console.log($('#discussion')[0].scrollHeight);
+        $('.sidebar-chat').scrollTop($('.sidebar-chat')[0].scrollHeight);
     };
 
     // Gets called when a user joins the lobby
@@ -27,6 +29,7 @@
 
         updateNumberOfConnectedUsers();
         $('#discussion').append('<li><strong>' + htmlEncode(name) + ' Joined the lobby </li>');
+        $('.sidebar-chat').scrollTop($('#sidebar-chat')[0].scrollHeight);
     }
    
     // Gets called when a user leaves the lobby
@@ -35,6 +38,7 @@
 
         updateNumberOfConnectedUsers();
         $('#discussion').append('<li><strong>' + htmlEncode(name) + ' Left the lobby </li>');
+        $('.sidebar-chat').scrollTop($('.sidebar-chat')[0].scrollHeight);
     }
 
     chat.client.insertCode = function (row, column, value) {

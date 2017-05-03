@@ -6,14 +6,27 @@
 @section outsideContainer{
     <div class="sidebar">
         <div class="sidebar-project">
-            Files here
+            <ul>
+                <li>index.html</li>
+                <li>css
+                    <ul>
+                        <li>app.css</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
         <div class="sidebar-chat">
-            <form class="form-inline" id="sendmessage">
-                <input type="text" class="form-control" id="message" placeholder="Your Message" autocomplete="off">
-                <button type="submit" class="btn btn-primary">Send</button>
+            <div id="discussion"></div>
+        </div>
+        <div class="sidebar-chat-form">
+            <form id="sendmessage">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="message" placeholder="Message" autocomplete="off">
+                    <span class="input-group-btn">
+                        <button class="btn btn-send" type="button"><span class="glyphicon glyphicon-envelope"></span></button>
+                    </span>
+                </div>
             </form>
-            <ul id="discussion"></ul>
         </div>
     </div>
     <div id="editor"></div>
