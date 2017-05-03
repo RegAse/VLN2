@@ -3,21 +3,52 @@
     ViewBag.Title = "Chat";
 }
 
-<h2>Chat</h2>
+@section outsideContainer{
+    <div class="sidebar">
+        <div class="sidebar-project">
+            Files here
+        </div>
+        <div class="sidebar-chat">
+            Chat stuff
+        </div>
+    </div>
+    <div id="editor"></div>
+}
 
-<span id="number-of-users-connected">Users Connected: </span>
-
-<div class="container">
-    <form class="form-inline" id="sendmessage">
-        <input type="text" class="form-control" id="message" placeholder="Your Message" autocomplete="off">
-        <button type="submit" class="btn btn-primary">Send</button>
-    </form>
-    <ul id="discussion"></ul>
-</div>
-
-<h2>Live Coding</h2>
-
-<div id="editor" style="height: 500px; width: 100%"></div>
+@section styles {
+    <style>
+        body{
+            padding-bottom: 0;
+        }
+        #editor{
+            width: auto;
+            overflow: hidden;
+            position: absolute;
+            left: 250px;
+            right:0;
+            top: 50px;
+            bottom: 0;
+        }
+        .sidebar{
+            width: 250px;
+            float: left;
+        }
+        .sidebar-project{
+            width: 250px;
+            position: absolute;
+            top: 50px;
+            bottom: 180px;
+            background-color: blue;
+        }
+        .sidebar-chat{
+            width: 250px;
+            position: absolute;
+            bottom: 0;
+            height: 180px;
+            background-color: red;
+        }
+    </style>
+}
 
 @section scripts {
     <!--Script references. -->
