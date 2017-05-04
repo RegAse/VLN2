@@ -3,11 +3,4 @@
     ViewBag.Title = "Project Name";
 }
 
-<h2>Index</h2>
-
-<div>
-    @foreach (var item in Model.Projects)
-    {
-        <p>@item.Name</p>
-    }
-</div>
+<h2>@Model.Project.Name</h2>
