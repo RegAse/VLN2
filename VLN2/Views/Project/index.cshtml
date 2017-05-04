@@ -1,0 +1,13 @@
+﻿@model VLN2.ViewModels.ProjectViewModel
+@{
+    ViewBag.Title = "Project Name";
+}
+
+<h2>Index</h2>
+
+<div>
+    @foreach (var item in Model.Projects)
+    {
+        <p>@item.Name</p>
+    }
+</div>

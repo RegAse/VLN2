@@ -22,6 +22,8 @@ namespace VLN2.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, CustomRole,
     int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
+        public DbSet<Project> Projects { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
