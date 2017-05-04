@@ -18,7 +18,7 @@ namespace VLN2.Controllers
         {
             if (id == null)
             {
-                // Throw error
+                throw new HttpException(404, "Not found");
             }
             var model = new ProjectViewModel(_service.GetProjectByID((int)id));
 
