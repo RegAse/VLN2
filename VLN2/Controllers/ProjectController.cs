@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,7 +22,12 @@ namespace VLN2.Controllers
             {
                 throw new HttpException(404, "Not found");
             }
-            var model = new ProjectViewModel(_service.GetProjectByID((int)id));
+
+            ApplicationDbContext appDb = new ApplicationDbContext();
+
+            int user = User.Identity.GetUserId<int>();
+            string name = appDb.Users.Single(x => x.Id == id).DisplayName;
+            var model = new ProjectViewModel(_service.GetProjectByID((int)id), name);
 
             return View(model);
         }
