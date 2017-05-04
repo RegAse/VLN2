@@ -7,12 +7,13 @@
                     yuicompress: true
                 },
                 files: {
-                    "css/app.css": "less/app.less"
+                    "css/app.css": "less/app.less",
+                    "css/bootstrap.css": "bootstrap-less/bootstrap.less"
                 }
             }
         },
         watch: {
-            files: "less/*",
+            files: ["less/*", "bootstrap-less/*"],
             tasks: ["less"]
         }
     });
