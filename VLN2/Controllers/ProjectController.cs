@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VLN2.Models;
+using VLN2.ViewModels;
 
 namespace VLN2.Controllers
 {
@@ -11,7 +13,10 @@ namespace VLN2.Controllers
         // GET: Project
         public ActionResult Index()
         {
-            return View();
+            ApplicationDbContext db = new ApplicationDbContext();
+            var model = new ProjectViewModel(db.Projects);
+
+            return View(model);
         }
     }
 }
