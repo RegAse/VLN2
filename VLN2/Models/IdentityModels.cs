@@ -17,6 +17,7 @@ namespace VLN2.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public string DisplayName { get; set; }    
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, CustomRole,
