@@ -14,7 +14,10 @@ namespace VLN2.Controllers
         public ActionResult Index()
         {
             ApplicationDbContext db = new ApplicationDbContext();
-            var model = new ProjectViewModel(db.Projects);
+
+            Project project = db.Projects.Single();
+
+            var model = new ProjectViewModel(db.Projects, project);
 
             return View(model);
         }

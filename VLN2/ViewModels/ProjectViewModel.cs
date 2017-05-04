@@ -12,9 +12,10 @@ namespace VLN2.ViewModels
 
         public IEnumerable<Project> Projects { get; set; }
 
-        public ProjectViewModel(IEnumerable<Project> Projects)
+        public ProjectViewModel(IEnumerable<Project> projects, Project project)
         {
-            this.Projects = Projects;
+            Projects = projects;
+            Project = project;
         }
 
     }
