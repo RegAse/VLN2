@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using VLN2.Models;
-using Microsoft.AspNet.Identity;
 using System.Web.Security;
 
 namespace VLN2.ViewModels

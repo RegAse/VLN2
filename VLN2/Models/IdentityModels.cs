@@ -15,9 +15,11 @@ namespace VLN2.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
+            userIdentity.AddClaim(new Claim("Displayname", this.Displayname.ToString()));
+
             return userIdentity;
         }
-        public string DisplayName { get; set; }
+        public string Displayname { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, CustomRole,

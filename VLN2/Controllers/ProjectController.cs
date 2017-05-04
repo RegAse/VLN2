@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using VLN2.Models;
 using VLN2.Services;
 using VLN2.ViewModels;
+using VLN2.Extensions;
 
 namespace VLN2.Controllers
 {
@@ -26,7 +27,10 @@ namespace VLN2.Controllers
             ApplicationDbContext appDb = new ApplicationDbContext();
 
             int user = User.Identity.GetUserId<int>();
-            string name = appDb.Users.Single(x => x.Id == id).DisplayName;
+            string name = appDb.Users.Single(x => x.Id == user).Displayname;
+
+            name = User.Identity.GetDisplayname();
+
             var model = new ProjectViewModel(_service.GetProjectByID((int)id), name);
 
             return View(model);
