@@ -9,7 +9,7 @@ namespace VLN2.Controllers
     public class UserController : Controller
     {
         // GET: User
-        public ActionResult Index()
+        public ActionResult Index(int ?id)
         {
             return View();
         }
