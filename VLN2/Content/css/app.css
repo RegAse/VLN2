@@ -77,3 +77,6 @@ body {
   border-color: gray;
   color: white !important;
 }
+.project-list {
+  list-style-type: none;
+}
