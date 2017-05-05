@@ -11,7 +11,7 @@
                 @foreach (var project in Model.UserProjects)
                 {
                     <li>
-                        @project.Name;
+                        <p>@project.Name</p>@Html.ActionLink("Open Project", "Index", "Project", new { id = project.ID }, null)
                     </li>
                 }
             </ul>
