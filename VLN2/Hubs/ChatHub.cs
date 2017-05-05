@@ -91,5 +91,10 @@ namespace VLN2.Hubs
             Clients.Group(lobbyName).newFileAdded(filename);
         }
 
+        public void RemoveFile(string lobbyName, string filename)
+        {
+            Clients.Group(lobbyName).fileRemoved(filename);
+        }
+
     }
 }
