@@ -28,7 +28,7 @@ function ProjectSession(projectOptions){
     editor.$blockScrolling = Infinity;
 
     // Reference the chathub
-    this.chat = $.connection.chatHub;
+    this.chat = $.connection.projectHub;
     this.setupChat();
 }
 

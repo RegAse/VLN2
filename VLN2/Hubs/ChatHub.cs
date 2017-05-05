@@ -75,25 +75,5 @@ namespace VLN2.Hubs
 
             return base.OnDisconnected(stopCalled);
         }
-
-        public void InsertCode(string lobbyName, string row, string column, string value)
-        {
-            Clients.OthersInGroup(lobbyName).insertCode(row, column, value);
-        }
-
-        public void RemoveCode(string lobbyName, string row, string column, string endrow, string endcolumn)
-        {
-            Clients.OthersInGroup(lobbyName).removeCode(row, column, endrow, endcolumn);
-        }
-
-        public void AddFile(string lobbyName, string filename)
-        {
-            Clients.Group(lobbyName).newFileAdded(filename);
-        }
-
-        public void RemoveFile(string lobbyName, string filename)
-        {
-            Clients.Group(lobbyName).fileRemoved(filename);
-        }
     }
 }
