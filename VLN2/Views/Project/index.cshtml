@@ -6,17 +6,26 @@
 @section outsideContainer{
     <div class="sidebar">
         <div class="sidebar-project">
-            <h2 class="text-center">@Model.Project.Name</h2>
-            Users: </br> 
-            @foreach (var user in Model.Project.ApplicationUsers)
-            {
-                @user.Displayname
-            }
-            <ul id="files"></ul>
+            <h2 class="text-center">@Model.Project.Name</h2>    
+            <ul id="files">
+                @foreach (var file in Model.Project.ProjectFiles)
+                {
+                    <li>
+                        @file.Name
+                    </li>
+                }
+            </ul>
             <form id="createfile">
                 <input id="newfile" type="text" class="form-control" />
                 <button class="btn" type="submit">Create File</button>
             </form>
+            <div class="users-access">
+                <label>Users:</label>
+                @foreach (var user in Model.Project.ApplicationUsers)
+                {
+                    @user.Displayname
+                }
+            </div>
         </div>
         <div class="sidebar-chat">
             <div id="discussion"></div>
