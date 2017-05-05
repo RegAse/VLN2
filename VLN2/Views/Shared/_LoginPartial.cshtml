@@ -8,7 +8,7 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a class="btn btn-default dropdown-toggle" id="menu1" data-toggle="dropdown">
+            <a class="dropdown-toggle" id="menu1" data-toggle="dropdown">
                 @User.Identity.GetDisplayname()
                 <span class="caret"></span>
             </a>
@@ -16,7 +16,6 @@
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="~/User">User page</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="~/Manage">User settings</a></li>
             </ul>
-            <!--  @Html.ActionLink("Hello " + User.Identity.GetDisplayname() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" }) -->
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
