@@ -24,12 +24,11 @@ namespace VLN2.Controllers
                 throw new HttpException(404, "Not found");
             }
 
-            ApplicationDbContext appDb = new ApplicationDbContext();
+            //ApplicationDbContext appDb = new ApplicationDbContext();
+            //int user = User.Identity.GetUserId<int>();
+            //string name = appDb.Users.Single(x => x.Id == user).Displayname;
 
-            int user = User.Identity.GetUserId<int>();
-            string name = appDb.Users.Single(x => x.Id == user).Displayname;
-
-            name = User.Identity.GetDisplayname();
+            string name = User.Identity.GetDisplayname();
 
             var model = new ProjectViewModel(_service.GetProjectByID((int)id), name);
 

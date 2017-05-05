@@ -86,5 +86,14 @@ namespace VLN2.Hubs
             Clients.OthersInGroup(lobbyName).removeCode(row, column, endrow, endcolumn);
         }
 
+        public void AddFile(string lobbyName, string filename)
+        {
+            Clients.Group(lobbyName).newFileAdded(filename);
+        }
+
+        public void RemoveFile(string lobbyName, string filename)
+        {
+            Clients.Group(lobbyName).fileRemoved(filename);
+        }
     }
 }

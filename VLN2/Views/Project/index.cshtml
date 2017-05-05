@@ -6,16 +6,12 @@
 @section outsideContainer{
     <div class="sidebar">
         <div class="sidebar-project">
-            <h2 class="text-center">@Model.Project.Name - @Model.Displayname</h2>
-            <ul>
-                <li>index.html</li>
-                <li>
-                    css
-                    <ul>
-                        <li>app.css</li>
-                    </ul>
-                </li>
-            </ul>
+            <h2 class="text-center">@Model.Project.Name</h2>
+            <ul id="files"></ul>
+            <form id="createfile">
+                <input id="newfile" type="text" class="form-control" />
+                <button class="btn" type="submit">Create File</button>
+            </form>
         </div>
         <div class="sidebar-chat">
             <div id="discussion"></div>
