@@ -13,5 +13,8 @@ namespace VLN2.Controllers
         {
             return View();
         }
+
+        // POST: User
+
     }
 }
