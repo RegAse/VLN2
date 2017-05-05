@@ -16,12 +16,5 @@ namespace VLN2.ViewModels
             UserID = userID;
             UserProjects = projects;
         }
-
-        /*DashboardViewModel(string username, IEnumerable<Project> userProjects)
-        {
-            Username = username;
-
-            UserProjects = userProjects;
-        }*/
     }
 }
