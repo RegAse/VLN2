@@ -62,10 +62,15 @@ namespace VLN2.Models
 				 .WithMany(l => l.ApplicationUsers)
 				 .Map(ul =>
 				 {
-					 ul.MapLeftKey("ProjectID");
-					 ul.MapRightKey("UserID");
+					 ul.MapLeftKey("UserID");
+					 ul.MapRightKey("ProjectID");
 					 ul.ToTable("UserHasProject");
 				 });
+
+            modelBuilder.Entity<Project>().HasMany(x => x.ProjectFiles).WithOptional(y => y.Project).Map(z =>
+            {
+                z.MapKey("ProjectID");
+            });
         }
     }
 
