@@ -23,7 +23,7 @@
                 <label>Users:</label>
                 @foreach (var user in Model.Project.ApplicationUsers)
                 {
-                    <p>@user.Displayname</p>
+                    <p>@user.Displayname (@user.UserName)</p>
                 }
             </div>
         </div>
