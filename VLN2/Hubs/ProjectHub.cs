@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
+using VLN2.Models;
+using VLN2.Services;
 
 namespace VLN2.Hubs
 {
@@ -12,11 +15,20 @@ namespace VLN2.Hubs
 
     public class ProjectHub : ChatHub
     {
+        ProjectsService _service = new ProjectsService();
+
         public static Dictionary<string, ProjectSession> ProjectSessions = new Dictionary<string, ProjectSession>();
 
-        public void RequestFile(string lobbyName, string filename)
+        public void RequestFile(int projectID, int projectFileID)
         {
-            string fileContent = "var = 23;";
+            var file = _service.GetProjectFileByID(projectID, projectFileID);
+            /*var data = Json(new
+            {
+            });
+            */
+            var data = "";
+
+            Clients.Caller.openFile(data);
         }
 
         public void InsertCode(string lobbyName, string row, string column, string value)

@@ -1,7 +1,12 @@
+/* Start by importing variables.less */
+/*
+    variables.less
+    Define all variables here
+*/
 body {
   padding-top: 50px;
   padding-bottom: 20px;
-  background-color: #333;
+  background-color: #272727;
 }
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -94,6 +99,10 @@ a:hover {
   color: #0663aa;
 }
 table {
-  background-color: #eee;
-  border-radius: 3px;
+  background-color: #353535;
+  border-radius: 0px;
+}
+.dashboard-projects {
+  background-color: #353535;
+  box-shadow: 6px 6px 2px #262626;
 }

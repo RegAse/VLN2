@@ -28,13 +28,13 @@ function ProjectSession(projectOptions){
     editor.$blockScrolling = Infinity;
 
     // Reference the chathub
-    this.chat = $.connection.projectHub;
+    this.projectHub = $.connection.projectHub;
     this.setupChat();
 }
 
 ProjectSession.prototype = {
     setupChat: function () {
-        var chat = this.chat;
+        var chat = this.projectHub;
         var lobbyName = this.lobbyName;
         var editor = this.editor;
 
@@ -81,6 +81,10 @@ ProjectSession.prototype = {
             $('#files').append('<li><strong>' + htmlEncode(filename) + '</li>');
         }
 
+        chat.client.openFile = function (projectFile) {
+            console.log(projectFile);
+        }
+
         // Set initial focus to message input box.
         $('#message').focus();
 
@@ -103,6 +107,8 @@ ProjectSession.prototype = {
 
                 return false;
             });
+
+            chat.server.requestFile(1, 2);
 
             editor.getSession().on('change', function (e){
                 // Make sure this was a user change.

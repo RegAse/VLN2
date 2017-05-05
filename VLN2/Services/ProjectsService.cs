@@ -34,5 +34,17 @@ namespace VLN2.Services
 
             return Projects;
         }
+
+        public IEnumerable<ProjectFile> GetProjectFilesByProjectID(int projectID)
+        {
+            IEnumerable<ProjectFile> files = _db.Projects.Single(x => x.ID == projectID).ProjectFiles;
+
+            return files;
+        }
+
+        public ProjectFile GetProjectFileByID(int projectID, int projectFileID)
+        {
+            return _db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
+        }
     }
 }
