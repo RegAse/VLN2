@@ -23,17 +23,13 @@ function ProjectSession(projectOptions){
     this.lobbyName = location.href.substr(location.href.lastIndexOf('/') + 1);
 
     var editor = ace.edit("editor");
-    editor.setTheme(projectOptions["theme"]);
+    editor.setTheme(projectOptions.theme);
     editor.getSession().setMode(projectOptions.mode);
     editor.$blockScrolling = Infinity;
 
     // Reference the chathub
     this.chat = $.connection.chatHub;
     this.setupChat();
-}
-
-ProjectSession.prototype.setupChat = function (){
-
 }
 
 ProjectSession.prototype = {
@@ -52,7 +48,6 @@ ProjectSession.prototype = {
         chat.client.addNewMessageToPage = function (name, message){
             // Add the message to the page.
             $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
-            console.log($('#discussion')[0].scrollHeight);
             $('.sidebar-chat').scrollTop($('.sidebar-chat')[0].scrollHeight);
         };
 
@@ -88,15 +83,16 @@ ProjectSession.prototype = {
 
         // Set initial focus to message input box.
         $('#message').focus();
+
         // Start the connection.
         $.connection.hub.start().done(function (){
-            //chat.server.hello();
             chat.server.joinLobby(lobbyName);
 
             $('#sendmessage').submit(function (){
                 // Call the Send method on the hub.
                 chat.server.send(lobbyName, $('#message').val());
-                // Clear text box and reset focus for next comment.
+
+                // Clear the textbox
                 $('#message').val('').focus();
 
                 return false
