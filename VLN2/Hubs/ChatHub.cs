@@ -95,6 +95,5 @@ namespace VLN2.Hubs
         {
             Clients.Group(lobbyName).fileRemoved(filename);
         }
-
     }
 }

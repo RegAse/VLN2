@@ -1,11 +1,41 @@
-﻿$(function () {
+﻿/*
+    Set up ProjectOptions
+*/
+function ProjectOptions() {
+    this.theme = "ace/theme/monokai";
+    this.mode = "ace/mode/javascript";
+}
+
+ProjectOptions.prototype = {
+    setTheme: function() {
+
+    },
+    setMode: function() {
+
+    }
+}
+
+/* Set up ProjectSession */
+function ProjectSession(projectOptions) {
+    this.editor = ace.edit("editor");
+}
+
+ProjectSession.prototype = {
+    start: function () {
+
+    }
+}
+
+/*
+$(function () {
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
-    editor.$blockScrolling = Infinity
-
+    editor.$blockScrolling = Infinity;
+    
     var numberOfConnectedUsers = 0;
     var lobbyName = location.href.substr(location.href.lastIndexOf('/') + 1);
+
     // Reference the auto-generated proxy for the hub.
     var chat = $.connection.chatHub;
 
@@ -94,8 +124,9 @@
         $("#number-of-users-connected").html("Users Connected: " + numberOfConnectedUsers);
     }
 });
+
 // This optional function html-encodes messages for display in the page.
 function htmlEncode(value) {
     var encodedValue = $('<div />').text(value).html();
     return encodedValue;
-}
+}*/
