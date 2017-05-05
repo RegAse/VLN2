@@ -27,5 +27,12 @@ namespace VLN2.Services
 
             return project;
         }
+
+        public IEnumerable<Project> GetProjectsByUserID(int userID)
+        {
+            IEnumerable<Project> Projects = _db.Users.Single(x => x.Id == userID).Projects;
+
+            return Projects;
+        }
     }
 }

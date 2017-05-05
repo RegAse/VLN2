@@ -30,6 +30,8 @@ namespace VLN2.Controllers
 
             string name = User.Identity.GetDisplayname();
 
+            //int user = User.Identity.GetUserId<int>();
+            //var model = new ProjectViewModel(_service.GetProjectsByUserID(user).Single(), name);
             var model = new ProjectViewModel(_service.GetProjectByID((int)id), name);
 
             return View(model);
