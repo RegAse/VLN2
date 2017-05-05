@@ -88,8 +88,12 @@ body {
   color: #eee;
 }
 a {
-  color: #60b7ff;
+  color: #0875c9;
 }
 a:hover {
-  color: #0875c9;
+  color: #0663aa;
+}
+table {
+  background-color: #eee;
+  border-radius: 3px;
 }
