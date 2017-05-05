@@ -61,6 +61,10 @@
         editor.session.remove({ "start": { "row": row, "column": column }, "end": { "row": endrow, "column": endcolumn } });
     }
 
+    chat.client.newFileAdded = function (filename) {
+        $('#files').append('<li><strong>' + htmlEncode(filename) + '</li>');
+    }
+
     // Set initial focus to message input box.
     $('#message').focus();
     // Start the connection.
@@ -75,6 +79,12 @@
             $('#message').val('').focus();
 
             return false
+        });
+
+        $("#createfile").submit(function () {
+            chat.server.addFile(lobbyName, $("#newfile").val());
+
+            return false;
         });
 
         editor.getSession().on('change', function (e) {
