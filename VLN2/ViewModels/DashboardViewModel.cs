@@ -8,15 +8,20 @@ namespace VLN2.ViewModels
 {
     public class DashboardViewModel
     {
-        public string Username;
-
+        int UserID;
         IEnumerable<Project> UserProjects;
 
-        DashboardViewModel(string username, IEnumerable<Project> userProjects)
+        public DashboardViewModel(int userID, IEnumerable<Project> projects)
+        {
+            UserID = userID;
+            UserProjects = projects;
+        }
+
+        /*DashboardViewModel(string username, IEnumerable<Project> userProjects)
         {
             Username = username;
 
             UserProjects = userProjects;
-        }
+        }*/
     }
 }
