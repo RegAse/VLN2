@@ -5,8 +5,19 @@ using System.Web;
 
 namespace VLN2.Hubs
 {
+    public class ProjectSession
+    {
+        public string OpenedFile { get; set; }
+    }
+
     public class ProjectHub : ChatHub
     {
+        public static Dictionary<string, ProjectSession> ProjectSessions = new Dictionary<string, ProjectSession>();
+
+        public void RequestFile(string lobbyName, string filename)
+        {
+            string fileContent = "var = 23;";
+        }
 
         public void InsertCode(string lobbyName, string row, string column, string value)
         {

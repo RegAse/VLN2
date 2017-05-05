@@ -7,6 +7,10 @@
     <div class="sidebar">
         <div class="sidebar-project">
             <h2 class="text-center">@Model.Project.Name</h2>
+            @foreach (var user in Model.Project.ApplicationUsers)
+            {
+                @user.Displayname
+            }
             <ul id="files"></ul>
             <form id="createfile">
                 <input id="newfile" type="text" class="form-control" />

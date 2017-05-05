@@ -24,6 +24,11 @@ namespace VLN2.Hubs
         public static Dictionary<string, string> LobbyNameByConnection = new Dictionary<string, string>();
         public static Dictionary<string, int> NumberOfConnectedUsersInLobby = new Dictionary<string, int>();
 
+        /// <summary>
+        /// A user joined the lobby.
+        /// </summary>
+        /// <param name="lobbyName">the identifier for the lobby</param>
+        /// <returns></returns>
         public async Task JoinLobby(string lobbyName)
         {
             await Groups.Add(Context.ConnectionId, lobbyName);
@@ -48,6 +53,11 @@ namespace VLN2.Hubs
             Clients.Caller.joined(NumberOfConnectedUsersInLobby[lobbyName]);
         }
 
+        /// <summary>
+        /// A user left the lobby.
+        /// </summary>
+        /// <param name="lobbyName">the identifier for the lobby</param>
+        /// <returns></returns>
         public Task LeaveLobby(string lobbyName)
         {
             NumberOfConnectedUsersInLobby[lobbyName] -= 1;

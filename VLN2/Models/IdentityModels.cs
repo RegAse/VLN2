@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace VLN2.Models
 {
@@ -10,6 +11,8 @@ namespace VLN2.Models
     public class ApplicationUser : IdentityUser<int, CustomUserLogin, CustomUserRole,
     CustomUserClaim>
     {
+        public virtual ICollection<Project> Projects { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -19,6 +22,7 @@ namespace VLN2.Models
 
             return userIdentity;
         }
+
         public string Displayname { get; set; }
     }
 
@@ -52,6 +56,16 @@ namespace VLN2.Models
             modelBuilder.Entity<CustomUserClaim>().Property(p => p.UserId).HasColumnName("UserID");
 
             modelBuilder.Entity<CustomUserLogin>().ToTable("UserLogins").Property(p => p.UserId).HasColumnName("UserID");
+
+            modelBuilder.Entity<ApplicationUser>()
+				 .HasMany(u => u.Projects)
+				 .WithMany(l => l.ApplicationUsers)
+				 .Map(ul =>
+				 {
+					 ul.MapLeftKey("ProjectID");
+					 ul.MapRightKey("UserID");
+					 ul.ToTable("UserHasProject");
+				 });
         }
     }
 
