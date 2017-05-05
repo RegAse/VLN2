@@ -41,7 +41,12 @@
             </form>
         </div>
     </div>
-    <div id="editor"></div>
+    <div id="editor">
+        @if (@Model.Project.ProjectFiles.Count > 0)
+        {
+            @Model.Project.ProjectFiles.Single().Content
+        }
+    </div>
 }
 
 @section scripts {
