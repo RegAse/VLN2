@@ -8,8 +8,8 @@ namespace VLN2.ViewModels
 {
     public class DashboardViewModel
     {
-        int UserID;
-        IEnumerable<Project> UserProjects;
+        public int UserID;
+        public IEnumerable<Project> UserProjects;
 
         public DashboardViewModel(int userID, IEnumerable<Project> projects)
         {
