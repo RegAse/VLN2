@@ -13,6 +13,10 @@ namespace VLN2
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute("Project", "Project/{id}",
+                new { controller = "Project", action = "Index" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
