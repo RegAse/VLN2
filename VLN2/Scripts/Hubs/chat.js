@@ -39,6 +39,7 @@ ProjectSession.prototype = {
         var lobbyName = this.lobbyName;
         var editor = this.editor;
         var currentFileID = -1;
+        var currentFileName = "";
 
         chat.client.joined = function (connectedUsersCount, users){
             numberOfConnectedUsers = connectedUsersCount;
@@ -89,7 +90,9 @@ ProjectSession.prototype = {
 
             // Set the code value to the newly opened file
             currentFileID = data.ID;
+            currentFileName = data.Name;
             editor.setValue(data.Content);
+            $(".currently-opened-filename").html(currentFileName);
         }
 
         // Set initial focus to message input box.
@@ -110,7 +113,6 @@ ProjectSession.prototype = {
             });
 
             $(".file").click(function () {
-                console.log($(this).data("fileid"));
                 chat.server.requestFile(lobbyName, $(this).data("fileid"));
             });
 
@@ -125,10 +127,11 @@ ProjectSession.prototype = {
                 if (editor.curOp && editor.curOp.command.name){
                     if (e.action == "insert") {
                         var lines = e.lines.join("\n");
-                        chat.server.insertCode(lobbyName, e.start.row, e.start.column, lines);
+                        chat.server.insertCode(lobbyName, currentFileID, e.start.row, e.start.column, lines);
                     }
-                    else if (e.action == "remove"){
-                        chat.server.removeCode(lobbyName, e.start.row, e.start.column, e.end.row, e.end.column);
+                    else if (e.action == "remove") {
+                        console.log(e);
+                        chat.server.removeCode(lobbyName, currentFileID, e.start.row, e.start.column, e.end.row, e.end.column);
                     }
                 }
             });

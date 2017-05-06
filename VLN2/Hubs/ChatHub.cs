@@ -29,7 +29,7 @@ namespace VLN2.Hubs
         /// </summary>
         /// <param name="lobbyName">the identifier for the lobby</param>
         /// <returns></returns>
-        public async Task JoinLobby(string lobbyName)
+        public virtual async Task JoinLobby(string lobbyName)
         {
             await Groups.Add(Context.ConnectionId, lobbyName);
 

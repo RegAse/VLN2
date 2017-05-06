@@ -6,7 +6,8 @@
 @section outsideContainer{
     <div class="sidebar">
         <div class="sidebar-project">
-            <h2 class="text-center">@Model.Project.Name</h2>    
+            <h2 class="text-center">@Model.Project.Name</h2>
+            <p class="currently-opened-filename">Nothing Opened</p>
             <ul id="files">
                 @foreach (var file in Model.Project.ProjectFiles)
                 {
