@@ -22,11 +22,11 @@ namespace VLN2.Hubs
         public void RequestFile(int projectID, int projectFileID)
         {
             var file = _service.GetProjectFileByID(projectID, projectFileID);
-            /*var data = Json(new
-            {
+            var data = new JavaScriptSerializer().Serialize(new {
+                file.ID,
+                file.Name,
+                file.Content
             });
-            */
-            var data = "";
 
             Clients.Caller.openFile(data);
         }

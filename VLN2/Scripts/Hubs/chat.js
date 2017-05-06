@@ -38,6 +38,7 @@ ProjectSession.prototype = {
         var chat = this.projectHub;
         var lobbyName = this.lobbyName;
         var editor = this.editor;
+        var currentFileID = -1;
 
         chat.client.joined = function (connectedUsersCount, users){
             numberOfConnectedUsers = connectedUsersCount;
@@ -83,7 +84,12 @@ ProjectSession.prototype = {
         }
 
         chat.client.openFile = function (projectFile) {
-            console.log(projectFile);
+            // Convert to object
+            var data = JSON.parse(projectFile);
+
+            // Set the code value to the newly opened file
+            currentFileID = data.ID;
+            editor.setValue(data.Content);
         }
 
         // Set initial focus to message input box.
@@ -103,20 +109,22 @@ ProjectSession.prototype = {
                 return false
             });
 
+            $(".file").click(function () {
+                console.log($(this).data("fileid"));
+                chat.server.requestFile(lobbyName, $(this).data("fileid"));
+            });
+
             $("#createfile").submit(function (){
                 chat.server.addFile(lobbyName, $("#newfile").val());
 
                 return false;
             });
 
-            chat.server.requestFile(1, 2);
-
             editor.getSession().on('change', function (e){
                 // Make sure this was a user change.
                 if (editor.curOp && editor.curOp.command.name){
                     if (e.action == "insert") {
                         var lines = e.lines.join("\n");
-
                         chat.server.insertCode(lobbyName, e.start.row, e.start.column, lines);
                     }
                     else if (e.action == "remove"){

@@ -10,7 +10,7 @@
             <ul id="files">
                 @foreach (var file in Model.Project.ProjectFiles)
                 {
-                    <li>
+                    <li class="file" data-fileid="@file.ID">
                         @file.Name
                     </li>
                 }
@@ -41,12 +41,7 @@
             </form>
         </div>
     </div>
-    <div id="editor">
-        @if (@Model.Project.ProjectFiles.Count > 0)
-        {
-            @Model.Project.ProjectFiles.Single().Content
-        }
-    </div>
+    <div id="editor"></div>
 }
 
 @section scripts {
