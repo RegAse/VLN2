@@ -25,6 +25,7 @@ function ProjectSession(projectOptions){
     var editor = ace.edit("editor");
     editor.setTheme(projectOptions.theme);
     editor.getSession().setMode(projectOptions.mode);
+    editor.setShowPrintMargin(false);
     editor.$blockScrolling = Infinity;
 
     // Reference the chathub
