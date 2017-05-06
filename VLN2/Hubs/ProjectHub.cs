@@ -95,6 +95,10 @@ namespace VLN2.Hubs
                 lines[tRow] = result;
             }
             projectFile.Content = String.Join("\n", lines.ToArray());
+            var db = new ApplicationDbContext();
+            var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
+            file.Content = projectFile.Content;
+            db.SaveChanges();
 
             Clients.OthersInGroup(projectFileLobbyName).insertCode(row, column, value);
         }
