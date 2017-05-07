@@ -78,23 +78,24 @@ namespace VLN2.Hubs
 
             // Modify ProjectFileSession
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
-            List<string> lines = projectFile.Content.Split('\n').ToList();
-            string result = "";
+
             int tRow = int.Parse(row);
             int tCol = int.Parse(column);
 
-            if (tRow > lines.Count)
+            string temp = projectFile.Content;
+            string result = "";
+
+            int toIndexFirst = 0;
+            if (tRow != 0)
             {
-                lines.Add(value);
+                toIndexFirst = IndexOfOccurence(temp, "\n", tRow) + 1;
             }
-            else
-            {
-                result += lines[tRow].Substring(0, tCol);
-                result += value;
-                result += lines[tRow].Substring(tCol);
-                lines[tRow] = result;
-            }
-            projectFile.Content = String.Join("\n", lines.ToArray());
+            result += temp.Substring(0, toIndexFirst + tCol);
+            result += value;
+            result += temp.Substring(toIndexFirst + tCol);
+
+            projectFile.Content = result;
+
             var db = new ApplicationDbContext();
             var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
             file.Content = projectFile.Content;
@@ -109,7 +110,6 @@ namespace VLN2.Hubs
 
             // Modify ProjectFileSession
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
-            List<string> lines = projectFile.Content.Split('\n').ToList();
             string result = "";
             int tRow = int.Parse(row);
             int tCol = int.Parse(column);
