@@ -4,10 +4,10 @@
 }
 
 @section outsideContainer{
-    <div class="sidebar-info">
+    <div class="sidebar-info" id="sidebar">
         
         <div class="project-info">
-            <h1 class="project-title">SofaCode</h1>
+            <h2 class="project-title">@Model.Project.Name</h2>
         </div>
 
         <div class="project-files">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="project-conversation">
-            <div class="project-conversation-messages" id="discussion"></div>
+            <ol class="project-conversation-messages" id="discussion"></ol>
             <form id="sendmessage" class="project-conversation-input">
                 <div class="input-group">
                     <input type="text" class="form-control" id="message" placeholder="Message" autocomplete="off">
@@ -38,6 +38,7 @@
             </form>
         </div>
     </div>
+    <div id="dragbar"></div>
     <div id="editor" class="editor"></div>
 }
 
@@ -54,4 +55,5 @@
     <!--SignalR script to update the chat page and send messages.-->
     <script src="~/Scripts/Hubs/chat.js"></script>
     <script src="~/Scripts/Hubs/code.js"></script>
+    <script src="~/Scripts/app.js"></script>
 }

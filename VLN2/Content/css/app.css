@@ -78,7 +78,6 @@ table {
   background-color: #4d4d4d;
   color: gray;
 }
-/* Gonna changes this to more simple css code. */
 .sidebar-project-newfile {
   position: absolute;
   bottom: 0;
@@ -90,6 +89,8 @@ body {
 }
 /* Sidebar when viewing a project */
 .sidebar-info {
+  max-width: 350px !important;
+  min-width: 200px !important;
   width: 250px;
   height: 100%;
   position: relative;
@@ -116,10 +117,24 @@ body {
   position: absolute;
   bottom: 0;
 }
+.sidebar-info .project-conversation .project-conversation-messages {
+  list-style: none;
+  padding: 2px 4px 2px 4px;
+}
+.sidebar-info .project-conversation .project-conversation-messages li {
+  border-bottom: 1px solid #4b4b4b;
+}
 .sidebar-info .project-conversation input {
   max-width: none;
 }
 #editor {
   height: 100%;
   overflow: hidden;
+}
+#dragbar {
+  height: 100%;
+  width: 1px;
+  background-color: transparent;
+  float: left;
+  cursor: col-resize;
 }
