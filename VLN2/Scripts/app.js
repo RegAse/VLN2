@@ -20,3 +20,8 @@ $(document).mouseup(function (e) {
         dragging = false;
     }
 });
+
+$(".action-add-file").click(function () {
+    console.log("Eyh");
+    $("#createfile").css("visibility", "visible");
+});

@@ -127,6 +127,9 @@ body {
 .sidebar-info .project-conversation input {
   max-width: none;
 }
+.sidebar-info .project-actions {
+  padding: 10px;
+}
 #editor {
   height: 100%;
   overflow: hidden;
