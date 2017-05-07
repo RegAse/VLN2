@@ -79,8 +79,6 @@ namespace VLN2.Hubs
             // Modify ProjectFileSession
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
 
-
-
             projectFile.Content = InsertIntoStringAt(projectFile.Content, value, row, column);
 
             var db = new ApplicationDbContext();
@@ -98,8 +96,8 @@ namespace VLN2.Hubs
             // Modify ProjectFileSession
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
 
-
             projectFile.Content = RemoveFromTo(projectFile.Content, row, column, endrow, endcolumn);
+
             var db = new ApplicationDbContext();
             var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
             file.Content = projectFile.Content;
@@ -158,13 +156,14 @@ namespace VLN2.Hubs
 
         private int IndexOfOccurence(string s, string match, int occurence)
         {
-            int i = 1;
-            int index = 0;
+            int i = 1, index = 0;
 
             while (i <= occurence && (index = s.IndexOf(match, index + 1)) != -1)
             {
                 if (i == occurence)
+                {
                     return index;
+                }
 
                 i++;
             }
