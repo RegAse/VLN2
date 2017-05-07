@@ -72,29 +72,16 @@ namespace VLN2.Hubs
             Clients.Caller.openFile(data);
         }
 
-        public void InsertCode(int projectID, int projectFileID, string row, string column, string value)
+        public void InsertCode(int projectID, int projectFileID, int row, int column, string value)
         {
             string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
 
             // Modify ProjectFileSession
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
 
-            int tRow = int.Parse(row);
-            int tCol = int.Parse(column);
 
-            string temp = projectFile.Content;
-            string result = "";
 
-            int toIndexFirst = 0;
-            if (tRow != 0)
-            {
-                toIndexFirst = IndexOfOccurence(temp, "\n", tRow) + 1;
-            }
-            result += temp.Substring(0, toIndexFirst + tCol);
-            result += value;
-            result += temp.Substring(toIndexFirst + tCol);
-
-            projectFile.Content = result;
+            projectFile.Content = InsertIntoStringAt(projectFile.Content, value, row, column);
 
             var db = new ApplicationDbContext();
             var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
@@ -104,35 +91,15 @@ namespace VLN2.Hubs
             Clients.OthersInGroup(projectFileLobbyName).insertCode(row, column, value);
         }
 
-        public void RemoveCode(int projectID, int projectFileID, string row, string column, string endrow, string endcolumn)
+        public void RemoveCode(int projectID, int projectFileID, int row, int column, int endrow, int endcolumn)
         {
             string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
 
             // Modify ProjectFileSession
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
-            string result = "";
-            int tRow = int.Parse(row);
-            int tCol = int.Parse(column);
-            int tEndCol = int.Parse(endcolumn);
-            int tEndRow = int.Parse(endrow);
 
-            string temp = projectFile.Content;
-            int toIndexFirst = 0;
-            if (tRow != 0)
-            {
-                toIndexFirst = IndexOfOccurence(temp, "\n", tRow) + 1;
-            }
-            result += temp.Substring(0, toIndexFirst  + tCol);
 
-            int fromIndex = 0;
-            if (tEndRow != 0)
-            {
-                fromIndex = IndexOfOccurence(temp, "\n", tEndRow) + 1;
-            }
-
-            result += temp.Substring(fromIndex + tEndCol);
-
-            projectFile.Content = result;
+            projectFile.Content = RemoveFromTo(projectFile.Content, row, column, endrow, endcolumn);
             var db = new ApplicationDbContext();
             var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
             file.Content = projectFile.Content;
@@ -149,6 +116,44 @@ namespace VLN2.Hubs
         public void RemoveFile(string lobbyName, string filename)
         {
             Clients.Group(lobbyName).fileRemoved(filename);
+        }
+
+        private string RemoveFromTo(string original, int rowStart, int columnStart, int rowEnd, int columnEnd)
+        {
+            string result = "";
+
+            int toIndexFirst = 0;
+            if (rowStart != 0)
+            {
+                toIndexFirst = IndexOfOccurence(original, "\n", rowStart) + 1;
+            }
+            result += original.Substring(0, toIndexFirst + columnStart);
+
+            int fromIndex = 0;
+            if (rowEnd != 0)
+            {
+                fromIndex = IndexOfOccurence(original, "\n", rowEnd) + 1;
+            }
+
+            result += original.Substring(fromIndex + columnEnd);
+
+            return result;
+        }
+
+        private string InsertIntoStringAt(string original, string value, int row, int column)
+        {
+            string result = "";
+
+            int toIndexFirst = 0;
+            if (row != 0)
+            {
+                toIndexFirst = IndexOfOccurence(original, "\n", row) + 1;
+            }
+            result += original.Substring(0, toIndexFirst + column);
+            result += value;
+            result += original.Substring(toIndexFirst + column);
+
+            return result;
         }
 
         private int IndexOfOccurence(string s, string match, int occurence)
