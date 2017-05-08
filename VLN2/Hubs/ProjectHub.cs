@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
 using VLN2.Models;
@@ -80,12 +81,12 @@ namespace VLN2.Hubs
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
 
             projectFile.Content = InsertIntoStringAt(projectFile.Content, value, row, column);
-
+            /*
             var db = new ApplicationDbContext();
             var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
             file.Content = projectFile.Content;
-            db.SaveChanges();
-
+            await db.SaveChangesAsync();
+            */
             Clients.OthersInGroup(projectFileLobbyName).insertCode(row, column, value);
         }
 
@@ -97,12 +98,12 @@ namespace VLN2.Hubs
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
 
             projectFile.Content = RemoveFromTo(projectFile.Content, row, column, endrow, endcolumn);
-
+            /*
             var db = new ApplicationDbContext();
             var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
             file.Content = projectFile.Content;
             db.SaveChanges();
-
+            */
             Clients.OthersInGroup(projectFileLobbyName).removeCode(row, column, endrow, endcolumn);
         }
 
@@ -147,9 +148,17 @@ namespace VLN2.Hubs
             {
                 toIndexFirst = IndexOfOccurence(original, "\n", row) + 1;
             }
-            result += original.Substring(0, toIndexFirst + column);
-            result += value;
-            result += original.Substring(toIndexFirst + column);
+            int ind = toIndexFirst + column;
+            if (ind != 0 && toIndexFirst + column > original.Length-1)
+            {
+                result += original + value;
+            }
+            else
+            {
+                result += original.Substring(0, ind);
+                result += value;
+                result += original.Substring(ind);
+            }
 
             return result;
         }
