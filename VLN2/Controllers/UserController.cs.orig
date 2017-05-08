@@ -23,8 +23,13 @@ namespace VLN2.Controllers
             string name = User.Identity.GetUserName();
             string description = User.Identity.GetDescription();
 
+<<<<<<< HEAD
+            var model = new UserViewModel(_service.GetIdByUsername(name).Displayname, name);
+            return View();
+=======
             var model = new UserViewModel(name, description);
             return View(model);
+>>>>>>> 5c303f568ab07559dc07a883e09d2cfd1220e19a
         }
 
         // POST: User

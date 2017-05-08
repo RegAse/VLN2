@@ -19,11 +19,13 @@ namespace VLN2.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             userIdentity.AddClaim(new Claim("Displayname", this.Displayname.ToString()));
+            //userIdentity.AddClaim(new Claim("Description", this.Description.ToString()));
 
             return userIdentity;
         }
 
         public string Displayname { get; set; }
+        public string Description { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, CustomRole,
