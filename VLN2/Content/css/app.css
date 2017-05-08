@@ -121,9 +121,14 @@ body {
 .sidebar-info .project-files ul li {
   padding-left: 20px;
 }
+.sidebar-info .project-files ul li:hover {
+  cursor: default;
+  color: orangered;
+}
 .sidebar-info .project-files .selected-file {
   color: #aaa;
   background-color: #474747;
+  border-left: 2px solid red;
 }
 .sidebar-info .project-conversation {
   width: 100%;
