@@ -120,7 +120,7 @@ html, body{
     }
     .project-files{
         h5{
-            color: #ff3f00;
+            color: @files-header-color;
             font-weight: bold;
             padding-left: 10px;
             margin-bottom: 4px;
@@ -133,13 +133,13 @@ html, body{
             }
             li:hover{
                 cursor: default;
-                color: orangered;
+                color: @file-hover-color;
             }
         }
         .selected-file{
-            color: #aaa;
+            color: @file-selected-file-color;
             background-color: #474747;
-            border-left: 2px solid red;
+            border-left: 2px solid @file-selected-file-left-border-color;
         }
     }
     .project-conversation{

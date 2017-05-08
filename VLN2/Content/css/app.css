@@ -3,6 +3,7 @@
     variables.less
     Define all variables here
 */
+/* Project Page */
 body {
   padding-top: 50px;
   padding-bottom: 20px;
@@ -126,7 +127,7 @@ body {
   color: orangered;
 }
 .sidebar-info .project-files .selected-file {
-  color: #aaa;
+  color: #cfcfcf;
   background-color: #474747;
   border-left: 2px solid red;
 }
