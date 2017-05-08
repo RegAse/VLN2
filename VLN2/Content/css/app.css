@@ -170,3 +170,8 @@ body {
 #createfile {
   display: none;
 }
+@media (max-width: 600px) {
+  .sidebar-info {
+    width: 200px;
+  }
+}
