@@ -21,9 +21,10 @@ namespace VLN2.Controllers
                 // Throw 404 exception
             }
             string name = User.Identity.GetUserName();
+            string description = User.Identity.GetDescription();
 
-            var model = new UserViewModel(_service.GetIdByUsername(), name);
-            return View();
+            var model = new UserViewModel(name, description);
+            return View(model);
         }
 
         // POST: User

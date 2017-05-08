@@ -15,5 +15,11 @@ namespace VLN2.Extensions
             // Test for null to avoid issues during local testing
             return (claim != null) ? claim.Value : string.Empty;
         }
+        public static string GetDescription(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("Description");
+            // Test for null to avoid issues during local testing
+            return (claim != null) ? claim.Value : string.Empty;
+        }
     }
 }

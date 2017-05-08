@@ -18,7 +18,6 @@ namespace VLN2.ViewModels
             Displayname = displayname;
 
             Description = description;
-
         }
     }
 }
