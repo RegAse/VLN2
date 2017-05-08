@@ -22,7 +22,7 @@ namespace VLN2.Controllers
             }
             string name = User.Identity.GetUserName();
 
-            var model = new UserViewModel(_service.GetIdByUsername(), name);
+            var model = new UserViewModel(_service.GetIdByUsername(name).Displayname, name);
             return View();
         }
 
