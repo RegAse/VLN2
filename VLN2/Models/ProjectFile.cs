@@ -10,6 +10,7 @@ namespace VLN2.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
+        public bool IsFolder { get; set; }
 
         public virtual Project Project { get; set; }
     }

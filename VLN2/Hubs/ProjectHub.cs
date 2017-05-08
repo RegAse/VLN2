@@ -109,7 +109,19 @@ namespace VLN2.Hubs
 
         public void AddFile(string lobbyName, string filename)
         {
-            Clients.Group(lobbyName).newFileAdded(filename);
+            int projectID = int.Parse(lobbyName);
+            // Create the file
+
+            var projectFile = new ProjectFile();
+            projectFile.Name = filename;
+            projectFile.Content = "Something.";
+
+            var db = new ApplicationDbContext();
+            var project = db.Projects.Single(x => x.ID == projectID);
+            project.ProjectFiles.Add(projectFile);
+            db.SaveChanges();
+
+            Clients.Group(lobbyName).newFileAdded(projectFile.ID, filename);
         }
 
         public void RemoveFile(string lobbyName, string filename)

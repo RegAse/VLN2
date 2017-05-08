@@ -80,8 +80,8 @@ ProjectSession.prototype = {
             editor.session.remove({ "start": { "row": row, "column": column }, "end": { "row": endrow, "column": endcolumn } });
         }
 
-        chat.client.newFileAdded = function (filename){
-            $('#files').append('<li><strong>' + htmlEncode(filename) + '</li>');
+        chat.client.newFileAdded = function (projectFileID, filename){
+            $('#files').append('<li class="file" data-fileid="' + projectFileID + '"><strong>' + htmlEncode(filename) + '</li>');
         }
 
         chat.client.openFile = function (projectFile) {
@@ -112,12 +112,19 @@ ProjectSession.prototype = {
                 return false
             });
 
-            $(".file").click(function () {
+            $("#files").on("click", "li", function () {
+
+                $(".selected-file").removeClass("selected-file");
+                $(this).addClass("selected-file");
                 chat.server.requestFile(lobbyName, $(this).data("fileid"));
             });
 
-            $("#createfile").submit(function (){
-                chat.server.addFile(lobbyName, $("#newfile").val());
+            $("#createfile").submit(function () {
+                var val = $("#newfile").val();
+                $("#newfile").val('');
+
+                $(this).hide();
+                chat.server.addFile(lobbyName, val);
 
                 return false;
             });

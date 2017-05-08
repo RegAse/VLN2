@@ -11,6 +11,7 @@
         </div>
 
         <div class="project-files">
+            <h5>FILES</h5>
             <ul id="files">
                 @foreach (var file in Model.Project.ProjectFiles)
                 {
@@ -24,7 +25,7 @@
             <div class="action-add-file">
                 <span class="glyphicon glyphicon-plus"></span>
             </div>
-            <form class="form-inline" id="createfile" style="visibility:hidden;">
+            <form class="form-inline" id="createfile">
                 <input id="newfile" type="text" placeholder="filename" class="form-control"/>
                 <button class="btn btn-flat" type="submit">
                     <span class="glyphicon glyphicon-plus"></span>

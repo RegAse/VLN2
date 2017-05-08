@@ -20,8 +20,9 @@ $(document).mouseup(function (e) {
         dragging = false;
     }
 });
-
-$(".action-add-file").click(function () {
-    console.log("Eyh");
-    $("#createfile").css("visibility", "visible");
+$(document).ready(function () {
+    $(".action-add-file").click(function () {
+        console.log("Eyh");
+        $("#createfile").toggle();
+    });
 });
