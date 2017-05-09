@@ -13,5 +13,7 @@ namespace VLN2.Models
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public virtual ICollection<ProjectFile> ProjectFiles { get; set; }
+
+        public virtual ICollection<UserHasProject> UserHasProjects { get; set; }
     }
 }
