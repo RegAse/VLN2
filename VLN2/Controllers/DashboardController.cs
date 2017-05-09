@@ -16,11 +16,26 @@ namespace VLN2.Controllers
         private ProjectsService _service = new ProjectsService();
 
         // GET: Dashboard
+        [HttpGet]
         public ActionResult Index()
         {
             int userID = User.Identity.GetUserId<int>();
             var projects = _service.GetProjectsByUserID(userID);
             var model = new DashboardViewModel(userID, projects);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(FormCollection Form)
+        {
+            string ProjectName = Form["projectName"].ToString();
+            string Description = Form["description"].ToString();
+            string Filename = Form["fileName"].ToString();
+            
+            int userID = User.Identity.GetUserId<int>();
+            var projects = _service.GetProjectsByUserID(userID);
+            var model = new DashboardViewModel(userID, projects);
+            
             return View(model);
         }
     }
