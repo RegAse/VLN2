@@ -20,8 +20,8 @@ namespace VLN2.Controllers
             {
                 // Throw 404 exception
             }
-            string name = User.Identity.GetUserName();
-            string description = User.Identity.GetDescription();
+            string name = _service.GetIdByUsername(username).Displayname;
+            string description = _service.GetIdByUsername(username).Description;
 
             var model = new UserViewModel(name, description);
             return View(model);

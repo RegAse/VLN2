@@ -18,6 +18,12 @@ namespace VLN2
             );
 
             routes.MapRoute(
+                name: "User",
+                url: "User/{username}",
+                defaults: new { controller = "User", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
