@@ -18,7 +18,7 @@ namespace VLN2.Controllers
         {
             if (username == null)
             {
-                // Throw 404 exception
+                return HttpNotFound();
             }
             string name = _service.GetIdByUsername(username).Displayname;
             string description = _service.GetIdByUsername(username).Description;

@@ -21,7 +21,7 @@ namespace VLN2.Services
 
             if (user == null)
             {
-                // Throw Not Found
+                return null;
             }
 
             return user;
