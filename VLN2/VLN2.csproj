@@ -564,6 +564,7 @@
     <Content Include="Views\Project\index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\InternalError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

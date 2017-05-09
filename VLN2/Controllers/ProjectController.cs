@@ -21,7 +21,7 @@ namespace VLN2.Controllers
         {
             if (id == null)
             {
-                throw new HttpException(404, "Not found");
+                return HttpNotFound();
             }
 
             //ApplicationDbContext appDb = new ApplicationDbContext();
