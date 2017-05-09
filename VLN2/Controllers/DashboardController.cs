@@ -31,6 +31,11 @@ namespace VLN2.Controllers
             string ProjectName = Form["projectName"].ToString();
             string Description = Form["description"].ToString();
             string Filename = Form["fileName"].ToString();
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            Project TheProject = new Project {Name = ProjectName, Description = Description};
+            db.Projects.Add(TheProject);
+            db.SaveChanges();
             
             int userID = User.Identity.GetUserId<int>();
             var projects = _service.GetProjectsByUserID(userID);
