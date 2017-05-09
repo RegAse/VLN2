@@ -19,20 +19,15 @@ namespace VLN2.Controllers
         // GET: Project
         public ActionResult Index(int ?id)
         {
-            if (id == null)
+            Project project = _service.GetProjectByID((int)id);
+            if (id == null || project == null)
             {
                 return HttpNotFound();
             }
 
-            //ApplicationDbContext appDb = new ApplicationDbContext();
-            //int user = User.Identity.GetUserId<int>();
-            //string name = appDb.Users.Single(x => x.Id == user).Displayname;
-
             string name = User.Identity.GetDisplayname();
 
-            //int user = User.Identity.GetUserId<int>();
-            //var model = new ProjectViewModel(_service.GetProjectsByUserID(user).Single(), name);
-            var model = new ProjectViewModel(_service.GetProjectByID((int)id), name);
+            var model = new ProjectViewModel(project, name);
 
             return View(model);
         }
