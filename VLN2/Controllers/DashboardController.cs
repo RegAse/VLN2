@@ -45,7 +45,9 @@ namespace VLN2.Controllers
             var project = db.Projects.Single(x => x.ID == TheProject.ID);
             var user = db.Users.Single(x => x.Id == userID);
 
-            user.Projects.Add(project);
+            UserHasProject userHasProject = new UserHasProject { UserID = user.Id, ProjectID = project.ID, ProjectRoleID = 1};
+
+            
 
             db.SaveChanges();
             
