@@ -79,6 +79,9 @@ table {
   background-color: #4d4d4d;
   color: gray;
 }
+.btn-flat-extra {
+  background-color: #4e4e4e;
+}
 .sidebar-project-newfile {
   position: absolute;
   bottom: 0;

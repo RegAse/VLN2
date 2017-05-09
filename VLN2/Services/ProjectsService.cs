@@ -20,11 +20,6 @@ namespace VLN2.Services
         {
             var project = _db.Projects.SingleOrDefault(x => x.ID == projectID);
 
-            if (project == null)
-            {
-                // Throw Not Found
-            }
-
             return project;
         }
 
