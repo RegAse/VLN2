@@ -25,7 +25,7 @@ namespace VLN2.Services
 
         public IEnumerable<Project> GetProjectsByUserID(int userID)
         {
-            IEnumerable<Project> Projects = _db.Users.Single(x => x.Id == userID).Projects;
+            IEnumerable<Project> Projects = _db.Users.Single(x => x.Id == userID).UserHasProjects.Select(pr => pr.Project);
 
             return Projects;
         }

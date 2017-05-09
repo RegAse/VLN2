@@ -12,7 +12,7 @@ namespace VLN2.Models
     CustomUserClaim>
     {
         public virtual ICollection<Project> Projects { get; set; }
-        //public virtual ICollection<UserHasProject> UserHasProjects { get; set; }
+        public virtual ICollection<UserHasProject> UserHasProjects { get; set; }
 
         // Followers
         public virtual ICollection<ApplicationUser> Following { get; set; }
@@ -37,7 +37,7 @@ namespace VLN2.Models
     int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         public DbSet<Project> Projects { get; set; }
-        //public virtual ICollection<UserHasProject> UserHasProject { get; set; }
+        public DbSet<UserHasProject> UserHasProject { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection")
@@ -65,16 +65,6 @@ namespace VLN2.Models
 
             modelBuilder.Entity<CustomUserLogin>().ToTable("UserLogins").Property(p => p.UserId).HasColumnName("UserID");
 
-            modelBuilder.Entity<ApplicationUser>()
-				 .HasMany(u => u.Projects)
-				 .WithMany(l => l.ApplicationUsers)
-				 .Map(ul =>
-				 {
-					 ul.MapLeftKey("UserID");
-					 ul.MapRightKey("ProjectID");
-					 ul.ToTable("UserHasProject");
-				 });
-
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.Followers).WithMany(y => y.Following).Map(z =>
             {
                 z.ToTable("Followers");
@@ -87,10 +77,10 @@ namespace VLN2.Models
                 z.MapKey("ProjectID");
             });
 
-            // UserHasProject
+            // UserHasProjects
 
             // Bind with user
-            /*modelBuilder.Entity<UserHasProject>()
+            modelBuilder.Entity<UserHasProject>()
                 .HasRequired(x => x.ApplicationUser)
                 .WithMany(y => y.UserHasProjects)
                 .HasForeignKey(z => z.UserID);
@@ -100,27 +90,12 @@ namespace VLN2.Models
                 .HasRequired(x => x.Project)
                 .WithMany(y => y.UserHasProjects)
                 .HasForeignKey(z => z.ProjectID);
-                */
-            // Followers 
-            /*modelBuilder.Entity<Follower>().HasRequired(x => x.Followed).WithMany(y => y.Followers).Map(z =>
-            {
-                z.MapKey("ProjectID");
-            });*/
-            /*modelBuilder.Entity<Follower>().HasKey(x => new
-            {
-                x.UserFollowID, x.UserID
-            });
-            modelBuilder.Entity<Follower>()
-                .HasRequired(x => x.Followed)
-                .WithMany(y => y.Followers)
-                .HasForeignKey(t => t.UserFollowID);
-            modelBuilder.Entity<Follower>()
-                .HasRequired(x => x.User)
-                .WithMany(y => y.Followers)
-                .HasForeignKey(t => t.UserID);*/
-            /*modelBuilder.Entity<Follower>()
-                .HasRequired(x => x.User)
-                .WithMany(y => y.Followers);*/
+
+            // Bind with project roles
+            modelBuilder.Entity<UserHasProject>()
+                .HasRequired(x => x.ProjectRole)
+                .WithMany(y => y.UserHasProjects)
+                .HasForeignKey(z => z.ProjectRoleID);
         }
     }
 

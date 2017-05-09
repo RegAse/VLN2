@@ -37,28 +37,20 @@ namespace VLN2.Controllers
             string Filename = Form["fileName"].ToString();
 
             ApplicationDbContext db = new ApplicationDbContext();
-            Project TheProject = new Project {Name = ProjectName, Description = Description};
+            Project project = new Project {Name = ProjectName, Description = Description};
 
-            db.Projects.Add(TheProject);
-            db.SaveChanges();
-
-            //Fix
-            var project = db.Projects.Single(x => x.ID == TheProject.ID);
+            db.Projects.Add(project);
             var user = db.Users.Single(x => x.Id == userID);
 
             var projectFile = new ProjectFile();
 
             projectFile.Name = Filename;
             projectFile.Content = "";
-            projectFile.IsFolder = false;
 
-            System.Diagnostics.Debug.WriteLine(projectFile.Name);
+            project.ProjectFiles.Add(projectFile);
 
-            //project.ProjectFiles.Add(projectFile);
-
-            //UserHasProject userHasProject = new UserHasProject { ApplicationUser = user, Project = project, ProjectRoleID = 1 };
-            //db.UserHasProject.Add(userHasProject);
-            //UserHasProject userHasProject = new UserHasProject { UserID = user.Id, ProjectID = project.ID, ProjectRoleID = 1};
+            UserHasProject userHasProject = new UserHasProject { ApplicationUser = user, Project = project, ProjectRoleID = 1 };
+            db.UserHasProject.Add(userHasProject);
 
             db.SaveChanges();
             
