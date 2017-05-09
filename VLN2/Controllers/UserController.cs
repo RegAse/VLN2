@@ -16,10 +16,13 @@ namespace VLN2.Controllers
         // GET: User
         public ActionResult Index(string username)
         {
-            if (username == null)
+            //Check if the user is empty
+            var user = _service.GetIdByUsername(username);
+            if (user == null)
             {
                 return HttpNotFound();
             }
+            //Get data for the viewModel and put into the var model
             string name = _service.GetIdByUsername(username).Displayname;
             string description = _service.GetIdByUsername(username).Description;
 
