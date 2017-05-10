@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using VLN2.Services;
+using VLN2.Models;
 using VLN2.ViewModels;
 using VLN2.Extensions;
 
@@ -24,13 +25,23 @@ namespace VLN2.Controllers
             }
             //Get data for the viewModel and put into the var model
             string name = _service.GetIdByUsername(username).Displayname;
+
             string description = _service.GetIdByUsername(username).Description;
 
-            var model = new UserViewModel(name, description);
+            string userName = _service.GetIdByUsername(username).UserName;
+
+            ICollection<ApplicationUser> following = _service.GetFollowingByUsername(username);
+
+            ICollection<ApplicationUser> followers = _service.GetFollowersByUsername(username);
+
+            var model = new UserViewModel(name, description, userName, followers, following);
             return View(model);
         }
 
-        // POST: User
+        public ActionResult AddFollower(FormCollection collection)
+        {
+            return null;
+        }
 
     }
 }

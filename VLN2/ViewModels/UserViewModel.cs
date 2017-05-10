@@ -13,11 +13,23 @@ namespace VLN2.ViewModels
 
         public string Description { get; set; }
 
-        public UserViewModel(string displayname, string description)
+        public string Username { get; set; }
+
+        public ICollection<ApplicationUser> Followers { get; set; }
+
+        public ICollection<ApplicationUser> Following { get; set; }
+
+        public UserViewModel(string displayname, string description, string username, ICollection<ApplicationUser> followers, ICollection<ApplicationUser> following)
         {
             Displayname = displayname;
 
             Description = description;
+
+            Username = Username;
+
+            Followers = followers;
+
+            Following = following;
         }
     }
 }

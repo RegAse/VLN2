@@ -1,4 +1,5 @@
-﻿@using VLN2.Extensions
+﻿@using Microsoft.AspNet.Identity
+@using VLN2.Extensions
 @model VLN2.ViewModels.UserViewModel
 @{
     ViewBag.Title = Model.Displayname;
@@ -14,6 +15,46 @@
     <div class="col-lg-9">
         <p class="h4"> @Model.Displayname </p><br/>
         @Model.Description
+    </div>
+</div>
+@if (User.Identity.GetUserName() != Model.Username)
+{
+    <p>@User.Identity.GetUserName()<br/></p>
+    <p>@Model.Username</p>
+    Html.BeginForm("AddFollower", "User", new { ReturnUrl = ViewBag.ReturnUrl },
+                        FormMethod.Post, new { @id = "addfollower" });
+    {
+        <input type="hidden" name="userName" value="@Model.Username" />
+                <div class="form-horizontal">
+                    <button id="addfollower" type="submit" class="btn btn-primary">Follow</button>
+                </div>
+                @Html.ValidationSummary(false)
+    }
+}
+<div class="row white-color">
+    <div class="col-lg-3">
+        <h4>Followers</h4>
+        <ul>
+            @foreach (var file in Model.Followers)
+            {
+                <li class="file" data-fileid="@file.UserName">
+                    @file.UserName
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<div class="row white-color">
+    <div class="col-lg-3">
+        <h4>Following</h4>
+        <ul>
+            @foreach (var file in Model.Following)
+            {
+                <li class="file" data-fileid="@file.UserName">
+                    @file.UserName
+                </li>
+            }
+        </ul>
     </div>
 </div>
 
