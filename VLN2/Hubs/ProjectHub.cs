@@ -9,13 +9,6 @@ using VLN2.Services;
 
 namespace VLN2.Hubs
 {
-    public class ProjectHubHelper
-    {
-        public static string GetLobbyName(int ProjectID, int ProjectFileID)
-        {
-            return ProjectID + "-" + ProjectFileID;
-        }
-    }
 
     public class ProjectSession
     {
@@ -73,6 +66,26 @@ namespace VLN2.Hubs
             Clients.Caller.openFile(data);
         }
 
+        public void FileChanged(int projectID, int projectFileID, string obj)
+        {
+            string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
+            Clients.OthersInGroup(projectFileLobbyName).fileChanged(obj);
+        }
+
+        public void SaveFile(int projectID, int projectFileID, string obj)
+        {
+            string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
+            var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
+
+            var db = new ApplicationDbContext();
+            var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
+            projectFile.Content = obj; // Start by setting the session value so the server doesn't need to wait for the database to reply
+            file.Content = obj;
+            db.SaveChanges();
+
+            Clients.Caller.changesSaved();
+        }
+
         public void InsertCode(int projectID, int projectFileID, int row, int column, string value)
         {
             string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
@@ -80,7 +93,7 @@ namespace VLN2.Hubs
             // Modify ProjectFileSession
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
 
-            projectFile.Content = InsertIntoStringAt(projectFile.Content, value, row, column);
+            projectFile.Content = ProjectHubHelper.InsertIntoStringAt(projectFile.Content, value, row, column);
             /*
             var db = new ApplicationDbContext();
             var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
@@ -97,7 +110,7 @@ namespace VLN2.Hubs
             // Modify ProjectFileSession
             var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
 
-            projectFile.Content = RemoveFromTo(projectFile.Content, row, column, endrow, endcolumn);
+            projectFile.Content = ProjectHubHelper.RemoveFromTo(projectFile.Content, row, column, endrow, endcolumn);
             /*
             var db = new ApplicationDbContext();
             var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
@@ -136,69 +149,6 @@ namespace VLN2.Hubs
             db.SaveChanges();
 
             Clients.Group(lobbyName).fileRemoved(fileID);
-        }
-
-        private string RemoveFromTo(string original, int rowStart, int columnStart, int rowEnd, int columnEnd)
-        {
-            string result = "";
-
-            int toIndexFirst = 0;
-            if (rowStart != 0)
-            {
-                toIndexFirst = IndexOfOccurence(original, "\n", rowStart) + 1;
-            }
-            result += original.Substring(0, toIndexFirst + columnStart);
-
-            int fromIndex = 0;
-            if (rowEnd != 0)
-            {
-                fromIndex = IndexOfOccurence(original, "\n", rowEnd) + 1;
-            }
-
-            result += original.Substring(fromIndex + columnEnd);
-
-            return result;
-        }
-
-        private string InsertIntoStringAt(string original, string value, int row, int column)
-        {
-            string result = "";
-
-            int toIndexFirst = 0;
-            if (row != 0)
-            {
-                toIndexFirst = IndexOfOccurence(original, "\n", row) + 1;
-            }
-            int ind = toIndexFirst + column;
-            if (ind != 0 && toIndexFirst + column > original.Length-1)
-            {
-                result += original + value;
-            }
-            else
-            {
-                result += original.Substring(0, ind);
-                result += value;
-                result += original.Substring(ind);
-            }
-
-            return result;
-        }
-
-        private int IndexOfOccurence(string s, string match, int occurence)
-        {
-            int i = 1, index = 0;
-
-            while (i <= occurence && (index = s.IndexOf(match, index + 1)) != -1)
-            {
-                if (i == occurence)
-                {
-                    return index;
-                }
-
-                i++;
-            }
-
-            return -1;
         }
 
     }

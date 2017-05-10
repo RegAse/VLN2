@@ -107,18 +107,18 @@ body {
   color: white;
   background-color: #323232;
 }
+.sidebar-info h5 {
+  color: #ff3f00;
+  font-weight: bold;
+  padding-left: 10px;
+  margin-bottom: 4px;
+}
 .sidebar-info .project-info {
   width: 100%;
   background-color: #3B3B3B;
 }
 .sidebar-info .project-info .project-title {
   text-align: center;
-}
-.sidebar-info .project-files h5 {
-  color: #ff3f00;
-  font-weight: bold;
-  padding-left: 10px;
-  margin-bottom: 4px;
 }
 .sidebar-info .project-files ul {
   list-style: none;
