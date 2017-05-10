@@ -88,8 +88,6 @@ ProjectSession.prototype = {
 
         context.projectHub.client.fileChanged = function (obj) {
             context.silent = true;
-            console.log("File Change: " + obj);
-            console.log(obj);
             context.editor.getSession().getDocument().applyDelta(JSON.parse(obj));
             context.silent = false;
         }

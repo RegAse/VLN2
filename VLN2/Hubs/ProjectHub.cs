@@ -86,40 +86,6 @@ namespace VLN2.Hubs
             Clients.Caller.changesSaved();
         }
 
-        public void InsertCode(int projectID, int projectFileID, int row, int column, string value)
-        {
-            string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
-
-            // Modify ProjectFileSession
-            var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
-
-            projectFile.Content = ProjectHubHelper.InsertIntoStringAt(projectFile.Content, value, row, column);
-            /*
-            var db = new ApplicationDbContext();
-            var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
-            file.Content = projectFile.Content;
-            await db.SaveChangesAsync();
-            */
-            Clients.OthersInGroup(projectFileLobbyName).insertCode(row, column, value);
-        }
-
-        public void RemoveCode(int projectID, int projectFileID, int row, int column, int endrow, int endcolumn)
-        {
-            string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
-
-            // Modify ProjectFileSession
-            var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
-
-            projectFile.Content = ProjectHubHelper.RemoveFromTo(projectFile.Content, row, column, endrow, endcolumn);
-            /*
-            var db = new ApplicationDbContext();
-            var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
-            file.Content = projectFile.Content;
-            db.SaveChanges();
-            */
-            Clients.OthersInGroup(projectFileLobbyName).removeCode(row, column, endrow, endcolumn);
-        }
-
         public void AddFile(string lobbyName, string filename)
         {
             int projectID = int.Parse(lobbyName);
