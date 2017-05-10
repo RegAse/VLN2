@@ -16,7 +16,7 @@
                 @foreach (var file in Model.Project.ProjectFiles)
                 {
                     <li class="file" data-fileid="@file.ID">
-                        @file.Name
+                        @file.Name <span class="glyphicon glyphicon-trash"></span>
                     </li>
                 }
             </ul>

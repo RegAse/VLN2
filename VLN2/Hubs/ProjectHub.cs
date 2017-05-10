@@ -124,9 +124,18 @@ namespace VLN2.Hubs
             Clients.Group(lobbyName).newFileAdded(projectFile.ID, filename);
         }
 
-        public void RemoveFile(string lobbyName, string filename)
+        public void RemoveFile(string lobbyName, string fileID)
         {
-            Clients.Group(lobbyName).fileRemoved(filename);
+            var db = new ApplicationDbContext();
+            int projectID = int.Parse(lobbyName);
+            int projectFileID = int.Parse(fileID);
+
+            var project = db.Projects.Single(x => x.ID == projectID);
+            var projectFile = project.ProjectFiles.Single(x => x.ID == projectFileID);
+            db.ProjectFiles.Remove(projectFile);
+            db.SaveChanges();
+
+            Clients.Group(lobbyName).fileRemoved(fileID);
         }
 
         private string RemoveFromTo(string original, int rowStart, int columnStart, int rowEnd, int columnEnd)

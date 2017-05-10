@@ -84,6 +84,10 @@ ProjectSession.prototype = {
             $('#files').append('<li class="file" data-fileid="' + projectFileID + '"><strong>' + htmlEncode(filename) + '</li>');
         }
 
+        chat.client.fileRemoved = function (fileID) {
+            $("#files").find('[data-fileid=' + fileID + ']').remove();
+        }
+
         chat.client.openFile = function (projectFile) {
             // Convert to object
             var data = JSON.parse(projectFile);
@@ -113,7 +117,7 @@ ProjectSession.prototype = {
             });
 
             $("#files").on("click", "li", function () {
-
+                console.log("Open");
                 $(".selected-file").removeClass("selected-file");
                 $(this).addClass("selected-file");
                 chat.server.requestFile(lobbyName, $(this).data("fileid"));
@@ -126,6 +130,13 @@ ProjectSession.prototype = {
                 $(this).hide();
                 chat.server.addFile(lobbyName, val);
 
+                return false;
+            });
+
+            $("#files").on("click", "li span", function () {
+                var file = $(this).parent().data("fileid");
+                console.log("Remove file: " + file);
+                chat.server.removeFile(lobbyName, file);
                 return false;
             });
 
