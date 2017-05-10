@@ -17,10 +17,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @* Gets all projects from user *@
                         @foreach (var project in Model.UserProjects)
                         {
                             <tr>
-                                <td>@project.Name</td>
+                                <td>@Html.ActionLink(project.Name, "Index", "Project", new { id = project.ID }, null)</td>
                                 <td>@project.Description</td>
                                 <td>@Html.ActionLink("Open Project", "Index", "Project", new { id = project.ID }, null)</td>
                             </tr>

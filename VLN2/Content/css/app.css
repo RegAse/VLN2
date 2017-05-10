@@ -53,11 +53,13 @@ body {
 .white-color {
   color: #eee;
 }
-a {
-  color: #0875c9;
+td a {
+  color: #eee;
+  display: block;
 }
 a:hover {
-  color: #0663aa;
+  color: orangered;
+  text-decoration: none;
 }
 table {
   background-color: #353535;
