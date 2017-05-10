@@ -136,6 +136,11 @@ ProjectSession.prototype = {
 
             $("#files").on("click", "li", function () {
                 console.log("Open");
+                // Send changes to server
+                if (!context.allChangesSentToServer) {
+                    context.save();
+                }
+
                 $(".selected-file").removeClass("selected-file");
                 $(this).addClass("selected-file");
                 context.projectHub.server.requestFile(context.lobbyName, $(this).data("fileid"));
@@ -169,13 +174,14 @@ ProjectSession.prototype = {
                 {
                     clearTimeout(context.timer);
                 }
-                context.timer = setTimeout(save, 3000);
-                function save() {
-                    $(".status-saved").html("Autsaving...");
-                    context.allChangesSentToServer = true;
-                    context.projectHub.server.saveFile(context.lobbyName, context.currentFileID, context.editor.getValue());
-                }
+                context.timer = setTimeout(context.save, 3000);
+                
             });
+            context.save = function(){
+                $(".status-saved").html("Autsaving...");
+                context.allChangesSentToServer = true;
+                context.projectHub.server.saveFile(context.lobbyName, context.currentFileID, context.editor.getValue());
+            }
         });
 
         function updateNumberOfConnectedUsers(){
