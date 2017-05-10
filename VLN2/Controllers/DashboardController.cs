@@ -29,8 +29,7 @@ namespace VLN2.Controllers
         public ActionResult Index(FormCollection Form)
         {
             int userID = User.Identity.GetUserId<int>();
-            var projects = _service.GetProjectsByUserID(userID);
-            var model = new DashboardViewModel(userID, projects);
+            
 
             string ProjectName = Form["projectName"].ToString();
             string Description = Form["description"].ToString();
@@ -53,7 +52,10 @@ namespace VLN2.Controllers
             db.UserHasProject.Add(userHasProject);
 
             db.SaveChanges();
-            
+
+            var projects = _service.GetProjectsByUserID(userID);
+            var model = new DashboardViewModel(userID, projects);
+
             return View(model);
         }
     }
