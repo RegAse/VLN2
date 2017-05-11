@@ -42,7 +42,7 @@ namespace VLN2.Controllers
         public ActionResult AddFollower(string username, FormCollection collection)
         {
             int followerId = Convert.ToInt32(collection["userId"]);
-            _service.AddFollower(followerId);
+            _service.AddFollower(Convert.ToInt32(User.Identity.GetUserId()),followerId);
             return Index(username);
         }
     }
