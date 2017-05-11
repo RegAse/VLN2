@@ -9,6 +9,9 @@ using VLN2.Models;
 using VLN2.Services;
 using VLN2.ViewModels;
 using VLN2.Extensions;
+using Ionic.Zip;
+using System.Text;
+using System.IO;
 
 namespace VLN2.Controllers
 {
@@ -27,8 +30,12 @@ namespace VLN2.Controllers
                 return null;
             }
 
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
             Project project = _service.GetProjectByID((int)id);
-            if (id == null || project == null)
+            if (project == null)
             {
                 return HttpNotFound();
             }
@@ -38,6 +45,39 @@ namespace VLN2.Controllers
             var model = new ProjectViewModel(project, name);
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult DownloadZip(int id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+            ZipFile zipFile = new ZipFile();
+
+            List<string> files = new List<string>();
+            files.Add("File1");
+            foreach (string str in files)
+            {
+                // convert string to stream
+                byte[] byteArray = Encoding.UTF8.GetBytes(str);
+                MemoryStream stream = new MemoryStream(byteArray);
+
+                stream.Seek(0, SeekOrigin.Begin);
+
+                //add the string into zip file with a name
+                zipFile.AddEntry("test.txt", byteArray);
+            }
+
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.AppendHeader("content-disposition", "attachment; filename=strings.zip");
+
+            zipFile.Save(Response.OutputStream);
+            zipFile.Dispose();
+            
+            return null;
         }
 
         [HttpGet]
