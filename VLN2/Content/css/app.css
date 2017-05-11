@@ -65,6 +65,12 @@ table {
   background-color: #353535;
   border-radius: 0px;
 }
+.radio-hidden {
+  visibility: hidden;
+}
+.label-selected {
+  color: palevioletred;
+}
 .dashboard-projects {
   background-color: #353535;
   box-shadow: 6px 6px 2px #262626;
@@ -131,9 +137,15 @@ body {
 .sidebar-info .project-files ul li {
   padding-left: 20px;
 }
+.sidebar-info .project-files ul li span {
+  visibility: hidden;
+}
 .sidebar-info .project-files ul li:hover {
   cursor: default;
   color: orangered;
+}
+.sidebar-info .project-files ul li:hover span {
+  visibility: visible;
 }
 .sidebar-info .project-files .selected-file {
   color: #cfcfcf;
