@@ -141,7 +141,6 @@ body {
   height: 200px;
   background-color: #2C2C2C;
   position: absolute;
-  overflow: auto;
   bottom: 0;
 }
 .sidebar-info .project-conversation .project-conversation-input {
@@ -152,6 +151,8 @@ body {
 .sidebar-info .project-conversation .project-conversation-messages {
   list-style: none;
   padding: 2px 4px 2px 4px;
+  overflow: auto;
+  height: 150px;
 }
 .sidebar-info .project-conversation .project-conversation-messages li {
   border-bottom: 1px solid #4b4b4b;
