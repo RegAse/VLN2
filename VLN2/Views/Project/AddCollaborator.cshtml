@@ -1,0 +1,13 @@
+﻿@model VLN2.ViewModels.CollabaratorViewModel
+@{
+    ViewBag.Title = @Model.Project.Name;
+}
+
+<h2>AddCollaborator</h2>
+<ul>
+    @foreach(var user in Model.Following)
+    {
+        <li>@user.UserName</li>
+    }
+</ul>
+
