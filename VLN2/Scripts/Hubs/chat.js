@@ -44,10 +44,13 @@ ProjectSession.prototype = {
     setupProjectHub: function () {
         var context = this; //setup context to this
 
-        context.projectHub.client.joined = function (connectedUsersCount, users){
-            numberOfConnectedUsers = connectedUsersCount;
-            console.log(connectedUsersCount);
-            updateNumberOfConnectedUsers();
+        context.projectHub.client.joined = function (usersData) {
+            console.log("You are connected");
+            console.log(usersData);
+            var users = JSON.parse(usersData);
+            for (var i = 0; i < users.length; i++) {
+                context.addActiveUser(users[i].ConnectionID, users[i].DisplayName);
+            }
         }
 
         // Create a function that the hub can call back to display messages.
@@ -58,21 +61,22 @@ ProjectSession.prototype = {
         };
 
         // Gets called when a user joins the lobby
-        context.projectHub.client.userJoinedLobby = function (name){
-            numberOfConnectedUsers++;
-
-            updateNumberOfConnectedUsers();
+        context.projectHub.client.userJoinedLobby = function (id, name){
+            //updateNumberOfConnectedUsers();
+            $("#activeusers").append('<li data-userconnectionid="' + id + '">' + htmlEncode(name) + '</li>');
             $('#discussion').append('<li><strong>' + htmlEncode(name) + ' Joined the lobby </li>');
-            $('.sidebar-chat').scrollTop($('#sidebar-chat')[0].scrollHeight);
+            //$('.sidebar-chat').scrollTop($('#sidebar-chat')[0].scrollHeight);
         }
 
         // Gets called when a user leaves the lobby
-        context.projectHub.client.userLeftLobby = function (name){
-            numberOfConnectedUsers--;
+        context.projectHub.client.userLeftLobby = function (id, name){
+            //numberOfConnectedUsers--;
 
-            updateNumberOfConnectedUsers();
+            //updateNumberOfConnectedUsers();
+            console.log("Remove user with id: " + id);
+            $("#activeusers").find('[data-userconnectionid=' + id + ']').remove();
             $('#discussion').append('<li><strong>' + htmlEncode(name) + ' Left the lobby </li>');
-            $('.sidebar-chat').scrollTop($('.sidebar-chat')[0].scrollHeight);
+            //$('.sidebar-chat').scrollTop($('.sidebar-chat')[0].scrollHeight);
         }
 
         context.projectHub.client.changesSaved = function () {
@@ -103,6 +107,7 @@ ProjectSession.prototype = {
         }
 
         context.projectHub.client.openFile = function (projectFile) {
+            context.setupMarker();
             context.silent = true;
             // Convert to object
             var data = JSON.parse(projectFile);
@@ -110,9 +115,10 @@ ProjectSession.prototype = {
             // Set the code value to the newly opened file
             context.currentFileID = data.ID;
             context.currentFileName = data.Name;
-            context.editor.setValue(data.Content);
+            context.editor.setValue(data.Content, 1);
             $(".currently-opened-filename").html(context.currentFileName);
             context.silent = false;
+            context.editor.focus();
         }
 
         // Set initial focus to message input box.
@@ -133,7 +139,6 @@ ProjectSession.prototype = {
             });
 
             $("#files").on("click", "li", function () {
-                console.log("Open");
                 // Send changes to server
                 if (!context.allChangesSentToServer) {
                     context.save();
@@ -156,7 +161,6 @@ ProjectSession.prototype = {
 
             $("#files").on("click", "li span", function () {
                 var file = $(this).parent().data("fileid");
-                console.log("Remove file: " + file);
                 context.projectHubserver.removeFile(context.lobbyName, file);
                 return false;
             });
@@ -172,11 +176,11 @@ ProjectSession.prototype = {
                 {
                     clearTimeout(context.timer);
                 }
+                $(".status-saved").html("Autosaving...");
                 context.timer = setTimeout(context.save, 3000);
                 
             });
             context.save = function(){
-                $(".status-saved").html("Autsaving...");
                 context.allChangesSentToServer = true;
                 context.projectHub.server.saveFile(context.lobbyName, context.currentFileID, context.editor.getValue());
             }
@@ -185,6 +189,16 @@ ProjectSession.prototype = {
         function updateNumberOfConnectedUsers(){
             $("#number-of-users-connected").html("Users Connected: " + numberOfConnectedUsers);
         }
+    },
+    setupMarker: function () {
+        console.log("Setting markers");
+        var ra = ace.require('ace/range').Range;
+        var range = new ra(0, 0, 0, 10);
+        var marker = this.editor.getSession().addMarker(range, 'ace_myclass', 'text');
+        console.log(marker);
+    },
+    addActiveUser: function (id, name) {
+        $("#activeusers").append('<li data-userconnectionid="' + id + '">' + htmlEncode(name) + '</li>');
     }
 }
 

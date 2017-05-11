@@ -197,3 +197,9 @@ body {
   display: block;
   color: orange;
 }
+.ace_myclass {
+  color: red;
+  position: absolute;
+  border-left: 2px solid gold;
+  background-color: red;
+}

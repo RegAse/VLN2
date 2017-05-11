@@ -4,17 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.Identity;
+using VLN2.Extensions;
+using System.Web.Script.Serialization;
+using System.Web.Helpers;
 
 namespace VLN2.Hubs
 {
     public class ChatUser
     {
-        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Username { get; set; }
+        public string DisplayName { get; set; }
         public string ConnectionID { get; set; }
 
-        public ChatUser(string name, string connectionId)
+        public ChatUser(int id, string username, string displayName, string connectionId)
         {
-            Name = name;
+            ID = id;
+            Username = username;
+            DisplayName = displayName;
             ConnectionID = connectionId;
         }
     }
@@ -23,6 +31,9 @@ namespace VLN2.Hubs
     {
         public static Dictionary<string, string> LobbyNameByConnection = new Dictionary<string, string>();
         public static Dictionary<string, int> NumberOfConnectedUsersInLobby = new Dictionary<string, int>();
+
+        // List
+        public static Dictionary<string, List<ChatUser>> UserLobbies = new Dictionary<string, List<ChatUser>>();
 
         /// <summary>
         /// A user joined the lobby.
@@ -33,24 +44,33 @@ namespace VLN2.Hubs
         {
             await Groups.Add(Context.ConnectionId, lobbyName);
 
+            int id = Context.User.Identity.GetUserId<int>();
             string name = Context.User.Identity.Name;
+            string displayname = Context.User.Identity.GetDisplayname();
+            string connectionID = Context.ConnectionId;
 
-            if (NumberOfConnectedUsersInLobby.ContainsKey(lobbyName))
+            // Create the list of users if this is the first person to join the hub
+            if (!UserLobbies.ContainsKey(lobbyName))
             {
-                NumberOfConnectedUsersInLobby[lobbyName] += 1;
+                List<ChatUser> users = new List<ChatUser>();
+
+                UserLobbies.Add(lobbyName, users);
             }
-            else
-            {
-                NumberOfConnectedUsersInLobby[lobbyName] = 1;
-            }
+
+            ChatUser user = new ChatUser(id, name, displayname, connectionID);
+            
+            // Add user to lobby
+            UserLobbies[lobbyName].Add(user);
+
             // Add the connection to a dictionary to be able to find it later with connection id.
             LobbyNameByConnection.Add(Context.ConnectionId, lobbyName);
 
             // Let others know that someone joined
-            Clients.OthersInGroup(lobbyName).userJoinedLobby(name);
-            
+            Clients.OthersInGroup(lobbyName).userJoinedLobby(connectionID, displayname);
+
+            string usersData = Json.Encode(UserLobbies[lobbyName]);
             // Let the caller know now
-            Clients.Caller.joined(NumberOfConnectedUsersInLobby[lobbyName]);
+            Clients.Caller.joined(usersData);
         }
 
         /// <summary>
@@ -74,13 +94,24 @@ namespace VLN2.Hubs
 
         public override Task OnDisconnected(bool stopCalled)
         {
+            int id = Context.User.Identity.GetUserId<int>();
             string name = Context.User.Identity.Name;
 
+            // Make sure the connection actually belongs to some user inside a lobby
             if (LobbyNameByConnection.ContainsKey(Context.ConnectionId))
             {
                 string lobbyName = LobbyNameByConnection[Context.ConnectionId];
-                NumberOfConnectedUsersInLobby[lobbyName] -= 1;
-                Clients.Group(lobbyName).userLeftLobby(name);
+
+                // Remove the user from the lobby
+                if (UserLobbies.ContainsKey(lobbyName))
+                {
+                    ChatUser user = UserLobbies[lobbyName].Where(x => x.ConnectionID == Context.ConnectionId).First();
+                    string displayname = user.DisplayName;
+                    int userID = user.ID;
+                    UserLobbies[lobbyName].Remove(user);
+
+                    Clients.Group(lobbyName).userLeftLobby(Context.ConnectionId, displayname);
+                }
             }
 
             return base.OnDisconnected(stopCalled);
