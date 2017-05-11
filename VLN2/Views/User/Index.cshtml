@@ -36,7 +36,7 @@ else if (User.Identity.GetUserName() != Model.Username && Model.Followers.Where(
     {
         <input type="hidden" name="userId" value="@Model.UserId" />
         <div class="form-horizontal">
-            <button id="addfollower" type="submit" class="btn btn-primary">Unfollow</button>
+            <button id="removefollower" type="submit" class="btn btn-primary">Unfollow</button>
         </div>
                 @Html.ValidationSummary(false)
     }
