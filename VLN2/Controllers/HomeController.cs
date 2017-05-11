@@ -12,25 +12,12 @@ namespace VLN2.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult Chat(int ?id)
-        {
+            bool IfLoggedIn = User.Identity.IsAuthenticated;
+            if (IfLoggedIn)
+            {
+                Response.Redirect("/Dashboard");
+                return null;
+            }
             return View();
         }
     }

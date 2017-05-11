@@ -64,7 +64,6 @@ namespace VLN2.Controllers
             var following = user.Following.Intersect(user.Followers);
             //var following = _userService.GetFollowingByUsername(Username);
             var project = _service.GetProjectByID((int)id);
-            var hasProjects = project.UserHasProjects;
 
             var filtered = db.UserHasProject
                 .Where(x => x.ProjectID == project.ID)
@@ -116,7 +115,6 @@ namespace VLN2.Controllers
             var following = user.Following.Intersect(user.Followers);
             //var following = _userService.GetFollowingByUsername(Username);
             var project = _service.GetProjectByID((int)id);
-            var hasProjects = Project.UserHasProjects;
 
             var filtered = db.UserHasProject
                 .Where(x => x.ProjectID == Project.ID)
