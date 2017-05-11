@@ -21,6 +21,7 @@ function ProjectSession(projectOptions) {
     this.numberOfConnectedUsers = 0;
 
     // Setup ace editor
+    $("#editor").hide();
     this.editor = ace.edit("editor");
     this.editor.setTheme(projectOptions.theme);
     this.editor.getSession().setMode(projectOptions.mode);
@@ -100,6 +101,7 @@ ProjectSession.prototype = {
         // When a user removes a file this gets called on all clients
         context.projectHub.client.fileRemoved = function (fileID) {
             if (context.currentFileID == fileID) {
+                $("#editor").hide();
                 context.currentFileName = "";
                 context.currentFileID = -1;
                 context.editor.setValue("");
@@ -126,6 +128,7 @@ ProjectSession.prototype = {
             context.silent = false;
             context.setEditorMode(mode);
             context.editor.focus();
+            $("#editor").show();
         }
 
         context.projectHub.client.cursorMoved = function (userData) {
