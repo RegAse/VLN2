@@ -85,15 +85,18 @@ namespace VLN2.Hubs
         public void SaveFile(int projectID, int projectFileID, string obj)
         {
             string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
-            var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
+            if (ProjectFileSessionsByLobbyName.ContainsKey(projectFileLobbyName))
+            {
+                var projectFile = ProjectFileSessionsByLobbyName[projectFileLobbyName].CurrentlyOpenedFile;
 
-            var db = new ApplicationDbContext();
-            var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
-            projectFile.Content = obj; // Start by setting the session value so the server doesn't need to wait for the database to reply
-            file.Content = obj;
-            db.SaveChanges();
+                var db = new ApplicationDbContext();
+                var file = db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
+                projectFile.Content = obj; // Start by setting the session value so the server doesn't need to wait for the database to reply
+                file.Content = obj;
+                db.SaveChanges();
 
-            Clients.Caller.changesSaved();
+                Clients.Caller.changesSaved();
+            }
         }
 
         public void AddFile(string lobbyName, string filename)

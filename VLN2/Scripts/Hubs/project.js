@@ -94,11 +94,16 @@ ProjectSession.prototype = {
 
         // When a user adds new file this gets called on all clients
         context.projectHub.client.newFileAdded = function (projectFileID, filename) {
-            $('#files').append('<li class="file" data-fileid="' + projectFileID + '">' + htmlEncode(filename) + '</li>');
+            $('#files').append('<li class="file" data-fileid="' + projectFileID + '">' + htmlEncode(filename) + ' <span class="glyphicon glyphicon-trash"></span></li>');
         }
 
         // When a user removes a file this gets called on all clients
         context.projectHub.client.fileRemoved = function (fileID) {
+            if (context.currentFileID == fileID) {
+                context.currentFileName = "";
+                context.currentFileID = -1;
+                context.editor.setValue("");
+            }
             $("#files").find('[data-fileid=' + fileID + ']').remove();
         }
 
@@ -168,7 +173,7 @@ ProjectSession.prototype = {
 
             $("#files").on("click", "li span", function () {
                 var file = $(this).parent().data("fileid");
-                context.projectHubserver.removeFile(context.lobbyName, file);
+                context.projectHub.server.removeFile(context.lobbyName, file);
                 return false;
             });
 
