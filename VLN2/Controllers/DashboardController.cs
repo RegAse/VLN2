@@ -27,11 +27,20 @@ namespace VLN2.Controllers
             }
             //Gets the userID
             int userID = User.Identity.GetUserId<int>();
+            
+            ApplicationDbContext db = new ApplicationDbContext();
 
-            //Gets the users projects from the userID
-            var projects = _service.GetProjectsByUserID(userID);
+            var YourProjects = db.UserHasProject
+                .Where(x => x.ProjectRoleID == 1)
+                .Where(y => y.UserID == userID)
+                .Select(z => z.Project);
 
-            var model = new DashboardViewModel(userID, projects);
+            var ProjectsInvolvedIn = db.UserHasProject
+                .Where(x => x.ProjectRoleID == 2)
+                .Where(y => y.UserID == userID)
+                .Select(z => z.Project);
+
+            var model = new DashboardViewModel(userID, YourProjects, ProjectsInvolvedIn);
             return View(model);
         }
 
@@ -78,8 +87,17 @@ namespace VLN2.Controllers
             //Saves the changes to the db
             db.SaveChanges();
 
-            var projects = _service.GetProjectsByUserID(userID);
-            var model = new DashboardViewModel(userID, projects);
+            var YourProjects = db.UserHasProject
+                .Where(x => x.ProjectRoleID == 1)
+                .Where(y => y.UserID == userID)
+                .Select(z => z.Project);
+
+            var ProjectsInvolvedIn = db.UserHasProject
+                .Where(x => x.ProjectRoleID == 2)
+                .Where(y => y.UserID == userID)
+                .Select(z => z.Project);
+
+            var model = new DashboardViewModel(userID, YourProjects, ProjectsInvolvedIn);
 
             return View(model);
         }
