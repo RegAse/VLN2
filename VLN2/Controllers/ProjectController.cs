@@ -70,7 +70,7 @@ namespace VLN2.Controllers
                 .Select(y => y.ApplicationUser);
             var usersNotInProjectButAreFriends = following.Except(filtered);
 
-            var model = new CollabaratorViewModel(UserID, usersNotInProjectButAreFriends, project);
+            var model = new CollabaratorViewModel(UserID, usersNotInProjectButAreFriends, project, filtered);
 
             return View(model);
         }
@@ -100,7 +100,7 @@ namespace VLN2.Controllers
             Project Project = db.Projects.Single(x => x.ID == id);
 
             //Creates the relation from the user to the project
-            UserHasProject userHasProject = new UserHasProject { ApplicationUser = friend, Project = Project, ProjectRoleID = 1 };
+            UserHasProject userHasProject = new UserHasProject { ApplicationUser = friend, Project = Project, ProjectRoleID = 2 };
 
             db.UserHasProject.Add(userHasProject);
 
@@ -121,9 +121,45 @@ namespace VLN2.Controllers
                 .Select(y => y.ApplicationUser);
             var usersNotInProjectButAreFriends = following.Except(filtered);
 
-            var model = new CollabaratorViewModel(UserID, usersNotInProjectButAreFriends, Project);
+            var model = new CollabaratorViewModel(UserID, usersNotInProjectButAreFriends, Project, filtered);
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveCollaborator(int ?id, FormCollection Form)
+        {
+            bool IfLoggedIn = User.Identity.IsAuthenticated;
+            if (!IfLoggedIn)
+            {
+                Response.Redirect("/Account/Login");
+                return null;
+            }
+
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            int FriendUserID = Convert.ToInt32(Form["user"]);
+
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            var friend = db.Users.Single(x => x.Id == FriendUserID);
+            Project Project = db.Projects.Single(x => x.ID == id);
+
+            var userHasProject = db.UserHasProject.Single(x => (x.ProjectID == Project.ID) && (x.UserID == friend.Id));
+
+            //UserHasProject userHasProject = new UserHasProject { ApplicationUser = friend, Project = Project, ProjectRoleID = 2 };
+
+            db.UserHasProject.Remove(userHasProject);
+
+
+            db.SaveChanges();
+
+            Response.Redirect("/Project/AddCollaborator/" + id.ToString());
+
+            return null;
         }
     }
 }

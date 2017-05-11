@@ -10,11 +10,26 @@
         <li>@user.UserName</li>
     }*@
 
+<div class="row">
+    <div class="col-md-6">
+        <h3>Friends not in project</h3>
+        <form class="form-group" method="post" action="/Project/AddCollaborator/@Model.Project.ID">
+            @foreach (var user in Model.Following)
+            {
+                <label>@user.UserName<input type="radio" name="user" value=@user.Id class="form-control" /></label>
+            }
+            <input type="Submit" value="Add Selected Friend" class="btn btn-flat btn-flat-extra" />
+        </form>
+    </div>
 
-<form class="form-group" method="post" action="/Project/AddCollaborator/@Model.Project.ID">
-    @foreach (var user in Model.Following)
-    {
-        <label>@user.UserName<input type="radio" name="user" value=@user.Id class="form-control" /></label>
-    }
-    <input type="Submit" value="Add Selected Friend" class="btn btn-flat btn-flat-extra"/>
-</form>
+    <div class="col-md-6">
+        <h3>Users in Project</h3>
+        <form class="form-group" method="post" action="/Project/RemoveCollaborator/@Model.Project.ID">
+            @foreach (var user in Model.UsersInProject)
+            {
+                <label>@user.UserName<input type="radio" name="user" value=@user.Id class="form-control" /></label>
+            }
+            <input type="Submit" value="Remove Selected Friend" class="btn btn-flat btn-flat-extra" />
+        </form>
+    </div>
+</div>
