@@ -207,31 +207,91 @@ body {
 }
 .user-color-0 {
   color: yellow;
+  position: absolute;
+  border-left: 2px solid yellow;
+  background-color: yellow;
 }
 .user-color-1 {
   color: blue;
+  position: absolute;
+  border-left: 2px solid blue;
+  background-color: blue;
 }
 .user-color-2 {
   color: red;
+  position: absolute;
+  border-left: 2px solid red;
+  background-color: red;
 }
 .user-color-4 {
   color: forestgreen;
+  position: absolute;
+  border-left: 2px solid forestgreen;
+  background-color: forestgreen;
 }
 .user-color-5 {
   color: peachpuff;
+  position: absolute;
+  border-left: 2px solid peachpuff;
+  background-color: peachpuff;
 }
 .user-color-6 {
   color: chocolate;
+  position: absolute;
+  border-left: 2px solid chocolate;
+  background-color: chocolate;
 }
 .user-color-7 {
   color: cornsilk;
+  position: absolute;
+  border-left: 2px solid cornsilk;
+  background-color: cornsilk;
 }
 .user-color-8 {
   color: mediumorchid;
+  position: absolute;
+  border-left: 2px solid mediumorchid;
+  background-color: mediumorchid;
 }
 .user-color-9 {
   color: mintcream;
+  position: absolute;
+  border-left: 2px solid mintcream;
+  background-color: mintcream;
 }
 .user-color-10 {
+  color: mediumvioletred;
+  position: absolute;
+  border-left: 2px solid mediumvioletred;
+  background-color: mediumvioletred;
+}
+.user-color-0-color {
+  color: yellow;
+}
+.user-color-1-color {
+  color: blue;
+}
+.user-color-2-color {
+  color: red;
+}
+.user-color-4-color {
+  color: forestgreen;
+}
+.user-color-5-color {
+  color: peachpuff;
+}
+.user-color-6-color {
+  color: chocolate;
+}
+.user-color-7-color {
+  color: cornsilk;
+}
+.user-color-8-color {
+  color: mediumorchid;
+}
+.user-color-9-color {
+  color: mintcream;
+}
+.user-color-10-color {
   color: mediumvioletred;
 }

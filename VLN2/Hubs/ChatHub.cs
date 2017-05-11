@@ -19,6 +19,7 @@ namespace VLN2.Hubs
         public string ConnectionID { get; set; }
 
         public string MarkerClass { get; set; }
+        public string CustomData { get; set; }
 
         public ChatUser(int id, string username, string displayName, string connectionId)
         {

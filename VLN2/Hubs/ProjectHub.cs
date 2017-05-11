@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Script.Serialization;
 using VLN2.Models;
 using VLN2.Services;
@@ -115,6 +116,20 @@ namespace VLN2.Hubs
             db.SaveChanges();
 
             Clients.Group(lobbyName).fileRemoved(fileID);
+        }
+
+        public void CursorPositionChanged(int projectID, int projectFileID, string cursorData)
+        {
+            string projectFileLobbyName = ProjectHubHelper.GetLobbyName(projectID, projectFileID);
+
+            if(UserLobbies.ContainsKey(projectID.ToString()))
+            {
+                ChatUser user = UserLobbies[projectID.ToString()].Users.Single(x => x.ConnectionID == Context.ConnectionId);
+                user.CustomData = cursorData;
+
+                string userData = Json.Encode(user);
+                Clients.OthersInGroup(projectFileLobbyName).cursorMoved(userData);
+            }
         }
 
     }
