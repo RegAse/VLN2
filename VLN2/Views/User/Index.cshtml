@@ -19,7 +19,7 @@
 </div>
 @if (User.Identity.GetUserName() != Model.Username && Model.Followers.Where(x => x.Id == User.Identity.GetUserId<int>()).Count() == 0)
 {
-    Html.BeginForm("AddFollower", "User", new { ReturnUrl = ViewBag.ReturnUrl },
+    Html.BeginForm("Index", "User", new { ReturnUrl = ViewBag.ReturnUrl },
                         FormMethod.Post, new { @id = "addfollower" });
     {
         <input type="hidden" name="userId" value="@Model.UserId" />

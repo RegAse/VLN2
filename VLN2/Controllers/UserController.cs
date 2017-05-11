@@ -37,12 +37,13 @@ namespace VLN2.Controllers
             var model = new UserViewModel(userid, name, description, username, followers, following);
             return View(model);
         }
+
         [HttpPost]
         [ActionName("Index")]
         public ActionResult AddFollower(string username, FormCollection collection)
         {
-            int followerId = Convert.ToInt32(collection["userId"]);
-            _service.AddFollower(Convert.ToInt32(User.Identity.GetUserId()),followerId);
+            int followerID = Convert.ToInt32(collection["userId"]);
+            _service.AddFollower(User.Identity.GetUserId<int>(), followerID);
             return Index(username);
         }
     }
