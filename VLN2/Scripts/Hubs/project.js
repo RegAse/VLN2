@@ -102,7 +102,7 @@ ProjectSession.prototype = {
             $("#files").find('[data-fileid=' + fileID + ']').remove();
         }
 
-        context.projectHub.client.openFile = function (projectFile) {
+        context.projectHub.client.openFile = function (projectFile, mode) {
             // Start by removing all markers
             for(var key in context.markers) {
                 var val = context.markers[key];
@@ -119,6 +119,7 @@ ProjectSession.prototype = {
             context.currentFileName = data.Name;
             context.editor.setValue(data.Content, 1);
             context.silent = false;
+            context.setEditorMode(mode);
             context.editor.focus();
         }
 
@@ -226,6 +227,11 @@ ProjectSession.prototype = {
     },
     chatScrollToBottom: function () {
         $('#discussion').scrollTop($('#discussion')[0].scrollHeight);
+    },
+    setEditorMode: function (mode) {
+        // Set the editor mode
+        console.log(mode);
+        this.editor.getSession().setMode("ace/mode/" + mode);
     }
 }
 

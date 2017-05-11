@@ -29,6 +29,7 @@ namespace VLN2.Hubs
     public class ProjectHub : ChatHub
     {
         ProjectsService _service = new ProjectsService();
+        ProgrammingLanguageService _serverLanguage = new ProgrammingLanguageService();
 
         //public static Dictionary<string, ProjectSession> ProjectSessions = new Dictionary<string, ProjectSession>();
         public static Dictionary<string, string> FileLobbyNameByConnection = new Dictionary<string, string>();
@@ -64,7 +65,15 @@ namespace VLN2.Hubs
                 projectFile.Content
             });
 
-            Clients.Caller.openFile(data);
+            string extension = System.IO.Path.GetExtension(projectFile.Name).Substring(1);
+            ProgrammingLanguage lang = _serverLanguage.GetProgrammingLanguageByExtension(extension);
+            string mode = "text";
+            if (lang != null)
+            {
+                mode = lang.Name.ToLower();
+            }
+
+            Clients.Caller.openFile(data, mode);
         }
 
         public void FileChanged(int projectID, int projectFileID, string obj)
