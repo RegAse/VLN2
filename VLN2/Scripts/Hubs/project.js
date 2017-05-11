@@ -196,12 +196,14 @@ ProjectSession.prototype = {
     },
     addUserMessage: function (name, message) {
         $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+        this.chatScrollToBottom();
     },
     addServerMessage: function (message) {
         $('#discussion').append('<li><strong>' + htmlEncode(message) + '</strong></li>');
+        this.chatScrollToBottom();
     },
     chatScrollToBottom: function () {
-        //$('.sidebar-chat').scrollTop($('#sidebar-chat')[0].scrollHeight);
+        $('#discussion').scrollTop($('#discussion')[0].scrollHeight);
     }
 }
 
