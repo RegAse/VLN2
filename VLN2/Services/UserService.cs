@@ -44,15 +44,14 @@ namespace VLN2.Services
 
         public void AddFollower(int userId, int followerId)
         {
-            ApplicationDbContext db = new ApplicationDbContext();
-            var users = db.Users;
+            var users = _db.Users;
             var user = users.Single(x => x.Id == userId);
             var userToFollow = users.Single(y => y.Id == followerId);
             
             
-            user.Followers.Add(userToFollow);
+            user.Following.Add(userToFollow);
             
-            db.SaveChanges();
+            _db.SaveChanges();
         }
     }
 }
