@@ -1,0 +1,22 @@
+﻿@model VLN2.Models.ChangeBioViewModel
+@{
+    ViewBag.Title = "Change Bio";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("ChangeBio", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <h4>Change Your Description</h4>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Bio, new { @class = "col-md-2 control-label", value = Model.Bio })
+        <div class="col-md-10">
+            @Html.TextArea(Model.Bio, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Change Description" class="btn btn-default" />
+        </div>
+    </div>
+}

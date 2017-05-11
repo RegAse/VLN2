@@ -58,6 +58,11 @@ namespace VLN2.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ChangeBioViewModel
+    {
+        public string Bio { get; set; }
+    }
+
     public class AddPhoneNumberViewModel
     {
         [Required]

@@ -244,6 +244,18 @@ namespace VLN2.Controllers
             return View(model);
         }
 
+        // GET: /Manage/ChangeBio
+        public ActionResult ChangeBio()
+        {
+            return View();
+        }
+
+        // POST: /Manage/ChangeBi
+        public ActionResult ChangeBio(ChangeBioViewModel model)
+        {
+            return View(model);
+        }
+
         //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
