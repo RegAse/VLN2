@@ -38,3 +38,15 @@ $("#addfollower").submit(function (e) {
 
     e.preventDefault();
 });
+$("#removefollower").submit(function (e) {
+
+    var form = $(this);
+    // Do Ajax Here
+    $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(), // serializes the form's elements.
+    });
+
+    e.preventDefault();
+});
