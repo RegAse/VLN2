@@ -40,7 +40,6 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +50,6 @@
                                 <td>@Html.ActionLink(project.Name, "Index", "Project", new { id = project.ID }, null)</td>
                                 <td>@project.Description</td>
                                 <td>@Html.ActionLink("Open Project", "Index", "Project", new { id = project.ID }, null)</td>
-                                <td>@Html.ActionLink("Edit Collaborators","AddCollaborator","Project", new { id = project.ID }, null)</td>
                             </tr>
                         }
                     </tbody>
