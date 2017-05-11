@@ -98,6 +98,9 @@ table {
   background-color: #d8410f;
   color: white;
 }
+.btn-flat-v2-green {
+  background-color: #107736;
+}
 .sidebar-project-newfile {
   position: absolute;
   bottom: 0;
