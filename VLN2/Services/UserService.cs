@@ -26,6 +26,11 @@ namespace VLN2.Services
 
             return user;
         }
+        public ApplicationUser getUserByUserId(int userid)
+        {
+            var user = _db.Users.SingleOrDefault(x => x.Id == userid);
+            return user;
+        }
         public ICollection<ApplicationUser> GetFollowingByUsername(string userName)
         {
             ICollection<ApplicationUser> users = _db.Users.Single(x => x.UserName == userName).Following;
