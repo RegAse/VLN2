@@ -14,7 +14,18 @@
 <form class="form-group" method="post" action="/Project/AddCollaborator/@Model.Project.ID">
     @foreach (var user in Model.Following)
     {
-        <label>@user.UserName<input type="radio" class="" name="user" value=@user.Id class="form-control"/></label>
+        bool HasProject = false;
+        foreach(var project in user.Projects)
+        {
+            if(project.ID == Model.Project.ID)
+            {
+                HasProject = true;
+            }
+        }
+        if (!HasProject)
+        {
+            <label>@user.UserName<input type="radio" name="user" value=@user.Id class="form-control" /></label>
+        }
     }
     <input type="Submit" value="Add Selected Friend" class="btn btn-flat btn-flat-extra"/>
 </form>
