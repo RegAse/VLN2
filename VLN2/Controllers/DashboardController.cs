@@ -19,6 +19,7 @@ namespace VLN2.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            //login check
             bool IfLoggedIn = User.Identity.IsAuthenticated;
             if (!IfLoggedIn)
             {
@@ -30,11 +31,12 @@ namespace VLN2.Controllers
             
             ApplicationDbContext db = new ApplicationDbContext();
 
+            //Gets the users project which he created
             var YourProjects = db.UserHasProject
                 .Where(x => x.ProjectRoleID == 1)
                 .Where(y => y.UserID == userID)
                 .Select(z => z.Project);
-
+            //Gets projects the user is involved in
             var ProjectsInvolvedIn = db.UserHasProject
                 .Where(x => x.ProjectRoleID == 2)
                 .Where(y => y.UserID == userID)
@@ -44,6 +46,7 @@ namespace VLN2.Controllers
             return View(model);
         }
 
+        /// Processes the user creating a new project
         [HttpPost]
         public ActionResult Index(FormCollection Form)
         {

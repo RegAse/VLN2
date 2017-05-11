@@ -95,8 +95,6 @@ namespace VLN2.Controllers
                 return HttpNotFound();
             }
 
-            
-
             ApplicationDbContext db = new ApplicationDbContext();
 
             int UserID = User.Identity.GetUserId<int>();
@@ -108,9 +106,6 @@ namespace VLN2.Controllers
                 Response.Redirect("/Project/" + id);
                 return null;
             }
-
-            string Username = User.Identity.GetUserName();
-            
 
             var user = db.Users.Single(x => x.Id == UserID);
             var following = user.Following.Intersect(user.Followers);
@@ -160,13 +155,10 @@ namespace VLN2.Controllers
             db.SaveChanges();
             
             //Proceeds to load the page
-            string Username = User.Identity.GetUserName();
             int UserID = User.Identity.GetUserId<int>();
 
             var user = db.Users.Single(x => x.Id == UserID);
             var following = user.Following.Intersect(user.Followers);
-            //var following = _userService.GetFollowingByUsername(Username);
-            var project = _service.GetProjectByID((int)id);
 
             var filtered = db.UserHasProject
                 .Where(x => x.ProjectID == Project.ID)
@@ -205,7 +197,6 @@ namespace VLN2.Controllers
             //UserHasProject userHasProject = new UserHasProject { ApplicationUser = friend, Project = Project, ProjectRoleID = 2 };
 
             db.UserHasProject.Remove(userHasProject);
-
 
             db.SaveChanges();
 
