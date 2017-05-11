@@ -20,6 +20,13 @@ namespace VLN2.Controllers
         // GET: Project
         public ActionResult Index(int ?id)
         {
+            bool IfLoggedIn = User.Identity.IsAuthenticated;
+            if (!IfLoggedIn)
+            {
+                Response.Redirect("/Account/Login");
+                return null;
+            }
+
             Project project = _service.GetProjectByID((int)id);
             if (id == null || project == null)
             {
@@ -36,15 +43,26 @@ namespace VLN2.Controllers
         [HttpGet]
         public ActionResult AddCollaborator(int ?id)
         {
-            if(id == null)
+            bool IfLoggedIn = User.Identity.IsAuthenticated;
+            if (!IfLoggedIn)
+            {
+                Response.Redirect("/Account/Login");
+                return null;
+            }
+
+            if (id == null)
             {
                 return HttpNotFound();
             }
 
+            ApplicationDbContext db = new ApplicationDbContext();
+
             string Username = User.Identity.GetUserName();
             int UserID = User.Identity.GetUserId<int>();
 
-            var following = _userService.GetFollowingByUsername(Username);
+            var user = db.Users.Single(x => x.Id == UserID);
+            var following = user.Following.Intersect(user.Followers);
+            //var following = _userService.GetFollowingByUsername(Username);
             var project = _service.GetProjectByID((int)id);
 
             var model = new CollabaratorViewModel(UserID, following, project);
@@ -56,19 +74,25 @@ namespace VLN2.Controllers
         [ActionName("AddCollaborator")]
         public ActionResult AddCollaboratorPost(int ?id, FormCollection Form)
         {
+            bool IfLoggedIn = User.Identity.IsAuthenticated;
+            if (!IfLoggedIn)
+            {
+                Response.Redirect("/Account/Login");
+                return null;
+            }
+
             if (id == null)
             {
                 return HttpNotFound();
             }
-
+            
             //get userid from form
             int FriendUserID = Convert.ToInt32(Form["user"]);
-            
-            ApplicationDbContext db = new ApplicationDbContext();
 
+            ApplicationDbContext db = new ApplicationDbContext();
             //get user and project from db
             var friend = db.Users.Single(x => x.Id == FriendUserID);
-            Project project = _service.GetProjectByID((int)id);
+            Project project = db.Projects.Single(x => x.ID == id);
 
             //Creates the relation from the user to the project
             UserHasProject userHasProject = new UserHasProject { ApplicationUser = friend, Project = project, ProjectRoleID = 1 };
