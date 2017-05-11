@@ -3,11 +3,18 @@
     ViewBag.Title = @Model.Project.Name;
 }
 
-<h2>AddCollaborator</h2>
-<ul>
-    @foreach(var user in Model.Following)
+<h2>@Model.Project.Name - Add Collaborators</h2>
+
+    @*@foreach(var user in Model.Following)
     {
         <li>@user.UserName</li>
-    }
-</ul>
+    }*@
 
+
+<form class="form-group" method="post" action="/Project/AddCollaborator/@Model.Project.ID">
+    @foreach (var user in Model.Following)
+    {
+        <label>@user.UserName<input type="radio" name="user" value=@user.Id /></label>
+    }
+    <input type="Submit" value="Add Selected Friend" class="btn btn-flat btn-flat-extra"/>
+</form>
