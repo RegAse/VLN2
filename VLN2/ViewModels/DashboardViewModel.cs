@@ -10,11 +10,13 @@ namespace VLN2.ViewModels
     {
         public int UserID;
         public IEnumerable<Project> UserProjects;
+        public IEnumerable<Project> InvolvedProjects;
 
-        public DashboardViewModel(int userID, IEnumerable<Project> projects)
+        public DashboardViewModel(int userID, IEnumerable<Project> projects, IEnumerable<Project> involvedProjects)
         {
             UserID = userID;
             UserProjects = projects;
+            InvolvedProjects = involvedProjects;
         }
     }
 }

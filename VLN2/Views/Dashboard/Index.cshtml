@@ -6,8 +6,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <h3 class="white-color">Projects</h3>
-            <div class="col-md-12 dashboard-projects">
+            <h3>Your Projects</h3>
+            <div class="col-md-12 dashboard-projects bottom-margin">
                 <table class="table white-color">
                     <thead>
                         <tr>
@@ -19,6 +19,30 @@
                     <tbody>
                         @* Gets all projects from user *@
                         @foreach (var project in Model.UserProjects)
+                        {
+                            <tr>
+                                <td>@Html.ActionLink(project.Name, "Index", "Project", new { id = project.ID }, null)</td>
+                                <td>@project.Description</td>
+                                <td>@Html.ActionLink("Open Project", "Index", "Project", new { id = project.ID }, null)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Projects Your Are Involved in</h3>
+            <div class="col-md-12 dashboard-projects">
+                <table class="table white-color">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @* Gets all projects from user *@
+                        @foreach (var project in Model.InvolvedProjects)
                         {
                             <tr>
                                 <td>@Html.ActionLink(project.Name, "Index", "Project", new { id = project.ID }, null)</td>

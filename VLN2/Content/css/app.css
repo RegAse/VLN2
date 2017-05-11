@@ -72,8 +72,8 @@ table {
 .form-margin {
   margin-bottom: 5px;
 }
-.label-selected {
-  color: palevioletred;
+.bottom-margin {
+  margin-bottom: 1em;
 }
 .dashboard-projects {
   background-color: #353535;
