@@ -15,10 +15,13 @@
         <h3>Friends not in Project</h3>
         @foreach(var user in Model.Following)
         {
-            <form method="post" class="form-margin" action="/Project/AddCollaborator/@Model.Project.ID">
-                <input type="text" class="input-hidden" name="user" value="@user.Id"/>
-                <input type="submit" value="@user.UserName" class="btn btn-flat btn-flat-extra"/>
-            </form>
+            <div class="col-md-12 list-user">
+                <form method="post" class="form-margin" action="/Project/AddCollaborator/@Model.Project.ID">
+                    <input type="text" class="input-hidden" name="user" value="@user.Id" />
+                    <label>@user.Displayname (@user.UserName)</label>
+                    <input type="submit" value="Add" class="btn btn-flat-v2 btn-flat-extra pull-right" />
+                </form>
+            </div>
         }
     </div>
 
@@ -28,10 +31,13 @@
         {
             if (user.Id != Model.UserID)
             {
-                <form method="post" class="form-margin" action="/Project/RemoveCollaborator/@Model.Project.ID">
-                    <input type="text" class="input-hidden" name="user" value="@user.Id" />
-                    <input type="submit" value="@user.UserName" class="btn btn-flat btn-flat-extra"/>
-                </form>
+                <div class="col-md-12 list-user">
+                    <form method="post" class="form-margin" action="/Project/RemoveCollaborator/@Model.Project.ID">
+                        <input type="text" class="input-hidden" name="user" value="@user.Id" />
+                        <label>@user.Displayname (@user.UserName)</label>
+                        <input type="submit" value="Remove" class="btn btn-flat-v2 btn-flat-extra pull-right"/>
+                    </form>
+                </div>
             }
         }
     </div>

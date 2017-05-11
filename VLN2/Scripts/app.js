@@ -22,8 +22,8 @@ $(document).mouseup(function (e) {
 });
 $(document).ready(function () {
     $(".action-add-file").click(function () {
-        console.log("Eyh");
         $("#createfile").toggle();
+        $("#newfile").focus();
     });
 });
 $("#addfollower").submit(function (e) {
