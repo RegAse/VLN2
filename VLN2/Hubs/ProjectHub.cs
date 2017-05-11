@@ -104,16 +104,27 @@ namespace VLN2.Hubs
             int projectID = int.Parse(lobbyName);
             // Create the file
 
-            var projectFile = new ProjectFile();
-            projectFile.Name = filename;
-            projectFile.Content = "Something.";
-
             var db = new ApplicationDbContext();
-            var project = db.Projects.Single(x => x.ID == projectID);
-            project.ProjectFiles.Add(projectFile);
-            db.SaveChanges();
+            var file = db.ProjectFiles.SingleOrDefault(x => (x.Name == filename && x.Project.ID == projectID));
 
-            Clients.Group(lobbyName).newFileAdded(projectFile.ID, filename);
+            if (file == null)
+            {
+                // Create the file
+                var projectFile = new ProjectFile();
+                projectFile.Name = filename;
+                projectFile.Content = "Something.";
+
+                var project = db.Projects.Single(x => x.ID == projectID);
+                project.ProjectFiles.Add(projectFile);
+                db.SaveChanges();
+
+                Clients.Group(lobbyName).newFileAdded(projectFile.ID, filename);
+            }
+            else
+            {
+                string message = "A file already exists with name: " + filename;
+                Clients.Caller.newfileAddedFailed(message);
+            }
         }
 
         public void RemoveFile(string lobbyName, string fileID)

@@ -96,6 +96,15 @@ ProjectSession.prototype = {
         // When a user adds new file this gets called on all clients
         context.projectHub.client.newFileAdded = function (projectFileID, filename) {
             $('#files').append('<li class="file" data-fileid="' + projectFileID + '">' + htmlEncode(filename) + ' <span class="glyphicon glyphicon-trash"></span></li>');
+            $(".status-newfile").html("");
+        }
+
+        // When a user tries to add a file with a filename that already exists in this project.
+        context.projectHub.client.newfileAddedFailed = function (message) {
+            $(".status-newfile").addClass("danger");
+            $(".status-newfile").html(message);
+            $("#createfile").toggle();
+            $("#newfile").focus();
         }
 
         // When a user removes a file this gets called on all clients
