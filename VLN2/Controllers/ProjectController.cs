@@ -61,27 +61,17 @@ namespace VLN2.Controllers
             int UserID = User.Identity.GetUserId<int>();
 
             var user = db.Users.Single(x => x.Id == UserID);
-
             var following = user.Following.Intersect(user.Followers);
             //var following = _userService.GetFollowingByUsername(Username);
-
-            foreach(var follower in following)
-            {
-                bool HasProject = false;
-                foreach(var proj in follower.Projects)
-                {
-                    if(proj.ID == id)
-                    {
-                        HasProject = true;
-                        System.Diagnostics.Debug.WriteLine("Follower: " + follower.UserName);
-                        
-                    }
-                }
-            }
-
             var project = _service.GetProjectByID((int)id);
+            var hasProjects = project.UserHasProjects;
 
-            var model = new CollabaratorViewModel(UserID, following, project);
+            var filtered = db.UserHasProject
+                .Where(x => x.ProjectID == project.ID)
+                .Select(y => y.ApplicationUser);
+            var usersNotInProjectButAreFriends = following.Except(filtered);
+
+            var model = new CollabaratorViewModel(UserID, usersNotInProjectButAreFriends, project);
 
             return View(model);
         }
@@ -108,14 +98,13 @@ namespace VLN2.Controllers
             ApplicationDbContext db = new ApplicationDbContext();
             //get user and project from db
             var friend = db.Users.Single(x => x.Id == FriendUserID);
-            Project project = db.Projects.Single(x => x.ID == id);
+            Project Project = db.Projects.Single(x => x.ID == id);
 
             //Creates the relation from the user to the project
-            UserHasProject userHasProject = new UserHasProject { ApplicationUser = friend, Project = project, ProjectRoleID = 1 };
+            UserHasProject userHasProject = new UserHasProject { ApplicationUser = friend, Project = Project, ProjectRoleID = 1 };
 
             db.UserHasProject.Add(userHasProject);
-            //System.Diagnostics.Debug.WriteLine("Friend id: " + friend.Id);
-            //System.Diagnostics.Debug.WriteLine("Project id: " + project.ID);
+
             //Saves data to db
             db.SaveChanges();
             
@@ -123,9 +112,18 @@ namespace VLN2.Controllers
             string Username = User.Identity.GetUserName();
             int UserID = User.Identity.GetUserId<int>();
 
-            var following = _userService.GetFollowingByUsername(Username);
+            var user = db.Users.Single(x => x.Id == UserID);
+            var following = user.Following.Intersect(user.Followers);
+            //var following = _userService.GetFollowingByUsername(Username);
+            var project = _service.GetProjectByID((int)id);
+            var hasProjects = Project.UserHasProjects;
 
-            var model = new CollabaratorViewModel(UserID, following, project);
+            var filtered = db.UserHasProject
+                .Where(x => x.ProjectID == Project.ID)
+                .Select(y => y.ApplicationUser);
+            var usersNotInProjectButAreFriends = following.Except(filtered);
+
+            var model = new CollabaratorViewModel(UserID, usersNotInProjectButAreFriends, Project);
 
             return View(model);
         }
