@@ -19,6 +19,12 @@ namespace VLN2.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            bool IfLoggedIn = User.Identity.IsAuthenticated;
+            if (!IfLoggedIn)
+            {
+                Response.Redirect("/Account/Login");
+                return null;
+            }
             //Gets the userID
             int userID = User.Identity.GetUserId<int>();
 
@@ -32,6 +38,13 @@ namespace VLN2.Controllers
         [HttpPost]
         public ActionResult Index(FormCollection Form)
         {
+            bool IfLoggedIn = User.Identity.IsAuthenticated;
+            if (!IfLoggedIn)
+            {
+                Response.Redirect("/Account/Login");
+                return null;
+            }
+
             int userID = User.Identity.GetUserId<int>();
 
             //Gets the information from the "Create Project" form
