@@ -52,7 +52,7 @@ namespace VLN2.Controllers
             int followerID = Convert.ToInt32(collection["userId"]);
             _service.RemoveFollower(User.Identity.GetUserId<int>(), followerID);
 
-            Response.Redirect(username);
+            Response.Redirect("/user/profile/" + username);
             return null;
         }
     }
