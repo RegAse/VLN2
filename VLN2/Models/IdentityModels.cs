@@ -41,6 +41,7 @@ namespace VLN2.Models
         public DbSet<ProjectFile> ProjectFiles { get; set; }
         public DbSet<ProjectRole> ProjectRole { get; set; }
         public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+        public DbSet<Template> Templates { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection")

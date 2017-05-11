@@ -21,7 +21,6 @@ function ProjectSession(projectOptions) {
     this.numberOfConnectedUsers = 0;
 
     // Setup ace editor
-    $("#editor").hide();
     this.editor = ace.edit("editor");
     this.editor.setTheme(projectOptions.theme);
     this.editor.getSession().setMode(projectOptions.mode);
@@ -249,6 +248,9 @@ ProjectSession.prototype = {
         // Set the editor mode
         console.log(mode);
         this.editor.getSession().setMode("ace/mode/" + mode);
+    },
+    hideEditorShowProjectStartup: function () {
+
     }
 }
 
