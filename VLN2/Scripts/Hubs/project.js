@@ -36,6 +36,7 @@ function ProjectSession(projectOptions) {
     this.autosaveTimer;
     this.allChangesSentToServer = true;
     this.users = [];
+    this.markers = [];
 
     // then finally set up the hub.
     this.setupProjectHub();
@@ -56,7 +57,6 @@ ProjectSession.prototype = {
 
         // Gets called when a user joins the lobby
         context.projectHub.client.userJoinedLobby = function (userData) {
-            console.log(userData);
             var user = JSON.parse(userData);
             context.addServerMessage(htmlEncode(user.DisplayName) + " Joined the lobby");
 
@@ -103,7 +103,13 @@ ProjectSession.prototype = {
         }
 
         context.projectHub.client.openFile = function (projectFile) {
-            context.setupMarker();
+            // Start by removing all markers
+            for(var key in context.markers) {
+                var val = context.markers[key];
+                context.editor.getSession().removeMarker(val);
+                context.markers[key] = null;
+            }
+
             context.silent = true;
             // Convert to object
             var data = JSON.parse(projectFile);
@@ -114,6 +120,11 @@ ProjectSession.prototype = {
             context.editor.setValue(data.Content, 1);
             context.silent = false;
             context.editor.focus();
+        }
+
+        context.projectHub.client.cursorMoved = function (userData) {
+            var user = JSON.parse(userData);
+            context.setupMarker(user);
         }
 
         // Set focus to the chat box
@@ -173,23 +184,34 @@ ProjectSession.prototype = {
                 }
                 $(".status-saved").html("Autosaving...");
                 context.timer = setTimeout(context.save, 3000);
-                
             });
+
+            context.editor.selection.on("changeCursor", function (e) {
+                var data = JSON.stringify(context.editor.getCursorPosition());
+                context.projectHub.server.cursorPositionChanged(context.lobbyName, context.currentFileID, data);
+            });
+
             context.save = function () {
                 context.allChangesSentToServer = true;
                 context.projectHub.server.saveFile(context.lobbyName, context.currentFileID, context.editor.getValue());
             }
         });
     },
-    setupMarker: function () {
-        console.log("Setting markers");
+    setupMarker: function (user) {
+        var data = JSON.parse(user["CustomData"]);
+        var row = data["row"];
+        var column = data["column"];
+
         var ra = ace.require('ace/range').Range;
-        var range = new ra(0, 0, 0, 10);
-        var marker = this.editor.getSession().addMarker(range, 'ace_myclass', 'text');
-        console.log(marker);
+        var range = new ra(row, column, row, column + 1);
+        var marker = this.editor.getSession().addMarker(range, user["MarkerClass"], 'text');
+        if (this.markers[user.ConnectionID] != null) {
+            this.editor.getSession().removeMarker(this.markers[user.ConnectionID]);
+        }
+        this.markers[user.ConnectionID] = marker;
     },
     addActiveUser: function (user) {
-        $("#activeusers").append('<li class="'+ user.MarkerClass +'" data-userconnectionid="' + user.ConnectionID + '"><span class="glyphicon glyphicon-user"></span> ' + htmlEncode(user.DisplayName) + '</li>');
+        $("#activeusers").append('<li class="'+ user.MarkerClass +'-color" data-userconnectionid="' + user.ConnectionID + '"><span class="glyphicon glyphicon-user"></span> ' + htmlEncode(user.DisplayName) + '</li>');
     },
     removeActiveUser: function (id) {
         $("#activeusers").find('[data-userconnectionid=' + id + ']').remove();
