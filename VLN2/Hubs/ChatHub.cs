@@ -89,7 +89,7 @@ namespace VLN2.Hubs
             string name = Context.User.Identity.Name;
 
             // Call the addNewMessageToPage method to update clients.
-            Clients.Group(lobbyName).addNewMessageToPage(name, message);
+            Clients.Group(lobbyName).addNewMessage(name, message);
         }
 
         public override Task OnDisconnected(bool stopCalled)

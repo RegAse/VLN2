@@ -2,22 +2,22 @@
     Set up ProjectOptions
 */
 
-function ProjectOptions(){
+function ProjectOptions() {
     this.theme = "ace/theme/monokai";
     this.mode = "ace/mode/javascript";
 }
 
 ProjectOptions.prototype = {
-    setTheme: function(){
+    setTheme: function () {
         console.log("SetTheme");
     },
-    setMode: function(){
+    setMode: function () {
         console.log("SetMode");
     }
 }
 
 /* Set up ProjectSession */
-function ProjectSession(projectOptions){
+function ProjectSession(projectOptions) {
     this.numberOfConnectedUsers = 0;
 
     // Setup ace editor
@@ -44,44 +44,34 @@ ProjectSession.prototype = {
     setupProjectHub: function () {
         var context = this; //setup context to this
 
+        // Gets called when you join the server
         context.projectHub.client.joined = function (usersData) {
-            console.log("You are connected");
-            console.log(usersData);
             var users = JSON.parse(usersData);
             for (var i = 0; i < users.length; i++) {
                 context.addActiveUser(users[i].ConnectionID, users[i].DisplayName);
             }
         }
 
-        // Create a function that the hub can call back to display messages.
-        context.projectHub.client.addNewMessageToPage = function (name, message){
-            // Add the message to the page.
-            $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
-            $('.sidebar-chat').scrollTop($('.sidebar-chat')[0].scrollHeight);
+        // Add a new user message
+        context.projectHub.client.addNewMessage = function (name, message) {
+            context.addUserMessage(name, message);
         };
 
         // Gets called when a user joins the lobby
-        context.projectHub.client.userJoinedLobby = function (id, name){
-            //updateNumberOfConnectedUsers();
-            $("#activeusers").append('<li data-userconnectionid="' + id + '">' + htmlEncode(name) + '</li>');
-            $('#discussion').append('<li><strong>' + htmlEncode(name) + ' Joined the lobby </li>');
-            //$('.sidebar-chat').scrollTop($('#sidebar-chat')[0].scrollHeight);
+        context.projectHub.client.userJoinedLobby = function (id, name) {
+            context.addServerMessage(htmlEncode(name) + " Joined the lobby");
+            context.addActiveUser(id, name)
         }
 
         // Gets called when a user leaves the lobby
-        context.projectHub.client.userLeftLobby = function (id, name){
-            //numberOfConnectedUsers--;
-
-            //updateNumberOfConnectedUsers();
-            console.log("Remove user with id: " + id);
-            $("#activeusers").find('[data-userconnectionid=' + id + ']').remove();
-            $('#discussion').append('<li><strong>' + htmlEncode(name) + ' Left the lobby </li>');
-            //$('.sidebar-chat').scrollTop($('.sidebar-chat')[0].scrollHeight);
+        context.projectHub.client.userLeftLobby = function (id, name) {
+            context.removeActiveUser(id);
+            context.addServerMessage(htmlEncode(name) + " Left the lobby");
         }
 
+        //Gets called when your changes have been received by the server.
         context.projectHub.client.changesSaved = function () {
             if (context.allChangesSentToServer) {
-                // All Changes have been successfuly saved.
                 $(".status-saved").html("All your changes have been saved.");
             }
             else {
@@ -90,6 +80,7 @@ ProjectSession.prototype = {
             }
         }
 
+        // Gets called when someone makes a change to the file
         context.projectHub.client.fileChanged = function (obj) {
             context.silent = true;
             context.editor.getSession().getDocument().applyDelta(JSON.parse(obj));
@@ -97,8 +88,8 @@ ProjectSession.prototype = {
         }
 
         // When a user adds new file this gets called on all clients
-        context.projectHub.client.newFileAdded = function (projectFileID, filename){
-            $('#files').append('<li class="file" data-fileid="' + projectFileID + '"><strong>' + htmlEncode(filename) + '</li>');
+        context.projectHub.client.newFileAdded = function (projectFileID, filename) {
+            $('#files').append('<li class="file" data-fileid="' + projectFileID + '">' + htmlEncode(filename) + '</li>');
         }
 
         // When a user removes a file this gets called on all clients
@@ -116,23 +107,22 @@ ProjectSession.prototype = {
             context.currentFileID = data.ID;
             context.currentFileName = data.Name;
             context.editor.setValue(data.Content, 1);
-            $(".currently-opened-filename").html(context.currentFileName);
             context.silent = false;
             context.editor.focus();
         }
 
-        // Set initial focus to message input box.
+        // Set focus to the chat box
         $('#message').focus();
 
-        // Start the connection.
-        $.connection.hub.start().done(function (){
+        // Start the connection with the server
+        $.connection.hub.start().done(function () {
             context.projectHub.server.joinLobby(context.lobbyName);
 
-            $('#sendmessage').submit(function (){
-                // Call the Send method on the hub.
+            $('#sendmessage').submit(function () {
+                // Send the message to the server
                 context.projectHub.server.send(context.lobbyName, $('#message').val());
 
-                // Clear the textbox
+                // Clear the message input box
                 $('#message').val('').focus();
 
                 return false
@@ -165,7 +155,7 @@ ProjectSession.prototype = {
                 return false;
             });
 
-            context.editor.on('change', function (e){
+            context.editor.on('change', function (e) {
                 if (context.silent) {
                     return;
                 }
@@ -180,15 +170,11 @@ ProjectSession.prototype = {
                 context.timer = setTimeout(context.save, 3000);
                 
             });
-            context.save = function(){
+            context.save = function () {
                 context.allChangesSentToServer = true;
                 context.projectHub.server.saveFile(context.lobbyName, context.currentFileID, context.editor.getValue());
             }
         });
-
-        function updateNumberOfConnectedUsers(){
-            $("#number-of-users-connected").html("Users Connected: " + numberOfConnectedUsers);
-        }
     },
     setupMarker: function () {
         console.log("Setting markers");
@@ -198,12 +184,24 @@ ProjectSession.prototype = {
         console.log(marker);
     },
     addActiveUser: function (id, name) {
-        $("#activeusers").append('<li data-userconnectionid="' + id + '">' + htmlEncode(name) + '</li>');
+        $("#activeusers").append('<li data-userconnectionid="' + id + '"><span class="glyphicon glyphicon-user"></span> ' + htmlEncode(name) + '</li>');
+    },
+    removeActiveUser: function (id) {
+        $("#activeusers").find('[data-userconnectionid=' + id + ']').remove();
+    },
+    addUserMessage: function (name, message) {
+        $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+    },
+    addServerMessage: function (message) {
+        $('#discussion').append('<li><strong>' + htmlEncode(message) + '</strong></li>');
+    },
+    chatScrollToBottom: function () {
+        //$('.sidebar-chat').scrollTop($('#sidebar-chat')[0].scrollHeight);
     }
 }
 
 
-function htmlEncode(value){
+function htmlEncode(value) {
     var encodedValue = $('<div />').text(value).html();
     return encodedValue;
 }
