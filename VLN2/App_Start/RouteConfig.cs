@@ -19,7 +19,7 @@ namespace VLN2
 
             routes.MapRoute(
                 name: "User",
-                url: "User/{username}",
+                url: "user/profile/{username}",
                 defaults: new { controller = "User", action = "Index" }
             );
 
