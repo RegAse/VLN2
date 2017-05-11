@@ -15,7 +15,7 @@ namespace VLN2.Services
             _db = new ApplicationDbContext();
         }
 
-        public ApplicationUser GetIdByUsername(string userName)
+        public ApplicationUser GetDataByUsername(string userName)
         {
             var user = _db.Users.SingleOrDefault(x => x.UserName == userName);
 

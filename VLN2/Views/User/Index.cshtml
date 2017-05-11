@@ -17,14 +17,12 @@
         @Model.Description
     </div>
 </div>
-@if (User.Identity.GetUserName() != Model.Username)
+@if (User.Identity.GetUserName() != Model.Username && Model.Followers.Where(x => x.Id == User.Identity.GetUserId<int>()).Count() == 0)
 {
-    <p>@User.Identity.GetUserName()<br/></p>
-    <p>@Model.Username</p>
     Html.BeginForm("AddFollower", "User", new { ReturnUrl = ViewBag.ReturnUrl },
                         FormMethod.Post, new { @id = "addfollower" });
     {
-        <input type="hidden" name="userName" value="@Model.Username" />
+        <input type="hidden" name="userId" value="@Model.UserId" />
                 <div class="form-horizontal">
                     <button id="addfollower" type="submit" class="btn btn-primary">Follow</button>
                 </div>
@@ -38,7 +36,7 @@
             @foreach (var file in Model.Followers)
             {
                 <li class="file" data-fileid="@file.UserName">
-                    @file.UserName
+                    <a href="@file.UserName">@file.UserName</a>
                 </li>
             }
         </ul>
@@ -51,8 +49,8 @@
             @foreach (var file in Model.Following)
             {
                 <li class="file" data-fileid="@file.UserName">
-                    @file.UserName
-                </li>
+                    <a href="@file.UserName">@file.UserName</a>
+</li>
             }
         </ul>
     </div>

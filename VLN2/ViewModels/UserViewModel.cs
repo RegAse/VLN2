@@ -9,6 +9,8 @@ namespace VLN2.ViewModels
 {
     public class UserViewModel
     {
+        public int UserId { get; set; }
+
         public string Displayname { get; set; }
 
         public string Description { get; set; }
@@ -19,13 +21,15 @@ namespace VLN2.ViewModels
 
         public ICollection<ApplicationUser> Following { get; set; }
 
-        public UserViewModel(string displayname, string description, string username, ICollection<ApplicationUser> followers, ICollection<ApplicationUser> following)
+        public UserViewModel(int userid, string displayname, string description, string username, ICollection<ApplicationUser> followers, ICollection<ApplicationUser> following)
         {
+            UserId = userid;
+
             Displayname = displayname;
 
             Description = description;
 
-            Username = Username;
+            Username = username;
 
             Followers = followers;
 

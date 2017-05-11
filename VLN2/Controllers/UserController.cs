@@ -18,30 +18,32 @@ namespace VLN2.Controllers
         public ActionResult Index(string username)
         {
             //Check if the user is empty
-            var user = _service.GetIdByUsername(username);
+            var user = _service.GetDataByUsername(username);
             if (user == null)
             {
                 return HttpNotFound();
             }
             //Get data for the viewModel and put into the var model
-            string name = _service.GetIdByUsername(username).Displayname;
+            int userid = _service.GetDataByUsername(username).Id;
 
-            string description = _service.GetIdByUsername(username).Description;
+            string name = _service.GetDataByUsername(username).Displayname;
 
-            string userName = _service.GetIdByUsername(username).UserName;
+            string description = _service.GetDataByUsername(username).Description;
 
             ICollection<ApplicationUser> following = _service.GetFollowingByUsername(username);
 
             ICollection<ApplicationUser> followers = _service.GetFollowersByUsername(username);
 
-            var model = new UserViewModel(name, description, userName, followers, following);
+            var model = new UserViewModel(userid, name, description, username, followers, following);
             return View(model);
         }
-
-        public ActionResult Index(string username, FormCollection collection)
+        [HttpPost]
+        [ActionName("Index")]
+        public ActionResult AddFollower(string username, FormCollection collection)
         {
-            return null;
+            int followerId = Convert.ToInt32(collection["userId"]);
+            _service.AddFollower(followerId);
+            return Index(username);
         }
-
     }
 }
