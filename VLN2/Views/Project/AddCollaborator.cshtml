@@ -27,7 +27,10 @@
         <form class="form-group" method="post" action="/Project/RemoveCollaborator/@Model.Project.ID">
             @foreach (var user in Model.UsersInProject)
             {
-                <label>@user.UserName<input type="radio" name="user" value=@user.Id class="form-control" /></label>
+                if (user.Id != Model.UserID)
+                {
+                    <label>@user.UserName<input type="radio" name="user" value=@user.Id class="form-control" /></label>
+                }
             }
             <input type="Submit" value="Remove Selected Friend" class="btn btn-flat btn-flat-extra" />
         </form>
