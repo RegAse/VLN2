@@ -69,8 +69,8 @@ namespace VLN2.Models
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.Followers).WithMany(y => y.Following).Map(z =>
             {
                 z.ToTable("Followers");
-                z.MapLeftKey("UserID");
-                z.MapRightKey("UserFollowID");
+                z.MapLeftKey("UserFollowID");
+                z.MapRightKey("UserID");
             });
 
             modelBuilder.Entity<Project>().HasMany(x => x.ProjectFiles).WithOptional(y => y.Project).Map(z =>
