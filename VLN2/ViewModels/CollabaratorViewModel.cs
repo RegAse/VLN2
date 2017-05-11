@@ -11,12 +11,14 @@ namespace VLN2.ViewModels
         public int UserID;
         public IEnumerable<ApplicationUser> Following;
         public Project Project;
+        public IEnumerable<ApplicationUser> UsersInProject;
 
-        public CollabaratorViewModel(int userID, IEnumerable<ApplicationUser> following, Project project)
+        public CollabaratorViewModel(int userID, IEnumerable<ApplicationUser> following, Project project, IEnumerable<ApplicationUser> usersInProject)
         {
             UserID = userID;
             Following = following;
             Project = project;
+            UsersInProject = usersInProject;
         }
     }
 }
