@@ -112,7 +112,7 @@ namespace VLN2.Hubs
                 // Create the file
                 var projectFile = new ProjectFile();
                 projectFile.Name = filename;
-                projectFile.Content = "Something.";
+                projectFile.Content = "";
 
                 var project = db.Projects.Single(x => x.ID == projectID);
                 project.ProjectFiles.Add(projectFile);
