@@ -28,14 +28,20 @@ namespace VLN2.Services
         }
         public ICollection<ApplicationUser> GetFollowingByUsername(string userName)
         {
-            ICollection<ApplicationUser> users = _db.Users.Single(x => x.UserName == userName).Followers;
+            ICollection<ApplicationUser> users = _db.Users.Single(x => x.UserName == userName).Following;
             return users;
         }
         public ICollection<ApplicationUser> GetFollowersByUsername(string userName)
         {
-            ICollection<ApplicationUser> users = _db.Users.Single(x => x.UserName == userName).Following;
+            ICollection<ApplicationUser> users = _db.Users.Single(x => x.UserName == userName).Followers;
             return users;
         }
+
+        //public ICollection<ApplicationUser> GetFriendsByUsername(string userName)
+        //{
+        //    ICollection<ApplicationUser> friends = _db.Users.Single(x => x.UserName == )
+        //}
+
         public void AddFollower(int userId)
         {
             _db.Users.Single(x => x.Id == userId);

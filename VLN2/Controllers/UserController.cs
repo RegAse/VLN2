@@ -38,7 +38,7 @@ namespace VLN2.Controllers
             return View(model);
         }
 
-        public ActionResult AddFollower(FormCollection collection)
+        public ActionResult Index(string username, FormCollection collection)
         {
             return null;
         }

@@ -202,6 +202,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ProjectsService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CollabaratorViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
@@ -567,6 +568,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\InternalError.cshtml" />
+    <Content Include="Views\Project\AddCollaborator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

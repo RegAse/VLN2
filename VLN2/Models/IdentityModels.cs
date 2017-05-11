@@ -39,6 +39,7 @@ namespace VLN2.Models
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserHasProject> UserHasProject { get; set; }
         public DbSet<ProjectFile> ProjectFiles { get; set; }
+        public DbSet<ProjectRole> ProjectRole { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection")
@@ -69,8 +70,8 @@ namespace VLN2.Models
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.Followers).WithMany(y => y.Following).Map(z =>
             {
                 z.ToTable("Followers");
-                z.MapLeftKey("UserID");
-                z.MapRightKey("UserFollowID");
+                z.MapLeftKey("UserFollowID");
+                z.MapRightKey("UserID");
             });
 
             modelBuilder.Entity<Project>().HasMany(x => x.ProjectFiles).WithOptional(y => y.Project).Map(z =>
