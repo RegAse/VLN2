@@ -18,6 +18,8 @@ namespace VLN2.Hubs
         public string DisplayName { get; set; }
         public string ConnectionID { get; set; }
 
+        public string MarkerClass { get; set; }
+
         public ChatUser(int id, string username, string displayName, string connectionId)
         {
             ID = id;
@@ -27,13 +29,31 @@ namespace VLN2.Hubs
         }
     }
 
+    public class UserLobby
+    {
+        public List<ChatUser> Users { get; set; }
+        private int MarkerClassPool { get; set; }
+
+        public UserLobby()
+        {
+            Users = new List<ChatUser>();
+            MarkerClassPool = 0;
+        }
+
+        public int GetNextMarker()
+        {
+            MarkerClassPool++;
+            return MarkerClassPool % 10;
+        }
+    }
+
     public class ChatHub : Hub
     {
         public static Dictionary<string, string> LobbyNameByConnection = new Dictionary<string, string>();
         public static Dictionary<string, int> NumberOfConnectedUsersInLobby = new Dictionary<string, int>();
 
         // List
-        public static Dictionary<string, List<ChatUser>> UserLobbies = new Dictionary<string, List<ChatUser>>();
+        public static Dictionary<string, UserLobby> UserLobbies = new Dictionary<string, UserLobby>();
 
         /// <summary>
         /// A user joined the lobby.
@@ -52,23 +72,29 @@ namespace VLN2.Hubs
             // Create the list of users if this is the first person to join the hub
             if (!UserLobbies.ContainsKey(lobbyName))
             {
-                List<ChatUser> users = new List<ChatUser>();
+                UserLobby lobby = new UserLobby();
 
-                UserLobbies.Add(lobbyName, users);
+                UserLobbies.Add(lobbyName, lobby);
             }
 
             ChatUser user = new ChatUser(id, name, displayname, connectionID);
+
+            // set unique-ish color to the the user
+            string markerClassName = "user-color-" + UserLobbies[lobbyName].GetNextMarker();
+            user.MarkerClass = markerClassName;
             
             // Add user to lobby
-            UserLobbies[lobbyName].Add(user);
+            UserLobbies[lobbyName].Users.Add(user);
 
             // Add the connection to a dictionary to be able to find it later with connection id.
             LobbyNameByConnection.Add(Context.ConnectionId, lobbyName);
 
-            // Let others know that someone joined
-            Clients.OthersInGroup(lobbyName).userJoinedLobby(connectionID, displayname);
+            string userData = Json.Encode(user);
 
-            string usersData = Json.Encode(UserLobbies[lobbyName]);
+            // Let others know that someone joined
+            Clients.OthersInGroup(lobbyName).userJoinedLobby(userData);
+
+            string usersData = Json.Encode(UserLobbies[lobbyName].Users);
             // Let the caller know now
             Clients.Caller.joined(usersData);
         }
@@ -105,10 +131,10 @@ namespace VLN2.Hubs
                 // Remove the user from the lobby
                 if (UserLobbies.ContainsKey(lobbyName))
                 {
-                    ChatUser user = UserLobbies[lobbyName].Where(x => x.ConnectionID == Context.ConnectionId).First();
+                    ChatUser user = UserLobbies[lobbyName].Users.Where(x => x.ConnectionID == Context.ConnectionId).First();
                     string displayname = user.DisplayName;
                     int userID = user.ID;
-                    UserLobbies[lobbyName].Remove(user);
+                    UserLobbies[lobbyName].Users.Remove(user);
 
                     Clients.Group(lobbyName).userLeftLobby(Context.ConnectionId, displayname);
                 }

@@ -306,8 +306,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\variables.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\Hubs\chat.js" />
-    <Content Include="Scripts\Hubs\code.js" />
+    <Content Include="Scripts\Hubs\project.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

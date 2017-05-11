@@ -35,6 +35,7 @@ function ProjectSession(projectOptions) {
     this.currentFileName = "";
     this.autosaveTimer;
     this.allChangesSentToServer = true;
+    this.users = [];
 
     // then finally set up the hub.
     this.setupProjectHub();
@@ -47,20 +48,19 @@ ProjectSession.prototype = {
         // Gets called when you join the server
         context.projectHub.client.joined = function (usersData) {
             var users = JSON.parse(usersData);
+            context.users = users;
             for (var i = 0; i < users.length; i++) {
-                context.addActiveUser(users[i].ConnectionID, users[i].DisplayName);
+                context.addActiveUser(users[i]);
             }
         }
 
-        // Add a new user message
-        context.projectHub.client.addNewMessage = function (name, message) {
-            context.addUserMessage(name, message);
-        };
-
         // Gets called when a user joins the lobby
-        context.projectHub.client.userJoinedLobby = function (id, name) {
-            context.addServerMessage(htmlEncode(name) + " Joined the lobby");
-            context.addActiveUser(id, name)
+        context.projectHub.client.userJoinedLobby = function (userData) {
+            console.log(userData);
+            var user = JSON.parse(userData);
+            context.addServerMessage(htmlEncode(user.DisplayName) + " Joined the lobby");
+
+            context.addActiveUser(user)
         }
 
         // Gets called when a user leaves the lobby
@@ -68,6 +68,11 @@ ProjectSession.prototype = {
             context.removeActiveUser(id);
             context.addServerMessage(htmlEncode(name) + " Left the lobby");
         }
+
+        // Add a new user message
+        context.projectHub.client.addNewMessage = function (name, message) {
+            context.addUserMessage(name, message);
+        };
 
         //Gets called when your changes have been received by the server.
         context.projectHub.client.changesSaved = function () {
@@ -183,8 +188,8 @@ ProjectSession.prototype = {
         var marker = this.editor.getSession().addMarker(range, 'ace_myclass', 'text');
         console.log(marker);
     },
-    addActiveUser: function (id, name) {
-        $("#activeusers").append('<li data-userconnectionid="' + id + '"><span class="glyphicon glyphicon-user"></span> ' + htmlEncode(name) + '</li>');
+    addActiveUser: function (user) {
+        $("#activeusers").append('<li class="'+ user.MarkerClass +'" data-userconnectionid="' + user.ConnectionID + '"><span class="glyphicon glyphicon-user"></span> ' + htmlEncode(user.DisplayName) + '</li>');
     },
     removeActiveUser: function (id) {
         $("#activeusers").find('[data-userconnectionid=' + id + ']').remove();
