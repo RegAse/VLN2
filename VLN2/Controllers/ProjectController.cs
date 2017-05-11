@@ -55,10 +55,22 @@ namespace VLN2.Controllers
                 return HttpNotFound();
             }
 
+            
+
             ApplicationDbContext db = new ApplicationDbContext();
 
-            string Username = User.Identity.GetUserName();
             int UserID = User.Identity.GetUserId<int>();
+            var role = db.UserHasProject.Single(x => x.UserID == UserID && x.ProjectID == id);
+
+            int roleID = role.ProjectRoleID;
+            if (roleID != 1)
+            {
+                Response.Redirect("/Project/" + id);
+                return null;
+            }
+
+            string Username = User.Identity.GetUserName();
+            
 
             var user = db.Users.Single(x => x.Id == UserID);
             var following = user.Following.Intersect(user.Followers);
