@@ -109,7 +109,7 @@ ProjectSession.prototype = {
         // When a user removes a file this gets called on all clients
         context.projectHub.client.fileRemoved = function (fileID) {
             if (context.currentFileID == fileID) {
-                $("#editor").hide();
+                context.hideEditorShowProjectStartup();
                 context.currentFileName = "";
                 context.currentFileID = -1;
                 context.editor.setValue("");
@@ -135,8 +135,8 @@ ProjectSession.prototype = {
             context.editor.setValue(data.Content, 1);
             context.silent = false;
             context.setEditorMode(mode);
+            context.showEditor();
             context.editor.focus();
-            $("#editor").show();
         }
 
         context.projectHub.client.cursorMoved = function (userData) {
@@ -250,7 +250,12 @@ ProjectSession.prototype = {
         this.editor.getSession().setMode("ace/mode/" + mode);
     },
     hideEditorShowProjectStartup: function () {
-
+        $("#editor").hide();
+        $(".project-page").show();
+    },
+    showEditor: function () {
+        $("#editor").show();
+        $(".project-page").hide();
     }
 }
 
