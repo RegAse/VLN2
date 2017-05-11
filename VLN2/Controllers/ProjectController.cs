@@ -61,8 +61,24 @@ namespace VLN2.Controllers
             int UserID = User.Identity.GetUserId<int>();
 
             var user = db.Users.Single(x => x.Id == UserID);
+
             var following = user.Following.Intersect(user.Followers);
             //var following = _userService.GetFollowingByUsername(Username);
+
+            foreach(var follower in following)
+            {
+                bool HasProject = false;
+                foreach(var proj in follower.Projects)
+                {
+                    if(proj.ID == id)
+                    {
+                        HasProject = true;
+                        System.Diagnostics.Debug.WriteLine("Follower: " + follower.UserName);
+                        
+                    }
+                }
+            }
+
             var project = _service.GetProjectByID((int)id);
 
             var model = new CollabaratorViewModel(UserID, following, project);
