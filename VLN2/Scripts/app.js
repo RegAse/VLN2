@@ -34,9 +34,6 @@ $("#addfollower").submit(function (e) {
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(), // serializes the form's elements.
-        success: function (data) {
-            $("#completed").replaceWith($(data).find("#completed"));
-        }
     });
 
     e.preventDefault();

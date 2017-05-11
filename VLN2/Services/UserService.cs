@@ -15,7 +15,7 @@ namespace VLN2.Services
             _db = new ApplicationDbContext();
         }
 
-        public ApplicationUser GetIdByUsername(string userName)
+        public ApplicationUser GetDataByUsername(string userName)
         {
             var user = _db.Users.SingleOrDefault(x => x.UserName == userName);
 
@@ -42,9 +42,17 @@ namespace VLN2.Services
         //    ICollection<ApplicationUser> friends = _db.Users.Single(x => x.UserName == )
         //}
 
-        public void AddFollower(int userId)
+        public void AddFollower(int userId, int followerId)
         {
-            _db.Users.Single(x => x.Id == userId);
+            ApplicationDbContext db = new ApplicationDbContext();
+            var users = db.Users;
+            var user = users.Single(x => x.Id == userId);
+            var userToFollow = users.Single(y => y.Id == followerId);
+            
+            
+            user.Followers.Add(userToFollow);
+            
+            db.SaveChanges();
         }
     }
 }
