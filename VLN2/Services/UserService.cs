@@ -53,5 +53,16 @@ namespace VLN2.Services
             
             _db.SaveChanges();
         }
+        public void RemoveFollower(int userId, int followerId)
+        {
+            var users = _db.Users;
+            var user = users.Single(x => x.Id == userId);
+            var userToFollow = users.Single(y => y.Id == followerId);
+
+
+            user.Following.Remove(userToFollow);
+
+            _db.SaveChanges();
+        }
     }
 }

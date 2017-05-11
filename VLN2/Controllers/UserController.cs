@@ -46,5 +46,14 @@ namespace VLN2.Controllers
             _service.AddFollower(User.Identity.GetUserId<int>(), followerID);
             return Index(username);
         }
+
+        public ActionResult RemoveFollower(string username, FormCollection collection)
+        {
+            int followerID = Convert.ToInt32(collection["userId"]);
+            _service.RemoveFollower(User.Identity.GetUserId<int>(), followerID);
+
+            Response.Redirect(username);
+            return null;
+        }
     }
 }
