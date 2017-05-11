@@ -29,6 +29,9 @@ textarea {
 body {
   padding-bottom: 0;
 }
+textarea.no-resize {
+  resize: none;
+}
 /* Overwrite some bootstrap classes */
 .btn-send {
   font-size: 16px;
