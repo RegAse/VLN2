@@ -239,94 +239,103 @@ body {
   background-color: green;
 }
 .user-color-0 {
-  color: yellow;
+  color: #d73732;
   position: absolute;
-  border-left: 2px solid yellow;
-  background-color: yellow;
+  border-left: 2px solid #d73732;
+  background-color: #d73732;
 }
 .user-color-1 {
-  color: blue;
+  color: #e09a40;
   position: absolute;
-  border-left: 2px solid blue;
-  background-color: blue;
+  border-left: 2px solid #e09a40;
+  background-color: #e09a40;
 }
 .user-color-2 {
-  color: red;
+  color: #3f3fe1;
   position: absolute;
-  border-left: 2px solid red;
-  background-color: red;
+  border-left: 2px solid #3f3fe1;
+  background-color: #3f3fe1;
+}
+.user-color-3 {
+  color: #e0b640;
+  position: absolute;
+  border-left: 2px solid #e0b640;
+  background-color: #e0b640;
 }
 .user-color-4 {
-  color: forestgreen;
+  color: #9ee040;
   position: absolute;
-  border-left: 2px solid forestgreen;
-  background-color: forestgreen;
+  border-left: 2px solid #9ee040;
+  background-color: #9ee040;
 }
 .user-color-5 {
-  color: peachpuff;
+  color: yellow;
   position: absolute;
-  border-left: 2px solid peachpuff;
-  background-color: peachpuff;
+  border-left: 2px solid #40e0b8;
+  background-color: #40e0b8;
 }
 .user-color-6 {
-  color: chocolate;
+  color: #4069e0;
   position: absolute;
-  border-left: 2px solid chocolate;
-  background-color: chocolate;
+  border-left: 2px solid #4069e0;
+  background-color: #4069e0;
 }
 .user-color-7 {
-  color: cornsilk;
+  color: #7140e0;
   position: absolute;
-  border-left: 2px solid cornsilk;
-  background-color: cornsilk;
+  border-left: 2px solid #7140e0;
+  background-color: #7140e0;
 }
 .user-color-8 {
-  color: mediumorchid;
+  color: #c040e0;
   position: absolute;
-  border-left: 2px solid mediumorchid;
-  background-color: mediumorchid;
+  border-left: 2px solid #c040e0;
+  background-color: #c040e0;
 }
 .user-color-9 {
-  color: mintcream;
+  color: #e040c2;
   position: absolute;
-  border-left: 2px solid mintcream;
-  background-color: mintcream;
+  border-left: 2px solid #e040c2;
+  background-color: #e040c2;
 }
 .user-color-10 {
-  color: mediumvioletred;
+  color: #e0406d;
   position: absolute;
-  border-left: 2px solid mediumvioletred;
-  background-color: mediumvioletred;
+  border-left: 2px solid #e0406d;
+  background-color: #e0406d;
 }
 .user-color-0-color {
-  color: yellow;
+  color: #d73732;
 }
 .user-color-1-color {
-  color: blue;
+  color: #e09a40;
 }
 .user-color-2-color {
-  color: red;
+  color: #3f3fe1;
+}
+.user-color-3-color {
+  color: #e0b640;
 }
 .user-color-4-color {
-  color: forestgreen;
+  color: #9ee040;
 }
 .user-color-5-color {
-  color: peachpuff;
+  color: #40e0b8;
 }
 .user-color-6-color {
-  color: chocolate;
+  color: #4069e0;
 }
 .user-color-7-color {
-  color: cornsilk;
+  color: #7140e0;
 }
 .user-color-8-color {
-  color: mediumorchid;
+  color: #c040e0;
 }
 .user-color-9-color {
-  color: mintcream;
+  color: #e040c2;
 }
 .user-color-10-color {
-  color: mediumvioletred;
+  color: #e0406d;
 }
 .list-user {
   margin-top: 10px;
