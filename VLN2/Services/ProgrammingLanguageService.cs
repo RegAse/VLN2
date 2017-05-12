@@ -15,6 +15,11 @@ namespace VLN2.Services
             _db = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Get programming language by extension.
+        /// </summary>
+        /// <param name="extension">The extension of the file</param>
+        /// <returns></returns>
         public ProgrammingLanguage GetProgrammingLanguageByExtension(string extension)
         {
             return _db.ProgrammingLanguages.SingleOrDefault(x => x.FileExtension == extension);
