@@ -11,10 +11,12 @@ namespace VLN2.Tests.Service
         [TestMethod]
         public void TestGetProjectByID()
         {
-            int id = 1;
-            var result = _service.GetProjectByID(32);
-            System.Diagnostics.Debug.WriteLine(result.ID);
-            Assert.AreEqual(1, result);
+            //Arrange:
+            int id = 32;
+            //Act:
+            var result = _service.GetProjectByID(id);
+            //Assert:
+            Assert.AreEqual(id, result.ID);
             
         }
     }
