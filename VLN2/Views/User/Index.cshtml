@@ -11,63 +11,64 @@
 <div class="row white-color">
     <div class="col-lg-3">
         <img src="~/Content/images/placeholder.jpg"  width=200 height=200 class="img-thumbnail" alt="ProfilePicture"/>
+        @if (User.Identity.GetUserName() != Model.Username && Model.Followers.Where(x => x.Id == User.Identity.GetUserId<int>()).Count() == 0)
+        {
+            Html.BeginForm("Index", "User", new { ReturnUrl = ViewBag.ReturnUrl },
+                                FormMethod.Post, new { @id = "addfollower" });
+            {
+                <input type="hidden" name="userId" value="@Model.UserId" />
+                <div class="form-horizontal">
+                    <button id="addfollower" type="submit" class="btn btn-primary">Follow</button>
+                </div>
+                @Html.ValidationSummary(false)
+            }
+        }
+        else if (User.Identity.GetUserName() != Model.Username && Model.Followers.Where(x => x.Id == User.Identity.GetUserId<int>()).Count() > 0)
+        {
+            Html.BeginForm("RemoveFollower", "User", new { ReturnUrl = ViewBag.ReturnUrl },
+                                FormMethod.Post, new { @id = "removefollower" });
+            {
+                <input type="hidden" name="userId" value="@Model.UserId" />
+                <div class="form-horizontal">
+                    <button id="removefollower" type="submit" class="btn btn-primary">Unfollow</button>
+                </div>
+                @Html.ValidationSummary(false)
+            }
+        }
+
+        <div class="row white-color">
+            <div class="col-lg-3">
+                <h4>Followers</h4>
+                <ul>
+                    @foreach (var file in Model.Followers)
+            {
+                        <li class="file" data-fileid="@file.UserName">
+                            <a href="@file.UserName">@file.Displayname</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="row white-color">
+            <div class="col-lg-3">
+                <h4>Following</h4>
+                <ul>
+                    @foreach (var file in Model.Following)
+            {
+                        <li class="file" data-fileid="@file.UserName">
+                            <a href="@file.UserName">@file.Displayname</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="col-lg-9">
         <p class="h4"> @Model.Displayname </p><br/>
         @Model.Description
     </div>
 </div>
-@if (User.Identity.GetUserName() != Model.Username && Model.Followers.Where(x => x.Id == User.Identity.GetUserId<int>()).Count() == 0)
-{
-    Html.BeginForm("Index", "User", new { ReturnUrl = ViewBag.ReturnUrl },
-                        FormMethod.Post, new { @id = "addfollower" });
-    {
-        <input type="hidden" name="userId" value="@Model.UserId" />
-                <div class="form-horizontal">
-                    <button id="addfollower" type="submit" class="btn btn-primary">Follow</button>
-                </div>
-                @Html.ValidationSummary(false)
-    }
-}
-else if (User.Identity.GetUserName() != Model.Username && Model.Followers.Where(x => x.Id == User.Identity.GetUserId<int>()).Count() > 0)
-{
-    Html.BeginForm("RemoveFollower", "User", new { ReturnUrl = ViewBag.ReturnUrl },
-                        FormMethod.Post, new { @id = "removefollower" });
-    {
-        <input type="hidden" name="userId" value="@Model.UserId" />
-        <div class="form-horizontal">
-            <button id="removefollower" type="submit" class="btn btn-primary">Unfollow</button>
-        </div>
-                @Html.ValidationSummary(false)
-    }
-}
 
-<div class="row white-color">
-    <div class="col-lg-3">
-        <h4>Followers</h4>
-        <ul>
-            @foreach (var file in Model.Followers)
-            {
-                <li class="file" data-fileid="@file.UserName">
-                    <a href="@file.UserName">@file.Displayname</a>
-                </li>
-            }
-        </ul>
-    </div>
-</div>
-<div class="row white-color">
-    <div class="col-lg-3">
-        <h4>Following</h4>
-        <ul>
-            @foreach (var file in Model.Following)
-            {
-                <li class="file" data-fileid="@file.UserName">
-                    <a href="@file.UserName">@file.Displayname</a>
-</li>
-            }
-        </ul>
-    </div>
-</div>
 
     
 
