@@ -12,6 +12,7 @@ using VLN2.Extensions;
 using Ionic.Zip;
 using System.Text;
 using System.IO;
+using VLN2.Attributes;
 
 namespace VLN2.Controllers
 {
@@ -22,6 +23,7 @@ namespace VLN2.Controllers
 
         // GET: Project
         [Authorize]
+        [ProjectAccess( AccessLevel = "Normal User")]
         public ActionResult Index(int id)
         {
             Project project = _service.GetProjectByID(id);
@@ -39,6 +41,7 @@ namespace VLN2.Controllers
 
         [HttpGet]
         [Authorize]
+        [ProjectAccess(AccessLevel = "Normal User")]
         public ActionResult DownloadZip(int id)
         {
             ZipFile zipFile = new ZipFile();
@@ -65,6 +68,7 @@ namespace VLN2.Controllers
 
         [HttpGet]
         [Authorize]
+        [ProjectAccess(AccessLevel = "Creator")]
         public ActionResult AddCollaborator(int id)
         {
             ApplicationDbContext db = new ApplicationDbContext();
@@ -95,6 +99,7 @@ namespace VLN2.Controllers
         [HttpPost]
         [ActionName("AddCollaborator")]
         [Authorize]
+        [ProjectAccess(AccessLevel = "Creator")]
         public ActionResult AddCollaboratorPost(int id, FormCollection Form)
         {
             //get userid from form
@@ -130,6 +135,7 @@ namespace VLN2.Controllers
 
         [HttpPost]
         [Authorize]
+        [ProjectAccess(AccessLevel = "Creator")]
         public ActionResult RemoveCollaborator(int id, FormCollection Form)
         {
             int FriendUserID = Convert.ToInt32(Form["user"]);

@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using VLN2.Extensions;
 using System.Web.Script.Serialization;
 using System.Web.Helpers;
+using VLN2.Attributes;
 
 namespace VLN2.Hubs
 {
@@ -48,6 +49,8 @@ namespace VLN2.Hubs
         }
     }
 
+    [Authorize]
+    [ProjectAccess(AccessLevel = "Normal User")]
     public class ChatHub : Hub
     {
         public static Dictionary<string, string> LobbyNameByConnection = new Dictionary<string, string>();

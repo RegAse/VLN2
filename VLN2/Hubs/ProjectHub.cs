@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Script.Serialization;
+using VLN2.Attributes;
 using VLN2.Models;
 using VLN2.Services;
 
@@ -20,6 +22,8 @@ namespace VLN2.Hubs
         }
     }
 
+    [Authorize]
+    [ProjectAccess(AccessLevel = "Normal User")]
     public class ProjectHub : ChatHub
     {
         ProjectService _service = new ProjectService();
