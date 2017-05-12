@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VLN2.Services;
+using Example.BusinessLogicTest;
+using VLN2.Models;
 
 namespace VLN2.Tests.Service
 {
@@ -8,17 +9,27 @@ namespace VLN2.Tests.Service
     public class ProjectServiceTest
     {
         //ProjectService _service = new ProjectService();
+        private ProjectServiceTest _service;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            MockDatabase context = new MockDatabase();
+            var f1 = new Project
+            {
+                ID = 1,
+                Name = "Test",
+                Description = "test1"
+            };
+            context.Projects.Add(f1);
+            _service = new ProjectServiceTest(context);
+        }
 
         [TestMethod]
         public void TestGetProjectByID()
         {
-            //Arrange:
-            //int id = 32;
-            //Act:
-            //var result = _service.GetProjectByID(id);
-            //Assert:
-            //Assert.AreEqual(id, result.ID);
-            
+            int id = 1;
+            //var result = _service.TestGetProjectByID(id);
         }
     }
 }
