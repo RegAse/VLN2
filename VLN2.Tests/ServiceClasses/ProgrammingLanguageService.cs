@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VLN2.Models;
 
-namespace VLN2.Tests
+namespace VLN2.Tests.ServiceClasses
 {
     public interface IAppDataContext
     {
