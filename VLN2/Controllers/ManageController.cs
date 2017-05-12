@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using VLN2.Models;
+using VLN2.Services;
 
 namespace VLN2.Controllers
 {
@@ -250,9 +251,13 @@ namespace VLN2.Controllers
             return View();
         }
 
-        // POST: /Manage/ChangeBi
+        // POST: /Manage/ChangeBio
+        [HttpPost]
         public ActionResult ChangeBio(ChangeBioViewModel model)
         {
+            UserService service = new UserService();
+
+            service.UpdateBio(Convert.ToInt32(User.Identity.GetUserId()), model.Bio);
             return View(model);
         }
 
