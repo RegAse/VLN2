@@ -10,7 +10,7 @@
 </div>
 <div class="row white-color">
     <div class="col-lg-3">
-        <img src="~/Content/images/placeholder.jpg"  width=200 height=200 class="img-thumbnail" alt="ProfilePicture"/>
+        <img src="~/Content/images/placeholder.jpg"  width=200 height=200 class="img-thumbnail bottom-margin" alt="ProfilePicture"/>
         @if (User.Identity.GetUserName() != Model.Username && Model.Followers.Where(x => x.Id == User.Identity.GetUserId<int>()).Count() == 0)
         {
             Html.BeginForm("Index", "User", new { ReturnUrl = ViewBag.ReturnUrl },
@@ -18,7 +18,7 @@
             {
                 <input type="hidden" name="userId" value="@Model.UserId" />
                 <div class="form-horizontal">
-                    <button id="addfollower" type="submit" class="btn btn-primary">Follow</button>
+                    <button id="addfollower" type="submit" class="btn btn-primary top-margin">Follow</button>
                 </div>
                 @Html.ValidationSummary(false)
             }
@@ -30,16 +30,16 @@
             {
                 <input type="hidden" name="userId" value="@Model.UserId" />
                 <div class="form-horizontal">
-                    <button id="removefollower" type="submit" class="btn btn-primary">Unfollow</button>
+                    <button id="removefollower" type="submit" class="btn btn-primary top-margin">Unfollow</button>
                 </div>
                 @Html.ValidationSummary(false)
             }
         }
 
         <div class="row white-color">
-            <div class="col-lg-3">
+            <div class="col-lg-12">
                 <h4>Followers</h4>
-                <ul>
+                <ul class="project-list">
                     @foreach (var file in Model.Followers)
             {
                         <li class="file" data-fileid="@file.UserName">
@@ -50,9 +50,9 @@
             </div>
         </div>
         <div class="row white-color">
-            <div class="col-lg-3">
+            <div class="col-lg-12">
                 <h4>Following</h4>
-                <ul>
+                <ul class="project-list">
                     @foreach (var file in Model.Following)
             {
                         <li class="file" data-fileid="@file.UserName">
