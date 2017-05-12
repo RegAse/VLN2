@@ -58,6 +58,7 @@ namespace VLN2.Services
             
             _db.SaveChanges();
         }
+
         public void RemoveFollower(int userId, int followerId)
         {
             var users = _db.Users;
@@ -69,5 +70,11 @@ namespace VLN2.Services
 
             _db.SaveChanges();
         }
+
+        public ApplicationUser GetUserByUserID(int userID)
+        {
+            return _db.Users.SingleOrDefault(x => x.Id == userID);
+        }
+
     }
 }

@@ -81,7 +81,6 @@ namespace VLN2.Controllers
 
             var user = db.Users.Single(x => x.Id == UserID);
             var following = user.Following.Intersect(user.Followers);
-            //var following = _userService.GetFollowingByUsername(Username);
             var project = _service.GetProjectByID((int)id);
 
             var filtered = db.UserHasProject
@@ -90,7 +89,6 @@ namespace VLN2.Controllers
             var usersNotInProjectButAreFriends = following.Except(filtered);
 
             var model = new CollabaratorViewModel(UserID, usersNotInProjectButAreFriends, project, filtered);
-
             return View(model);
         }
 
@@ -127,7 +125,6 @@ namespace VLN2.Controllers
             var usersNotInProjectButAreFriends = following.Except(filtered);
 
             var model = new CollabaratorViewModel(UserID, usersNotInProjectButAreFriends, Project, filtered);
-
             return View(model);
         }
 
@@ -136,22 +133,17 @@ namespace VLN2.Controllers
         public ActionResult RemoveCollaborator(int id, FormCollection Form)
         {
             int FriendUserID = Convert.ToInt32(Form["user"]);
+            var friend = _userService.GetUserByUserID(FriendUserID);
+            if (friend == null)
+            {
+                return HttpNotFound();
+            }
 
-            ApplicationDbContext db = new ApplicationDbContext();
+            Project project = _service.GetProjectByID(id);
 
-            var friend = db.Users.Single(x => x.Id == FriendUserID);
-            Project Project = db.Projects.Single(x => x.ID == id);
-
-            var userHasProject = db.UserHasProject.Single(x => (x.ProjectID == Project.ID) && (x.UserID == friend.Id));
-
-            //UserHasProject userHasProject = new UserHasProject { ApplicationUser = friend, Project = Project, ProjectRoleID = 2 };
-
-            db.UserHasProject.Remove(userHasProject);
-
-            db.SaveChanges();
+            _service.RemoveCollaborator(project.ID, friend.Id);
 
             Response.Redirect("/Project/AddCollaborator/" + id.ToString());
-
             return null;
         }
     }

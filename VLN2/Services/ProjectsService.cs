@@ -41,6 +41,12 @@ namespace VLN2.Services
             return _db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
         }
 
+        public void RemoveCollaborator(int projectID, int userID)
+        {
+            var userHasProject = _db.UserHasProject.Single(x => (x.ProjectID == projectID) && (x.UserID == userID));
+            _db.UserHasProject.Remove(userHasProject);
+            _db.SaveChanges();
+        }
         
     }
 }
