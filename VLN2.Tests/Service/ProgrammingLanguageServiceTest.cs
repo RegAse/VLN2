@@ -21,7 +21,22 @@ namespace VLN2.Tests.Service
                 Name = "Javascript",
                 FileExtension = "js"
             };
+            var f2 = new ProgrammingLanguage
+            {
+                ID = 2,
+                Name = "HTML",
+                FileExtension = "html"
+            };
+            var f3 = new ProgrammingLanguage
+            {
+                ID = 3,
+                Name = "C#",
+                FileExtension = "cs"
+            };
             context.ProgrammingLanguages.Add(f1);
+            context.ProgrammingLanguages.Add(f2);
+            context.ProgrammingLanguages.Add(f3);
+
             _service = new ProgrammingLanguageService(context);
         }
 
@@ -33,6 +48,18 @@ namespace VLN2.Tests.Service
 
             // Assert:
             Assert.IsTrue((result.Name == "Javascript"));
+
+            // Act: 
+            var result1 = _service.GetProgrammingLanguageByExtension("cs");
+
+            // Assert:
+            Assert.IsTrue((result1.Name == "C#"));
+
+            // Act: 
+            var result2 = _service.GetProgrammingLanguageByExtension("html");
+
+            // Assert:
+            Assert.IsTrue((result2.Name == "HTML"));
         }
     }
 }

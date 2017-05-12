@@ -23,7 +23,7 @@ namespace VLN2.Tests.ServiceClasses
         /// <returns>User associated with the username</returns>
         public ApplicationUser GetUserByUsername(string username)
         {
-            return _db.Users.SingleOrDefault(x => x.UserName == username);
+            return _db.Users.SingleOrDefault(x => x == username);
         }
 
         /// <summary>
