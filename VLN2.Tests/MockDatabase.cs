@@ -7,6 +7,7 @@ using System.Data.Entity;
 using VLN2.Models;
 using FakeDbSet;
 using VLN2.Tests;
+using VLN2.Tests.ServiceClasses;
 
 namespace Example.BusinessLogicTest
 {

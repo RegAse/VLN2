@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Example.BusinessLogicTest;
 using VLN2.Models;
+using VLN2.Tests.ServiceClasses;
 
 namespace VLN2.Tests.Service
 {
