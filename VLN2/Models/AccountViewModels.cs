@@ -72,6 +72,10 @@ namespace VLN2.Models
         public string Displayname { get; set; }
 
         [Required]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
