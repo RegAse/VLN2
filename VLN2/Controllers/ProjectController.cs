@@ -21,20 +21,10 @@ namespace VLN2.Controllers
         private UserService _userService = new UserService();
 
         // GET: Project
-        public ActionResult Index(int ?id)
+        [Authorize]
+        public ActionResult Index(int id)
         {
-            bool IfLoggedIn = User.Identity.IsAuthenticated;
-            if (!IfLoggedIn)
-            {
-                Response.Redirect("/Account/Login");
-                return null;
-            }
-
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
-            Project project = _service.GetProjectByID((int)id);
+            Project project = _service.GetProjectByID(id);
             if (project == null)
             {
                 return HttpNotFound();
@@ -48,6 +38,7 @@ namespace VLN2.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult DownloadZip(int id)
         {
             ZipFile zipFile = new ZipFile();
@@ -73,20 +64,9 @@ namespace VLN2.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddCollaborator(int ?id)
+        [Authorize]
+        public ActionResult AddCollaborator(int id)
         {
-            bool IfLoggedIn = User.Identity.IsAuthenticated;
-            if (!IfLoggedIn)
-            {
-                Response.Redirect("/Account/Login");
-                return null;
-            }
-
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
-
             ApplicationDbContext db = new ApplicationDbContext();
 
             int UserID = User.Identity.GetUserId<int>();
@@ -116,20 +96,9 @@ namespace VLN2.Controllers
 
         [HttpPost]
         [ActionName("AddCollaborator")]
-        public ActionResult AddCollaboratorPost(int ?id, FormCollection Form)
+        [Authorize]
+        public ActionResult AddCollaboratorPost(int id, FormCollection Form)
         {
-            bool IfLoggedIn = User.Identity.IsAuthenticated;
-            if (!IfLoggedIn)
-            {
-                Response.Redirect("/Account/Login");
-                return null;
-            }
-
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
-            
             //get userid from form
             int FriendUserID = Convert.ToInt32(Form["user"]);
 
@@ -163,20 +132,9 @@ namespace VLN2.Controllers
         }
 
         [HttpPost]
-        public ActionResult RemoveCollaborator(int ?id, FormCollection Form)
+        [Authorize]
+        public ActionResult RemoveCollaborator(int id, FormCollection Form)
         {
-            bool IfLoggedIn = User.Identity.IsAuthenticated;
-            if (!IfLoggedIn)
-            {
-                Response.Redirect("/Account/Login");
-                return null;
-            }
-
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
-
             int FriendUserID = Convert.ToInt32(Form["user"]);
 
             ApplicationDbContext db = new ApplicationDbContext();
