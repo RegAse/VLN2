@@ -69,5 +69,16 @@ namespace VLN2.Services
 
             _db.SaveChanges();
         }
+        public void UpdateBio(int userid, string desc)
+        {
+            var users = _db.Users;
+            var user = users.Single(x => x.Id == userid);
+
+            System.Diagnostics.Debug.WriteLine(userid + " : " + desc);
+
+            user.Description.Equals(desc);
+
+            _db.SaveChanges();
+        }
     }
 }
