@@ -6,12 +6,12 @@ using VLN2.Models;
 
 namespace VLN2.Services
 {
-    public class ProjectsService
+    public class ProjectService
     {
 
         private ApplicationDbContext _db;
 
-        public ProjectsService()
+        public ProjectService()
         {
             _db = new ApplicationDbContext();
         }

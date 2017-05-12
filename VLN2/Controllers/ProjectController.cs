@@ -17,7 +17,7 @@ namespace VLN2.Controllers
 {
     public class ProjectController : Controller
     {
-        private ProjectsService _service = new ProjectsService();
+        private ProjectService _service = new ProjectService();
         private UserService _userService = new UserService();
 
         // GET: Project

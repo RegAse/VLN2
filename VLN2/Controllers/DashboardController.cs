@@ -13,7 +13,7 @@ namespace VLN2.Controllers
 {
     public class DashboardController : Controller
     {
-        private ProjectsService _service = new ProjectsService();
+        private ProjectService _service = new ProjectService();
 
         // GET: Dashboard
         [HttpGet]

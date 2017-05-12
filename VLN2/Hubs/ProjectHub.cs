@@ -28,7 +28,7 @@ namespace VLN2.Hubs
 
     public class ProjectHub : ChatHub
     {
-        ProjectsService _service = new ProjectsService();
+        ProjectService _service = new ProjectService();
         ProgrammingLanguageService _serverLanguage = new ProgrammingLanguageService();
 
         //public static Dictionary<string, ProjectSession> ProjectSessions = new Dictionary<string, ProjectSession>();
