@@ -22,7 +22,15 @@ namespace VLN2.Tests.Service
                 Name = "Test",
                 Description = "test1"
             };
+            var f2 = new ProjectFile
+            {
+                ID = 1,
+                Content = "test",
+                Name = "test.html",
+                IsFolder = false
+            };
             context.Projects.Add(f1);
+            context.ProjectFiles.Add(f2);
             _service = new ProjectService(context);
         }
 
@@ -30,7 +38,24 @@ namespace VLN2.Tests.Service
         public void TestGetProjectByID()
         {
             int id = 1;
-            //var result = _service.TestGetProjectByID(id);
+            var result = _service.GetProjectByID(id);
+            Assert.IsTrue(result.ID == id);
+        }
+
+        [TestMethod]
+        public void TestGetProjectByIDNone()
+        {
+            int id = 2;
+            var result = _service.GetProjectByID(id);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestGetProjectFileByID()
+        {
+            //int id = 1;
+            //var result = _service.GetProjectFileByID(id);
+            //Assert.IsTrue(result.ID == id);
         }
     }
 }
