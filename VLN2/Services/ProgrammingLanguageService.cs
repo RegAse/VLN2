@@ -17,9 +17,7 @@ namespace VLN2.Services
 
         public ProgrammingLanguage GetProgrammingLanguageByExtension(string extension)
         {
-            ProgrammingLanguage lang = _db.ProgrammingLanguages.SingleOrDefault(x => x.FileExtension == extension);
-
-            return lang;
+            return _db.ProgrammingLanguages.SingleOrDefault(x => x.FileExtension == extension);
         }
 
     }
