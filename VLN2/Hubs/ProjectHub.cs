@@ -40,7 +40,7 @@ namespace VLN2.Hubs
             // Create session for file if none exists.
             if(!ProjectFileSessionsByLobbyName.ContainsKey(projectFileLobbyName))
             {
-                var file = _service.GetProjectFileByID(projectID, projectFileID);
+                var file = _service.GetProjectFileByID(projectFileID);
 
                 ProjectFileSessionsByLobbyName.Add(projectFileLobbyName, new ProjectFileSession(file));
             }

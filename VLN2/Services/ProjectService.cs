@@ -49,12 +49,11 @@ namespace VLN2.Services
         /// <summary>
         /// Get a project file by ID.
         /// </summary>
-        /// <param name="projectID">The ID of the Project</param>
         /// <param name="projectFileID">The ID of the ProjectFile</param>
         /// <returns>A project</returns>
-        public ProjectFile GetProjectFileByID(int projectID, int projectFileID)
+        public ProjectFile GetProjectFileByID(int projectFileID)
         {
-            return _db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
+            return _db.ProjectFiles.Single(y => y.ID == projectFileID);
         }
 
         /// <summary>
