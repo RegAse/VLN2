@@ -10,7 +10,5 @@ namespace VLN2.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string FileExtension { get; set; }
-
-        public virtual ICollection<Template> Templates { get; set; }
     }
 }
