@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using VLN2.Models;
 using VLN2.Services;
+using VLN2.Extensions;
 
 namespace VLN2.Controllers
 {
@@ -257,7 +258,9 @@ namespace VLN2.Controllers
         {
             UserService service = new UserService();
 
-            service.UpdateBio(Convert.ToInt32(User.Identity.GetUserId()), model.Bio);
+            ApplicationUser user = service.UpdateBio(Convert.ToInt32(User.Identity.GetUserId()), model.Bio);
+            User.AddUpdateClaim("Description", user.Description);
+
             return View(model);
         }
 
