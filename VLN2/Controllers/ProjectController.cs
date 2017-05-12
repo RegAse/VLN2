@@ -50,29 +50,21 @@ namespace VLN2.Controllers
         [HttpGet]
         public ActionResult DownloadZip(int id)
         {
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
             ZipFile zipFile = new ZipFile();
 
-            List<string> files = new List<string>();
-            files.Add("File1");
-            foreach (string str in files)
+            Project project = _service.GetProjectByID(id);
+            IEnumerable<ProjectFile> projectFiles = _service.GetProjectFilesByProjectID(id);
+
+            foreach (ProjectFile projectFile in projectFiles)
             {
-                // convert string to stream
-                byte[] byteArray = Encoding.UTF8.GetBytes(str);
-                MemoryStream stream = new MemoryStream(byteArray);
-
-                stream.Seek(0, SeekOrigin.Begin);
-
-                //add the string into zip file with a name
-                zipFile.AddEntry("test.txt", byteArray);
+                zipFile.AddEntry(projectFile.Name, projectFile.Content);
             }
+
+            string pathSafeProjectName = project.Name.ToLower().Trim().Replace(' ', '-');
 
             Response.ClearContent();
             Response.ClearHeaders();
-            Response.AppendHeader("content-disposition", "attachment; filename=strings.zip");
+            Response.AppendHeader("content-disposition", "attachment; filename=" + pathSafeProjectName + ".zip");
 
             zipFile.Save(Response.OutputStream);
             zipFile.Dispose();

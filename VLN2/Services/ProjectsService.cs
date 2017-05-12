@@ -18,23 +18,22 @@ namespace VLN2.Services
 
         public Project GetProjectByID(int projectID)
         {
-            var project = _db.Projects.SingleOrDefault(x => x.ID == projectID);
-
-            return project;
+            return _db.Projects.SingleOrDefault(x => x.ID == projectID);
         }
 
         public IEnumerable<Project> GetProjectsByUserID(int userID)
         {
-            IEnumerable<Project> Projects = _db.Users.Single(x => x.Id == userID).UserHasProjects.Select(pr => pr.Project);
-
-            return Projects;
+            return _db.Users.Single(x => x.Id == userID).UserHasProjects.Select(pr => pr.Project);
         }
 
+        /// <summary>
+        /// Get all project files of a project
+        /// </summary>
+        /// <param name="projectID">The ID of a project</param>
+        /// <returns>All project files associated with the projectID</returns>
         public IEnumerable<ProjectFile> GetProjectFilesByProjectID(int projectID)
         {
-            IEnumerable<ProjectFile> files = _db.Projects.Single(x => x.ID == projectID).ProjectFiles;
-
-            return files;
+            return _db.Projects.Single(x => x.ID == projectID).ProjectFiles;
         }
 
         public ProjectFile GetProjectFileByID(int projectID, int projectFileID)
