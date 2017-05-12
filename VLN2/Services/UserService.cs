@@ -76,7 +76,7 @@ namespace VLN2.Services
 
             System.Diagnostics.Debug.WriteLine(userid + " : " + desc);
 
-            user.Description.Equals(desc);
+            user.Description = desc;
 
             _db.SaveChanges();
         }
