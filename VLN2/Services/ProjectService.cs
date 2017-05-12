@@ -47,7 +47,7 @@ namespace VLN2.Services
         }
 
         /// <summary>
-        /// Get a project file by ID,
+        /// Get a project file by ID.
         /// </summary>
         /// <param name="projectID">The ID of the Project</param>
         /// <param name="projectFileID">The ID of the ProjectFile</param>
@@ -55,6 +55,17 @@ namespace VLN2.Services
         public ProjectFile GetProjectFileByID(int projectID, int projectFileID)
         {
             return _db.Projects.Single(x => x.ID == projectID).ProjectFiles.Single(y => y.ID == projectFileID);
+        }
+
+        /// <summary>
+        /// Remove project file by ID.
+        /// </summary>
+        /// <param name="projectFileID">The ID of the project</param>
+        public void RemoveProjectFile(int projectFileID)
+        {
+            var projectFile = _db.ProjectFiles.Single(x => x.ID == projectFileID);
+            _db.ProjectFiles.Remove(projectFile);
+            _db.SaveChanges();
         }
 
         /// <summary>
