@@ -17,42 +17,26 @@ namespace VLN2.Services
 
         public ApplicationUser GetDataByUsername(string userName)
         {
-            var user = _db.Users.SingleOrDefault(x => x.UserName == userName);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user;
+            return _db.Users.SingleOrDefault(x => x.UserName == userName);
         }
         public ApplicationUser getUserByUserId(int userid)
         {
-            var user = _db.Users.SingleOrDefault(x => x.Id == userid);
-            return user;
+            return _db.Users.SingleOrDefault(x => x.Id == userid);
         }
         public ICollection<ApplicationUser> GetFollowingByUsername(string userName)
         {
-            ICollection<ApplicationUser> users = _db.Users.Single(x => x.UserName == userName).Following;
-            return users;
+            return _db.Users.Single(x => x.UserName == userName).Following;
         }
         public ICollection<ApplicationUser> GetFollowersByUsername(string userName)
         {
-            ICollection<ApplicationUser> users = _db.Users.Single(x => x.UserName == userName).Followers;
-            return users;
+            return _db.Users.Single(x => x.UserName == userName).Followers;
         }
-
-        //public ICollection<ApplicationUser> GetFriendsByUsername(string userName)
-        //{
-        //    ICollection<ApplicationUser> friends = _db.Users.Single(x => x.UserName == )
-        //}
 
         public void AddFollower(int userId, int followerId)
         {
             var users = _db.Users;
             var user = users.Single(x => x.Id == userId);
             var userToFollow = users.Single(y => y.Id == followerId);
-            
             
             user.Following.Add(userToFollow);
             
@@ -64,7 +48,6 @@ namespace VLN2.Services
             var users = _db.Users;
             var user = users.Single(x => x.Id == userId);
             var userToFollow = users.Single(y => y.Id == followerId);
-
 
             user.Following.Remove(userToFollow);
 
@@ -81,10 +64,7 @@ namespace VLN2.Services
             var users = _db.Users;
             var user = users.Single(x => x.Id == userid);
 
-            System.Diagnostics.Debug.WriteLine(userid + " : " + desc);
-
             user.Description = desc;
-
             _db.SaveChanges();
 
             return user;
