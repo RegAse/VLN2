@@ -18,17 +18,17 @@ namespace VLN2.Controllers
         public ActionResult Index(string username)
         {
             //Check if the user is empty
-            var user = _service.GetDataByUsername(username);
+            var user = _service.GetUserByUsername(username);
             if (user == null)
             {
                 return HttpNotFound();
             }
             //Get data for the viewModel and put into the var model
-            int userid = _service.GetDataByUsername(username).Id;
+            int userid = _service.GetUserByUsername(username).Id;
 
-            string name = _service.GetDataByUsername(username).Displayname;
+            string name = _service.GetUserByUsername(username).Displayname;
 
-            string description = _service.GetDataByUsername(username).Description;
+            string description = _service.GetUserByUsername(username).Description;
 
             ICollection<ApplicationUser> following = _service.GetFollowingByUsername(username);
 
@@ -52,7 +52,7 @@ namespace VLN2.Controllers
             int followerID = Convert.ToInt32(collection["userId"]);
             _service.RemoveFollower(User.Identity.GetUserId<int>(), followerID);
 
-            ApplicationUser username = _service.getUserByUserId(followerID);
+            ApplicationUser username = _service.GetUserByUserID(followerID);
 
             Response.Redirect("/user/profile/" + username.UserName);
             return null;
